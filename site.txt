@@ -2,6 +2,10 @@ ftp:
 302@deamon.info
 rip.Inplace2015
 
+database:
+deamon_INB302
+rip.Inplace2015
+
 website:
 teamwork.deamon.info
 
