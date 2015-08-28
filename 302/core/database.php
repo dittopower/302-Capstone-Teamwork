@@ -1,6 +1,6 @@
 <?php 
 	global $mysqli;
-	$mysqli = new mysqli('localhost', 'deamon_site', 'OL.qc6G?&W_bSwQ~', 'deamon_core');
+	$mysqli = new mysqli('localhost', 'deamon_302', 'rip.Inplace2015', 'deamon_INB302');
 
 	if ($mysqli->connect_error) {
 		die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);

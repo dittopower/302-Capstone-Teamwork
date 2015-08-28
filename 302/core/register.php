@@ -4,7 +4,7 @@
 	lib_code();
 	lib_files();
 
-	global $u , $p, $f, $l, $e, $day, $nuser, $nfname, $nlname, $nemail, $nday;
+	global $u , $p, $f, $l, $e, $day, $nuser, $nfname, $nlname, $nemail, $nday, $regouttext;
 	//Create User if necessary
 	if(isset($_POST['newUser']) && isset($_POST['newFname']) && isset($_POST['newLname']) && isset($_POST['newPass1']) && isset($_POST['newEmail'])){
 		$u=0;$p=0;$f=0;$l=0;$e=0;$day=0;
@@ -53,13 +53,14 @@
 			$day=1;
 		}
 		if($u && $p && $f && $l && $e && $day){
-		
+		global $mysqli;
 			$sql= mysqli_prepare($mysqli, "INSERT INTO D_Accounts(Username, FirstName, LastName, DateOfBirth, Email, PassPhrase, Length, salt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 			mysqli_stmt_bind_param($sql,"ssssssss",$nuser,$nfname,$nlname,$nday,$nemail,$npass,$nplength, $salt);
 			
 			if(mysqli_stmt_execute($sql)){
 				$regouttext = 'Account successfully created.';
 				note('Registration',"Created::$nuser");
+				lib_login();
 				$_SESSION['person'] = singleSQL("Select LAST_INSERT_ID();");
 				$_SESSION['name'] = $nuser;
 			} else {
@@ -75,10 +76,10 @@
 	
 	//registration form
 	function reg_form(){
-		global $u , $p, $f, $l, $e, $day, $nuser, $nfname, $nlname, $nemail, $nday;
+		global $u , $p, $f, $l, $e, $day, $nuser, $nfname, $nlname, $nemail, $nday, $regouttext;
 		echo "<form id='regForm' method='POST'>";
 		echo "<fieldset><h2 class='reg_title'>User Registration</h2>";
-		echo "<hr><hr class='spacer'><table>";
+		echo "<hr>$regouttext<hr><table>";
 		if(!$u){
 			echo "<tr><td></td><td>No Spaces and 2+ characters.</td></tr>";
 		}

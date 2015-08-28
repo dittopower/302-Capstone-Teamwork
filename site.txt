@@ -4,6 +4,8 @@ rip.Inplace2015
 
 database:
 deamon_INB302
+db user:
+deamon_302
 rip.Inplace2015
 
 website:
