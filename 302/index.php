@@ -26,7 +26,7 @@
 		</ul>
 	</nav>
 	
-	<main>
+	<section>
 		<h1>Content Mayyyyneeee</h1>
 		
 		<p>This is where the feed/filesharing/teamwork stuff goes</p>
@@ -44,6 +44,6 @@
 			Joshua Henley | Damon Jones | Emma Jackson | Will Jakobs | Declan Winter
 		</footer>
 		
-	</main>
+	</section>
 </BODY>
 </HTML>
