@@ -7,24 +7,24 @@
 </HEAD>
 <BODY>
 	<aside><!-- sidebar -->
-		<h2>Styled things m8</h2>
-		<br><br>
+		<h3>Login</h3>
+		<?php user_form();?>
+		
+		<br><br><br>
+		
+		<h3>Styled things m8</h3>
 		<input type="button" value="Press me" class="button button1">
 		<br><br>
 		<input type="button" value="Press me" class="button button2">
 		<br><br>
 		<input type="button" value="Press me" class="button button3">
-		
-		<br><br>
-		<input type="text" placeholder="Type text here" class="textinput">
 	</aside>
 	
 	<nav>
 		<ul>
-			<li><a href="./">Home</a></li>
-			<li><a href="./">Not Home</a></li>
-			<li><a href="./">Not Home 3</a></li>
-			<li><?php user_form();?></li>
+			<li><a href="./">Home/Feed</a></li>
+			<li><a href="./">Files</a></li>
+			<li><a href="./">Edit Profile</a></li>
 		</ul>
 	</nav>
 	
