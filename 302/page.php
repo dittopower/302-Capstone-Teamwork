@@ -30,11 +30,9 @@
 
 <!--page content start -->
 
-
+<?php function myEnd(){ ?>
 
 <!--page content end -->
-
-<?php function myend(){ ?>
 			<footer>
 				idk if we need a footer<br><br><br>
 				Joshua Henley | Damon Jones | Emma Jackson | Will Jakobs | Declan Winter
