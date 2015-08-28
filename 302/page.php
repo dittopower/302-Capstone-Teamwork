@@ -1,3 +1,4 @@
+<?php require_once "$_SERVER[DOCUMENT_ROOT]/lib.php"; lib_login()?>
 <HTML>
 
 <HEAD>
@@ -23,6 +24,7 @@
 			<li><a href="./">Home</a></li>
 			<li><a href="./">Not Home</a></li>
 			<li><a href="./">Not Home 3</a></li>
+			<li><?php user_form();?></li>
 		</ul>
 	</nav>
 	

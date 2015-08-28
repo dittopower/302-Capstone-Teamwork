@@ -4,11 +4,6 @@
 	lib_database();
 	lib_code();
 
-//Check if logged in
-	function isUser(){
-		return isset($_SESSION['person']);
-	}
-
 //Get user permission level
 	function getUserLevel($what){
 		if(isUser){

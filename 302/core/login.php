@@ -28,6 +28,11 @@
 		session_destroy();
 	}
 	
+	//Check if logged in
+	function isUser(){
+		return isset($_SESSION['person']);
+	}
+	
 	function user_form(){
 		if(!isUser()){
 			echo "<form id='userForm' class='_pannel' method='POST'"; 
