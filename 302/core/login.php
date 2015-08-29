@@ -50,4 +50,9 @@
 		}
 		echo "</form>";
 	}
+	
+	if(!isUser()){
+		include $local."login/index.php";
+		die();
+	}
 ?>

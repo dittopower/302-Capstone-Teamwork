@@ -3,6 +3,7 @@
 
 <HEAD>
 	<title>Teamwork</title>
+	<link rel="Shortcut Icon" href="https://esoe.qut.edu.au/static/favicon-d177589c7efc2024aefe76fe35962db2.ico">
 	<link rel="stylesheet" type="text/css" href="style.css">
 </HEAD>
 <BODY>
