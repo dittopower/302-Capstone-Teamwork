@@ -99,9 +99,8 @@
             <div class="social-signon">
                 <ul>
                     
-                    <li><a href="https://esoe.qut.edu.au/qut-login/loginaaf" class="btn btn-aaf"><span class="aaf-logo"></span> Sign in with
-                        <span><abbr title="Australian Access Federation">AAF</abbr>
-                        </span></a></li>
+                    <li><a href="//teamwork.deamon.info/register" class="btn btn-aaf"><span class="aaf-logo"></span> Create an Account
+                       </a></li>
                 </ul>
 
                 
@@ -113,8 +112,6 @@
 </div><div id="mobile-dropdown" style="display: none;"><ul></ul></div>
 
 <div id="interfacecontainerdiv" class="interfacecontainerdiv"></div>
-
-<script src="https://esoe.qut.edu.au/static/qutAuthValidation-9c95822261443089d38552693618c14f.js" type="text/javascript"></script>
 
 <!-- Content End -->
 <!-- Footer Start -->
