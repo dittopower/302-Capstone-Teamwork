@@ -52,6 +52,7 @@
 	}
 	
 	if(!isUser()){
+		global $local;
 		include $local."login/index.php";
 		die();
 	}

@@ -4,7 +4,7 @@
 <HEAD>
 	<title>Teamwork</title>
 	<link rel="Shortcut Icon" href="https://esoe.qut.edu.au/static/favicon-d177589c7efc2024aefe76fe35962db2.ico">
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="//teamwork.deamon.info/style.css">
 </HEAD>
 <BODY>
 	<aside><!-- sidebar -->

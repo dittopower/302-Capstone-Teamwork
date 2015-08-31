@@ -60,7 +60,6 @@
 			if(mysqli_stmt_execute($sql)){
 				$regouttext = 'Account successfully created.';
 				note('Registration',"Created::$nuser");
-				lib_login();
 				$_SESSION['person'] = singleSQL("Select LAST_INSERT_ID();");
 				$_SESSION['name'] = $nuser;
 			} else {
