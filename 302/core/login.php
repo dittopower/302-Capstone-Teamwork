@@ -15,6 +15,9 @@
 			if($data['Length'] === ''.strlen($pass) && $data['PassPhrase'] === encrypt($pass,$data['salt'],$user)){
 				$_SESSION['person'] = $data['UserId'];
 				$_SESSION['name'] = strtolower($_POST['username']);
+				
+				$_SESSION['registered'] = singleSQL("Select 1 from User_Details where UserId = '$data[UserId]';");
+				
 			} else {
 				$e_login = "Incorrect Login Details.";
 				note('login',"Failed::$user");
