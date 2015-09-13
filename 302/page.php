@@ -19,9 +19,7 @@
 		<div id="infobox">
 			<img src="/qut-logo-200.jpg" class="logoimg">
 			<h3>QUT || Teamwork</h3>
-			<h4>Current Team: Team 18</h4>
-			<div id="logoutBtn"><?php user_form();?></div>
-			
+			<h4>Current Team: Team 18</h4>			
 		</div>
 		
 		<div id="chatarea">
@@ -33,6 +31,7 @@
 					<li><a href="#joshhenley">Josh Henley</a></li>
 					<li><a href="#billgates">Bill Gates</a></li>
 				</ul>
+				<div id="logoutBtn"><?php user_form();?></div>
 			</div>
 			
 			<div id="chat-text">
@@ -43,7 +42,7 @@
 			
 			<div id="chatControls">
 				<input id="chatInput" type="text" placeholder="Type a message here...">
-				<input id="chatSend" type="button" class="button button1" value="Send">
+				<input id="chatSend" type="button" class="button-none button1" value="Send">
 			</div>
 		
 		</div>
@@ -58,7 +57,11 @@
 	</nav>
 	
 	<section>
-
+		<div class="card">
+			<h3>title</h3><hr>
+			testing a card<br><br><br>mdsjfldsfkjdslfk<br><br>dslfkjdslkfj
+			<input class='button button1' type='button' value='Do Something'>
+		</div>
 <!--page content start -->
 
 <?php function myEnd(){ ?>

@@ -14,7 +14,7 @@ aside{
 	height: 100%;
 	float: left;
 	
-	background: #f2f2f2;
+	background: white;
 }
 	
 	#infobox{
@@ -24,6 +24,7 @@ aside{
 		padding: 8px;
 		
 		position: relative;
+		overflow: auto;
 	}
 	
 		.logoimg{
@@ -35,8 +36,8 @@ aside{
 		
 		#logoutBtn{
 			position: absolute;
-			top: 5px;
-			right: 5px;
+			top: 4px;
+			right: 4px;
 		}
 	
 	#chatarea{
@@ -51,6 +52,7 @@ aside{
 			background: #01467d;
 			
 			font-size: 0.8em;
+			overflow: hidden;
 		}
 				
 			#chat-tabs ul{
@@ -61,11 +63,10 @@ aside{
 			#chat-tabs ul li{
 				float: left;
 				height: 100%;
-				background: #01467d;
 			}
 			
 			#chat-tabs ul li:hover{
-				background: #012e52;
+				background-color: #012e52;
 			}
 			
 			#chat-tabs ul li a{
@@ -74,7 +75,7 @@ aside{
 				text-decoration: none;
 				color: inherit;
 				
-				padding: 10px 15px 10px 15px;
+				padding: 10px 13px 10px 13px;
 			}
 		
 		#chat-text{
@@ -83,7 +84,7 @@ aside{
 			
 			padding: 8px;
 			
-			overflow-y: scroll;
+			overflow-y: auto;
 		}
 		
 			.preText{
@@ -92,20 +93,34 @@ aside{
 			}
 		
 		#chatControls{
-			height: 5%;
-			width: 100%;
-			margin-bottom: 1%;
+			height: calc(6% - 4px);
+			width: calc(100% - 8px);
+			margin-bottom: 4px;
 			text-align: center;
+			margin: auto;
 		}
 
 			#chatControls #chatInput{
-				width: 70%;
+				width: 80%;
 				height: 100%;
+				
+				float: left;
+				margin: 0;
+				
+				border-radius: 0;
+				border: 1px solid #d9d9d9;
+				border-right: none;
+				padding-left: 5px;
 			}
 			
 			#chatControls #chatSend{
 				width: 20%;
 				height: 100%;
+				float: left;
+				
+				margin: 0;
+				padding: 0;
+				border: 0;
 			}
 
 nav{
@@ -114,7 +129,7 @@ nav{
 	float: right;
 	
 	color: white;
-	background: #333;
+	background: #01467d;
 }
 
 	nav ul{
@@ -125,11 +140,11 @@ nav{
 	nav ul li{
 		float: left;
 		height: 100%;
-		background: #333;
+		background: #01467d;
 	}
 	
 	nav ul li:hover{
-		background: #111;
+		background: #012e52;
 	}
 	
 	nav ul li a{
@@ -142,14 +157,14 @@ nav{
 	}
 	
 section{
-	width: calc(75% - 60px);
+	width: calc(78% - 60px);
 	height: calc(100% - 110px);
 	float: right;
 	
-	background: white;
+	background: #f2f2f2;
 	overflow-y: scroll;
 	
-	padding: 30px 30px 30px 0;
+	padding: 30px 30px 30px 30px;
 }
 
 	input[type="password"], input[type="text"]{
@@ -164,6 +179,13 @@ section{
 		border-radius: 3px;
 		border: 0;
 		padding: 10px 15px 10px 15px;
+		
+		cursor: pointer;
+		cursor: hand;
+	}
+	
+	.button-none{
+		border: 0;
 		
 		cursor: pointer;
 		cursor: hand;
@@ -193,6 +215,14 @@ section{
 		background-color: #489f68;
 	}
 	
+	.button4{
+		color: white;
+		background-color: #01a399;
+	}
+	.button4:hover{
+		background-color: #008a82;
+	}
+	
 	p{
 		padding: 5px 0 5px 0;
 	}
@@ -200,7 +230,7 @@ section{
 	hr{
 		border:0;
 		height: 1px;
-		background-color: #f2f2f2;
+		background-color: white;
 		margin: 5px 0 5px 0;
 	}
 
@@ -211,8 +241,41 @@ section{
 		padding: 20px 0 20px 0;
 		margin: 40px 0 0 0;
 		
-		border-top: 1px solid #f2f2f2;
-		border-bottom: 1px solid #f2f2f2;
+		border-top: 1px solid #d9d9d9;
+		border-bottom: 1px solid #d9d9d9;
 		
 		color: #999;
-	}	
+	}
+	
+	.card{
+		position: relative;
+		width: 95%;
+		padding: 15px;
+		height: auto;
+		background-color: white;
+		color: black;
+		margin: auto;
+		margin-bottom: 30px;
+		
+		-webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.5);
+		-moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.5);
+		box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.5);
+	}
+	
+		.card h3{
+			margin-bottom: 0;
+		}
+		
+		.card input[type="button"], .card input[type="submit"]{
+			display: block;
+			position: absolute;
+			bottom: 5px;
+			right: 5px;
+		}
+		
+		.card hr{
+			border:0;
+			height: 1px;
+			background-color: #f2f2f2;
+			margin: 5px 0 15px 0;
+		}
