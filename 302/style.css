@@ -10,17 +10,106 @@ h1, h2, h3{
 }
 
 aside{
-	width: calc(25% - 16px);
-	height: calc(100% - 16px);
+	width: 22%;
+	height: 100%;
 	float: left;
 	
 	background: #f2f2f2;
-	
-	padding: 8px;
 }
+	
+	#infobox{
+		width: calc(100% - 16px);
+		height: calc(15% - 16px);
+		
+		padding: 8px;
+		
+		position: relative;
+	}
+	
+		.logoimg{
+			float: left;
+			height: 50%;
+			margin-right: 10px;
+			margin-bottom: 10px;
+		}
+		
+		#logoutBtn{
+			position: absolute;
+			top: 5px;
+			right: 5px;
+		}
+	
+	#chatarea{
+		height: 85%;
+		width: 100%;
+	}
+	
+		#chat-tabs{
+			height: 37px;
+			width: 100%;
+			color: white;
+			background: #01467d;
+			
+			font-size: 0.8em;
+		}
+				
+			#chat-tabs ul{
+				list-style: none;
+				height: 100%;
+			}
+
+			#chat-tabs ul li{
+				float: left;
+				height: 100%;
+				background: #01467d;
+			}
+			
+			#chat-tabs ul li:hover{
+				background: #012e52;
+			}
+			
+			#chat-tabs ul li a{
+				display: block;
+			
+				text-decoration: none;
+				color: inherit;
+				
+				padding: 10px 15px 10px 15px;
+			}
+		
+		#chat-text{
+			height: calc(94% - 53px);/*37px(from tabs) + 16px(padding) */
+			width: calc(100% - 16px);
+			
+			padding: 8px;
+			
+			overflow-y: scroll;
+		}
+		
+			.preText{
+				color: #999;
+				font-size: 0.8em;
+			}
+		
+		#chatControls{
+			height: 5%;
+			width: 100%;
+			margin-bottom: 1%;
+			text-align: center;
+		}
+
+			#chatControls #chatInput{
+				width: 70%;
+				height: 100%;
+			}
+			
+			#chatControls #chatSend{
+				width: 20%;
+				height: 100%;
+			}
 
 nav{
-	width: 75%;
+	width: 78%;
 	height: 50px;
 	float: right;
 	
@@ -82,10 +171,10 @@ section{
 	
 	.button1{
 		color: white;
-		background-color: #1c5f9a;
+		background-color: #01467d;
 	}
 	.button1:hover{
-		background-color: #034673;
+		background-color: #012e52;
 	}
 	
 	.button2{

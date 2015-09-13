@@ -15,17 +15,38 @@
 </HEAD>
 <BODY>
 	<aside><!-- sidebar -->
-		<h3>Login</h3>
-		<?php user_form();?>
+	
+		<div id="infobox">
+			<img src="/qut-logo-200.jpg" class="logoimg">
+			<h3>QUT || Teamwork</h3>
+			<h4>Current Team: Team 18</h4>
+			<div id="logoutBtn"><?php user_form();?></div>
+			
+		</div>
 		
-		<br><br><br>
+		<div id="chatarea">
 		
-		<h3>Styled things m8</h3>
-		<input type="button" value="Press me" class="button button1">
-		<br><br>
-		<input type="button" value="Press me" class="button button2">
-		<br><br>
-		<input type="button" value="Press me" class="button button3">
+			<div id="chat-tabs">
+				<ul>
+					<li><a href="#global">Global</a></li>
+					<li><a href="#team18">Team 18</a></li>
+					<li><a href="#joshhenley">Josh Henley</a></li>
+					<li><a href="#billgates">Bill Gates</a></li>
+				</ul>
+			</div>
+			
+			<div id="chat-text">
+				<span class="preText">(1:54pm) Josh:</span> chat text goes here<br>
+				<span class="preText">(1:55pm) Josh:</span> something like this<br>
+				<span class="preText">(1:56pm) Josh:</span> some more text here
+			</div>
+			
+			<div id="chatControls">
+				<input id="chatInput" type="text" placeholder="Type a message here...">
+				<input id="chatSend" type="button" class="button button1" value="Send">
+			</div>
+		
+		</div>
 	</aside>
 	
 	<nav>
