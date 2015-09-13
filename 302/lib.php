@@ -43,6 +43,11 @@
 		global $home;
 		require_once $home."core/register.php";
 	}
+	
+	function lib_group(){
+		global $home;
+		require_once $home."core/group.php";
+	}
 
 //Local Templates	
 	function page(){
