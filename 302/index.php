@@ -1,7 +1,7 @@
 <?php
-	require_once "lib.php";
+	require_once "$_SERVER[DOCUMENT_ROOT]/lib.php";
 	page();
-	?>
+?>
 	<h1>Content Mayyyyneeee</h1>
 		
 		<p>This is where the feed/filesharing/teamwork stuff goes</p>
