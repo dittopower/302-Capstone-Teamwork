@@ -1,51 +1,55 @@
 <?php
+
+	require_once "$_SERVER[DOCUMENT_ROOT]/lib.php";
+	lib_login();
+	lib_group();
 	
 	if(isset($_SESSION['person'])){
-	
-		require_once "$_SERVER[DOCUMENT_ROOT]/lib.php";
-		lib_database();
-		
-		$user = $_SESSION['person'];
+			
+		$user = 0;
 		
 		$person = $_POST['person'];
 		$group = $_POST['group'];
 		$send = $_POST['send'];
 		
-		if(!empty($send)){
+		if(isset($_POST['person']) && isset($_POST['message']) && isset($_POST['group'])){
 			
-			$message = strip_tags($_POST['Message']);
-			
-			echo singleSQL("INSERT INTO Chat UserID, UserReceive, GroupID, Message, TimeSent VALUES(".$user.", ".$person.", ".$group.", '". $message . "', NOW())");
+			$message = strip_tags($_POST['message']);
+			echo realsingleSQL("INSERT INTO Chat (UserID, UserReceive, GroupID, Message, TimeSent) VALUES(".$user.", ".$person.", ".$group.", '". $message . "', NOW())");
 			
 		}//send message
-		else if(!empty($person)){
+		else if(isset($_POST['person'])){
 			
 			$timelim = "NOW()";
 			
-			$thesql="SELECT Chat.UserID, Chat.UserReceive, D_Accounts.FirstName, D_Accounts.LastName, Chat.Message, Chat.TimeSent";
-			$thesql.=" FROM Chat WHERE Chat.UserID=" .$user. " AND Chat.UserReceive=" .$person. " AND Chat.TimeSent < " . $timelim
-			$thesql.=" LEFT JOIN D_Accounts ON Chat.UserID=D_Accounts.UserId";
+			$thesql="SELECT Chat.ChatID, Chat.UserID, Chat.UserReceive, D_Accounts.FirstName, D_Accounts.LastName, Chat.Message, Chat.TimeSent";
+			$thesql.=" FROM Chat LEFT JOIN D_Accounts ON Chat.UserID=D_Accounts.UserId";
+			$thesql.=" WHERE Chat.UserID=" .$user. " AND Chat.UserReceive=" .$person. " AND Chat.TimeSent < " . $timelim;
 			
-			$result1 = multiSQL($thesql);
+			$result1 = arraySQL($thesql);
 			
-			$thesql2="SELECT Chat.UserID, Chat.UserReceive, D_Accounts.FirstName, D_Accounts.LastName, Chat.Message, Chat.TimeSent";
-			$thesql2.=" FROM Chat WHERE Chat.UserID=" .$person. " AND Chat.UserReceive=" .$user. " AND Chat.TimeSent < " . $timelim
-			$thesql2.=" LEFT JOIN D_Accounts ON Chat.UserID=D_Accounts.UserId";
+			$thesql2="SELECT Chat.ChatID, Chat.UserID, Chat.UserReceive, D_Accounts.FirstName, D_Accounts.LastName, Chat.Message, Chat.TimeSent";
+			$thesql2.=" FROM Chat LEFT JOIN D_Accounts ON Chat.UserID=D_Accounts.UserId";
+			$thesql2.=" WHERE Chat.UserID=" .$person. " AND Chat.UserReceive=" .$user. " AND Chat.TimeSent < " . $timelim;
 			
-			$result2 = multiSQL($thesql2);
+			$result2 = arraySQL($thesql2);
 			
-			echo json_encode(array_merge($result1,$result2));
+			$aa = array_merge($result1,$result2);
+			sort($aa);
+			echo json_encode($aa);
 			
 		}//retrieve person message
-		else if (!empty($group)){
+		else if (isset($_POST['group'])){
 			
 			$timelim = "NOW()";
 			
-			$thesql="SELECT Chat.UserID, D_Accounts.FirstName, D_Accounts.LastName, Chat.Message, Chat.TimeSent, Chat.UserReceive";
-			$thesql.=" FROM Chat WHERE Chat.GroupID=" .$group. " AND Chat.TimeSent < " . $timelim
-			$thesql.=" LEFT JOIN D_Accounts ON Chat.UserID=D_Accounts.UserId";
+			$thesql="SELECT Chat.ChatID, Chat.UserID, D_Accounts.FirstName, D_Accounts.LastName, Chat.Message, Chat.TimeSent, Chat.UserReceive";
+			$thesql.=" FROM Chat LEFT JOIN D_Accounts ON Chat.UserID=D_Accounts.UserId";
+			$thesql.=" WHERE Chat.GroupID=" .$group. " AND Chat.TimeSent < " . $timelim;
 			
-			$result = multiSQL($thesql);
+			$result = arraySQL($thesql);
+			
+			sort($result);
 			
 			echo json_encode($result);
 			
@@ -56,6 +60,9 @@
 	/*********************
 	Chat Database Layout
 	**********************
+	
+	ChatID
+	int(11)
 	
 	UserID
 	int(11)
@@ -73,11 +80,12 @@
 	timestamp()
 	
 	CREATE TABLE Chat(
+		ChatID int(11),
 		UserID int(11),
 		UserReceive int(11),
 		GroupID int(11),
 		Message text(1024),
-		TimeSent timestamp()
+		TimeSent timestamp
 	)
 	
 	*/

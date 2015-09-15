@@ -14,28 +14,127 @@
 	<link rel="Shortcut Icon" href="https://esoe.qut.edu.au/static/favicon-d177589c7efc2024aefe76fe35962db2.ico">
 	<link rel="stylesheet" type="text/css" href="//teamwork.deamon.info/style.css">
 	
-	<script src="jquery-2.1.4.min"></script>
+	<script src="jquery-2.1.4.min.js"></script>
+	<script src="date.format.js"></script>
 	
 	<script>
+	
+		var user = "<?php echo $_SESSION['person']?>";
+	
+		var loop = setInterval(looping, 2000);
+		
+		var tabs = [{id:"g-2",name:"Global",content:""},
+			{id:"g18",name:"Group 18",content:""},
+			{id:"0",name:"Josh Henley",content:""},
+			{id:"1",name:"Bill Gates",content:""}];
+		//update this with relevant people
+			
+		var currentTab = "0";
 		
 		$( document ).ready(function() {
-		
-		updateTime();
 				
-		$("#chatInput").keyup(function(event){
-			if(event.keyCode == 13){
-				$("#chatSend").click();
-			}
+			$("#chatInput").keyup(function(event){
+				if(event.keyCode == 13){
+					$("#chatSend").click();
+				}
+			});
+			
+			chatInitiate();
+			changeTab(0);
+		
 		});
+				
+		function getData(person, tab){
+			
+			var url="core/chat.php";
+			
+			var sendData = {person: person};
+			
+			if(person.charAt(0) == 'g'){
+				sendData = {group: person.substring(1)};
+			}//send different data if its a group
+			
+			$.post(url, sendData, function(data) {
+				
+				var jsonData = $.parseJSON(data);
+				var html = "";
+				
+				$.each(jsonData, function(idx, obj) {
+					if(tabs[tab]["content"].indexOf("<span id='cid" + obj.ChatID + "'") == -1){
+						
+						var tt = obj.TimeSent;
+						var timestamp = new Date(tt);
+						
+						timestamp.setHours(timestamp.getHours() + 15);
+						
+						var time = timestamp.format("g:ia");
+						
+						html += "<span id='cid" + obj.ChatID + "' class='preText'>("+time+") uid" + obj.UserID + ":</span> " + obj.Message + "<br>";
+					}//<span class="preText">(1:54pm) Josh:</span> chat text goes here<br>
+				});
+				
+				tabs[tab]["content"] += html;
+				
+				changeTab(currentTab);//refresh chat
+				
+			});			
+
+		}
+	
+		function looping(){
+			
+			getData(tabs[currentTab]["id"], currentTab);
+			
+		}//every 2 seconds
 		
 		function sendMessage(){
 			
-			alert( $("#chatInput").text() );
+			var text = $("#chatInput").val();
+			var sendTo = tabs[currentTab]["id"];
+			var tgroup = "-1";
 			
-			$("#chatInput").text("");
+			if(sendTo.charAt(0) == 'g'){
+				tgroup = sendTo.substring(1);
+				sendTo = "-1";
+			}
+			
+			var url="core/chat.php";
+			
+			$.post(url, {person: sendTo, message: text, group: tgroup}, function(data) {
+				console.log("Message sent: " + sendTo + ":" + text + ":" + tgroup);
+				console.log(data);
+			});	
+
+			$("#chatInput").val("");
 			
 		}
-
+		
+		function changeTab(tab){
+			
+			$("#chat-text").html(tabs[tab]["content"]);
+			
+			currentTab = tab;
+			
+			var objDiv = document.getElementById("chat-text");
+			objDiv.scrollTop = objDiv.scrollHeight;
+			
+			looping();
+			
+		}
+		
+		function chatInitiate(){
+						
+			var html = "";
+			
+			for (var i=0; i < tabs.length; i++) {
+				html += "<li><a onclick=\"changeTab('" + i + "');\" >" + tabs[i]["name"] + "</a></li>";
+			}
+			
+			$("#ctbs").html(html);
+			
+			console.log("Chat tabs updated.");
+			
+		}
 		
 	</script>
 	
@@ -53,10 +152,9 @@
 		
 			<div id="chat-tabs">
 				<ul>
-					<li><a href="#global">Global</a></li>
-					<li><a href="#team18">Team 18</a></li>
-					<li><a href="#joshhenley">Josh Henley</a></li>
-					<li><a href="#billgates">Bill Gates</a></li>
+					<span id="ctbs">
+						<!-- Chat tabs get loaded into here. -->
+					</span>
 				</ul>
 				<div id="logoutBtn"><?php user_form();?></div>
 			</div>
@@ -83,7 +181,7 @@
 		</ul>
 	</nav>
 	
-	<section>
+	<section>	
 
 <!--page content start -->
 

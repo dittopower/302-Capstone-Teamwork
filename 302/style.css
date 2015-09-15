@@ -63,6 +63,9 @@ aside{
 			#chat-tabs ul li{
 				float: left;
 				height: 100%;
+				
+				cursor: pointer;
+				cursor: hand;
 			}
 			
 			#chat-tabs ul li:hover{
