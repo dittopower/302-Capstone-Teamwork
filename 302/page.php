@@ -1,5 +1,6 @@
 <?php require_once "$_SERVER[DOCUMENT_ROOT]/lib.php";
 	lib_login();
+	lib_group();
 	if(($_SESSION['registered'] != 1) && ($_SERVER['REQUEST_URI'] != "/first_time/")){
 		header("Location: http://teamwork.deamon.info/first_time");
 		echo "<a href='//teamwork.deamon.info/first_time'>rediect</a>";
@@ -57,11 +58,6 @@
 	</nav>
 	
 	<section>
-		<div class="card">
-			<h3>title</h3><hr>
-			testing a card<br><br><br>mdsjfldsfkjdslfk<br><br>dslfkjdslkfj
-			<input class='button button1' type='button' value='Do Something'>
-		</div>
 <!--page content start -->
 
 <?php function myEnd(){ ?>

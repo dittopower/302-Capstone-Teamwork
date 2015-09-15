@@ -2,6 +2,12 @@
 	require_once "$_SERVER[DOCUMENT_ROOT]/lib.php";
 	page();
 ?>
+
+<div class="card">
+			<h3>title</h3><hr>
+			testing a card<br><br><br>mdsjfldsfkjdslfk<br><br>dslfkjdslkfj
+			<input class='button button1' type='button' value='Do Something'>
+		</div>
 	<h1>Content Mayyyyneeee</h1>
 		
 		<p>This is where the feed/filesharing/teamwork stuff goes</p>
