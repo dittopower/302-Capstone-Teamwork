@@ -58,10 +58,7 @@
 	</nav>
 	
 	<section>
-<<<<<<< HEAD
-		
-=======
->>>>>>> origin/master
+
 <!--page content start -->
 
 <?php function myEnd(){ ?>
