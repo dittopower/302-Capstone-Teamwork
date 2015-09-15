@@ -51,17 +51,13 @@
 	<nav>
 		<ul>
 			<li><a href="./">Home/Feed</a></li>
-			<li><a href="./">Files</a></li>
+			<li><a href="files.php">Files</a></li>
 			<li><a href="./">Edit Profile</a></li>
 		</ul>
 	</nav>
 	
 	<section>
-		<div class="card">
-			<h3>title</h3><hr>
-			testing a card<br><br><br>mdsjfldsfkjdslfk<br><br>dslfkjdslkfj
-			<input class='button button1' type='button' value='Do Something'>
-		</div>
+		
 <!--page content start -->
 
 <?php function myEnd(){ ?>

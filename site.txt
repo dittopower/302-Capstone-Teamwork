@@ -2,6 +2,8 @@ ftp:
 302@deamon.info
 rip.Inplace2015
 
+phpmyadmin: sql.deamon.info
+
 database:
 deamon_INB302
 db user:
