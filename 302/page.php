@@ -13,6 +13,32 @@
 	<title>Teamwork</title>
 	<link rel="Shortcut Icon" href="https://esoe.qut.edu.au/static/favicon-d177589c7efc2024aefe76fe35962db2.ico">
 	<link rel="stylesheet" type="text/css" href="//teamwork.deamon.info/style.css">
+	
+	<script src="jquery-2.1.4.min"></script>
+	
+	<script>
+		
+		$( document ).ready(function() {
+		
+		updateTime();
+				
+		$("#chatInput").keyup(function(event){
+			if(event.keyCode == 13){
+				$("#chatSend").click();
+			}
+		});
+		
+		function sendMessage(){
+			
+			alert( $("#chatInput").text() );
+			
+			$("#chatInput").text("");
+			
+		}
+
+		
+	</script>
+	
 </HEAD>
 <BODY>
 	<aside><!-- sidebar -->
@@ -43,7 +69,7 @@
 			
 			<div id="chatControls">
 				<input id="chatInput" type="text" placeholder="Type a message here...">
-				<input id="chatSend" type="button" class="button-none button1" value="Send">
+				<input id="chatSend" type="button" class="button-none button1" value="Send" onclick="sendMessage();">
 			</div>
 		
 		</div>
