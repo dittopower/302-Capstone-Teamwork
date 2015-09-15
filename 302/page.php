@@ -1,5 +1,6 @@
 <?php require_once "$_SERVER[DOCUMENT_ROOT]/lib.php";
 	lib_login();
+	lib_group();
 	if(($_SESSION['registered'] != 1) && ($_SERVER['REQUEST_URI'] != "/first_time/")){
 		header("Location: http://teamwork.deamon.info/first_time");
 		echo "<a href='//teamwork.deamon.info/first_time'>rediect</a>";
@@ -57,7 +58,10 @@
 	</nav>
 	
 	<section>
+<<<<<<< HEAD
 		
+=======
+>>>>>>> origin/master
 <!--page content start -->
 
 <?php function myEnd(){ ?>
