@@ -48,7 +48,7 @@
 ?>
 <div>
 <h1>Active Requests</h1>
-<?php table("Select UnitCode, PreferenceType1 as 'Preference 1', PreferenceType2 as 'Preference 2', PreferenceType3 as 'Preference 3' from Group_Requests"); ?>
+<?php table("Select UnitCode, PreferenceType1 as 'Preference 1', PreferenceType2 as 'Preference 2', PreferenceType3 as 'Preference 3' from Group_Requests where UserId = '$_SESSION[person]'"); ?>
 </div>
 <hr>
 
