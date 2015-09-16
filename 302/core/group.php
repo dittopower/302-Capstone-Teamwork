@@ -4,6 +4,11 @@
 	lib_database();
 	lib_files();
 	
+	/*
+	Set a users current Group
+		- Defaults to GET or POST group if not specified
+		- Check that the user is in the group returns false if not.
+	*/
 	function group($g = ""){
 		if($g == ""){
 			if(is_numeric($_GET['group'])){
@@ -24,6 +29,10 @@
 	}
 	group();
 	
+	/*
+	Get the names of members of a group.
+	returns array.
+	*/
 	function members($group = ""){
 		if($group == ""){
 			$group = $_SESSION['group'];
@@ -36,6 +45,25 @@
 		return $text;
 	}
 	
+	/*
+	Get the ids of members of a group.
+	returns array.
+	*/
+	function members_id($group = ""){
+		if($group == ""){
+			$group = $_SESSION['group'];
+		}
+		$result = multiSQL("SELECT UserId as name FROM `D_Accounts` a JOIN `Group_Members` g WHERE g.`UserId` = a.`UserId` and `GroupId` = '$group'");
+		$text = [];
+		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
+			$text[] = $row['name'];
+		}
+		return $text;
+	}
+	
+	/*
+	Adds a member to a group.
+	*/
 	function add_member($group = "", $user = "",$role = null){
 		if($group == ""){
 			$group = $_SESSION['group'];
@@ -52,6 +80,9 @@
 		}
 	}
 	
+	/*
+	Removes a member from a group.
+	*/
 	function remove_member($group = "", $user = ""){
 		if($group == ""){
 			$group = $_SESSION['group'];
