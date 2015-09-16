@@ -63,11 +63,13 @@
 					if(tabs[tab]["content"].indexOf("<span id='cid" + obj.ChatID + "'") == -1){
 						
 						var tt = obj.TimeSent;
-						var timestamp = new Date(tt);
+						//var timestamp = new Date(tt);
 						
-						timestamp.setHours(timestamp.getHours() + 15);
+						//timestamp.setHours(timestamp.getHours() + 15);
 						
-						var time = timestamp.format("g:ia");
+						//var time = timestamp.format("g:ia");
+						times=/-(\d\d)-(\d\d)\s(\d\d\:\d\d)/.exec(tt);
+						time = times[2] + "/" + times[1] + "-" + times[3];
 						
 						html += "<span id='cid" + obj.ChatID + "' class='preText'>("+time+") uid" + obj.UserID + ":</span> " + obj.Message + "<br>";
 					}//<span class="preText">(1:54pm) Josh:</span> chat text goes here<br>

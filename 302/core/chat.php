@@ -19,7 +19,7 @@
 			
 		}//send message
 		else if(isset($_POST['person'])){
-			
+			runSQL("SET time_zone = '+10:00';");
 			$timelim = "NOW()";
 			
 			$thesql="SELECT Chat.ChatID, Chat.UserID, Chat.UserReceive, D_Accounts.FirstName, D_Accounts.LastName, Chat.Message, Chat.TimeSent";
