@@ -11,15 +11,16 @@
 		$person = $_POST['person'];
 		$group = $_POST['group'];
 		$send = $_POST['send'];
+			runSQL("SET time_zone = 'Australia/Brisbane';");
 		
 		if(isset($_POST['person']) && isset($_POST['message']) && isset($_POST['group'])){
 			
 			$message = strip_tags($_POST['message']);
-			echo realsingleSQL("INSERT INTO Chat (UserID, UserReceive, GroupID, Message, TimeSent) VALUES(".$user.", ".$person.", ".$group.", '". $message . "', NOW())");
+			echo runSQL("INSERT INTO Chat (UserID, UserReceive, GroupID, Message, TimeSent) VALUES(".$user.", ".$person.", ".$group.", '". $message . "', NOW())");
 			
 		}//send message
 		else if(isset($_POST['person'])){
-			runSQL("SET time_zone = '+10:00';");
+			
 			$timelim = "NOW()";
 			
 			$thesql="SELECT Chat.ChatID, Chat.UserID, Chat.UserReceive, D_Accounts.FirstName, D_Accounts.LastName, Chat.Message, Chat.TimeSent";
