@@ -19,16 +19,16 @@
 	<script>
 		var loop = setInterval(looping, 2000);
 		<?php $ids=members_id();$names=members();
-			echo "var tabs = [{id:'g-2',name:'Global',content:''}";
+			echo "var tabs = [{id:'g-2',name:'Global',content:'',last:''}";
 			if(inGroup()){
-			echo ",{id:'g$_SESSION[group]',name:'# $_SESSION[gname]',content:''}";
+			echo ",{id:'g$_SESSION[group]',name:'# $_SESSION[gname]',content:'',last:''}";
 			}
 			foreach($ids as $key=>$value){
-			echo ",{id:'$value',name:'$names[$key]',content:''}";
+			echo ",{id:'$value',name:'$names[$key]',content:'',last:''}";
 			}
 			echo "];"
 		?>
-			
+
 		var currentTab = "0";
 		var url="<?php echo "http://$_SERVER[HTTP_HOST]/chat/";?>";
 		
@@ -47,10 +47,10 @@
 				
 		function getData(person, tab){
 			
-			var sendData = {person: person};
+			var sendData = {person: person,last:tabs[currentTab]['last']};
 			
 			if(person.charAt(0) == 'g'){
-				sendData = {group: person.substring(1)};
+				sendData = {group: person.substring(1),last:tabs[currentTab]['last']};
 			}//send different data if its a group
 			
 			$.post(url, sendData, function(data) {
@@ -71,6 +71,7 @@
 						time = times[2] + "/" + times[1] + "-" + times[3];
 						
 						html += "<span id='cid" + obj.ChatID + "' class='preText'>("+time+") @" + obj.FirstName + ":</span> " + obj.Message + "<br>";
+						tabs[currentTab]['last'] = obj.ChatID;
 					}//<span class="preText">(1:54pm) Josh:</span> chat text goes here<br>
 				});
 				

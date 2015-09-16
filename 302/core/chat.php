@@ -11,8 +11,14 @@
 		
 		$person = $_POST['person'];
 		$group = $_POST['group'];
+		if(is_numeric($_POST['last'])){
+			$last = $_POST['last'];
+		}else{
+			$last = 0;
+		}
+			
 		$send = $_POST['send'];
-			runSQL("SET time_zone = 'Australia/Brisbane';");
+		runSQL("SET time_zone = 'Australia/Brisbane';");
 		
 		if(isset($_POST['person']) && isset($_POST['message']) && isset($_POST['group'])){
 			
@@ -24,7 +30,7 @@
 				
 			$thesql="SELECT Chat.ChatID, Chat.UserID, D_Accounts.FirstName, Chat.Message, Chat.TimeSent";
 			$thesql.=" FROM Chat LEFT JOIN D_Accounts ON Chat.UserID=D_Accounts.UserId";
-			$thesql.=" WHERE Chat.UserID IN ('$user','$person') AND Chat.UserReceive IN ('$user','$person') order by TimeSent;";
+			$thesql.=" WHERE Chat.UserID IN ('$user','$person') AND Chat.UserReceive IN ('$user','$person') and ChatID > '$last' order by TimeSent;";
 			
 			//note("chatdebug",$thesql);
 			$aa = arraySQL($thesql);
@@ -37,7 +43,7 @@
 			
 			$thesql="SELECT Chat.ChatID, Chat.UserID, D_Accounts.FirstName, D_Accounts.LastName, Chat.Message, Chat.TimeSent, Chat.UserReceive";
 			$thesql.=" FROM Chat LEFT JOIN D_Accounts ON Chat.UserID=D_Accounts.UserId";
-			$thesql.=" WHERE Chat.GroupID=" .$group. " AND Chat.TimeSent < " . $timelim;
+			$thesql.=" WHERE Chat.GroupID='" .$group. "'  and ChatID > '$last' order by TimeSent;";
 			
 			$result = arraySQL($thesql);
 			
