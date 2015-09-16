@@ -13,13 +13,12 @@
 		if($g == ""){
 			if(is_numeric($_GET['group'])){
 				$g = $_GET['group'];
-			}else if(is_numeric($_POST['group'])){
-				$g = $_POST['group'];
 			}
 		}
-		if($g != $_SESSION['group']){
+		if($g != $_SESSION['group'] && $g != ""){
 			if(singleSQL("Select 1 from Group_Members where UserId = '$_SESSION[person]' and GroupId = '$g';")){
 				$_SESSION['group'] = $g;
+				$_SESSION['gname'] = singleSQL("Select GroupName from Group_Members where UserId = '$_SESSION[person]' and GroupId = '$g';");
 			}else{
 				unset($_SESSION['group']);
 				return false;
@@ -29,6 +28,9 @@
 	}
 	group();
 	
+	function inGroup(){
+		return isset($_SESSION['group']);
+	}
 	/*
 	Get the names of members of a group.
 	returns array.
@@ -37,7 +39,7 @@
 		if($group == ""){
 			$group = $_SESSION['group'];
 		}
-		$result = multiSQL("SELECT CONCAT(`FirstName`,' ',`LastName`) as name FROM `D_Accounts` a JOIN `Group_Members` g WHERE g.`UserId` = a.`UserId` and `GroupId` = '$group'");
+		$result = multiSQL("SELECT CONCAT(`FirstName`,' ',`LastName`) as name FROM `D_Accounts` a JOIN `Group_Members` g WHERE g.`UserId` = a.`UserId` and g.UserId != '$_SESSION[person]' and `GroupId` = '$group'");
 		$text = [];
 		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
 			$text[] = $row['name'];
@@ -53,7 +55,7 @@
 		if($group == ""){
 			$group = $_SESSION['group'];
 		}
-		$result = multiSQL("SELECT UserId as name FROM `D_Accounts` a JOIN `Group_Members` g WHERE g.`UserId` = a.`UserId` and `GroupId` = '$group'");
+		$result = multiSQL("SELECT UserId as name FROM `Group_Members` WHERE UserId != '$_SESSION[person]' and `GroupId` = '$group'");
 		$text = [];
 		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
 			$text[] = $row['name'];

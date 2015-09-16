@@ -3,10 +3,11 @@
 	require_once "$_SERVER[DOCUMENT_ROOT]/lib.php";
 	lib_login();
 	lib_group();
+	lib_files();
 	
 	if(isset($_SESSION['person'])){
 			
-		$user = 0;
+		$user = $_SESSION['person'];
 		
 		$person = $_POST['person'];
 		$group = $_POST['group'];
@@ -20,23 +21,13 @@
 			
 		}//send message
 		else if(isset($_POST['person'])){
-			
-			$timelim = "NOW()";
-			
-			$thesql="SELECT Chat.ChatID, Chat.UserID, Chat.UserReceive, D_Accounts.FirstName, D_Accounts.LastName, Chat.Message, Chat.TimeSent";
+				
+			$thesql="SELECT Chat.ChatID, Chat.UserID, D_Accounts.FirstName, Chat.Message, Chat.TimeSent";
 			$thesql.=" FROM Chat LEFT JOIN D_Accounts ON Chat.UserID=D_Accounts.UserId";
-			$thesql.=" WHERE Chat.UserID=" .$user. " AND Chat.UserReceive=" .$person. " AND Chat.TimeSent < " . $timelim;
+			$thesql.=" WHERE Chat.UserID IN ('$user','$person') AND Chat.UserReceive IN ('$user','$person') order by TimeSent;";
 			
-			$result1 = arraySQL($thesql);
-			
-			$thesql2="SELECT Chat.ChatID, Chat.UserID, Chat.UserReceive, D_Accounts.FirstName, D_Accounts.LastName, Chat.Message, Chat.TimeSent";
-			$thesql2.=" FROM Chat LEFT JOIN D_Accounts ON Chat.UserID=D_Accounts.UserId";
-			$thesql2.=" WHERE Chat.UserID=" .$person. " AND Chat.UserReceive=" .$user. " AND Chat.TimeSent < " . $timelim;
-			
-			$result2 = arraySQL($thesql2);
-			
-			$aa = array_merge($result1,$result2);
-			sort($aa);
+			//note("chatdebug",$thesql);
+			$aa = arraySQL($thesql);
 			echo json_encode($aa);
 			
 		}//retrieve person message

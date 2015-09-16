@@ -14,22 +14,23 @@
 	<link rel="Shortcut Icon" href="https://esoe.qut.edu.au/static/favicon-d177589c7efc2024aefe76fe35962db2.ico">
 	<link rel="stylesheet" type="text/css" href="//teamwork.deamon.info/style.css">
 	
-	<script src="jquery-2.1.4.min.js"></script>
-	<script src="date.format.js"></script>
+	<script src="//teamwork.deamon.info/jquery-2.1.4.min.js"></script>
 	
 	<script>
-	
-		var user = "<?php echo $_SESSION['person']?>";
-	
 		var loop = setInterval(looping, 2000);
-		
-		var tabs = [{id:"g-2",name:"Global",content:""},
-			{id:"g18",name:"Group 18",content:""},
-			{id:"0",name:"Josh Henley",content:""},
-			{id:"1",name:"Bill Gates",content:""}];
-		//update this with relevant people
+		<?php $ids=members_id();$names=members();
+			echo "var tabs = [{id:'g-2',name:'Global',content:''}";
+			if(inGroup()){
+			echo ",{id:'g$_SESSION[group]',name:'# $_SESSION[gname]',content:''}";
+			}
+			foreach($ids as $key=>$value){
+			echo ",{id:'$value',name:'$names[$key]',content:''}";
+			}
+			echo "];"
+		?>
 			
 		var currentTab = "0";
+		var url="<?php echo "http://$_SERVER[HTTP_HOST]/chat/";?>";
 		
 		$( document ).ready(function() {
 				
@@ -46,8 +47,6 @@
 				
 		function getData(person, tab){
 			
-			var url="core/chat.php";
-			
 			var sendData = {person: person};
 			
 			if(person.charAt(0) == 'g'){
@@ -61,7 +60,7 @@
 				
 				$.each(jsonData, function(idx, obj) {
 					if(tabs[tab]["content"].indexOf("<span id='cid" + obj.ChatID + "'") == -1){
-						
+						pie=data;
 						var tt = obj.TimeSent;
 						//var timestamp = new Date(tt);
 						
@@ -71,7 +70,7 @@
 						times=/-(\d\d)-(\d\d)\s(\d\d\:\d\d)/.exec(tt);
 						time = times[2] + "/" + times[1] + "-" + times[3];
 						
-						html += "<span id='cid" + obj.ChatID + "' class='preText'>("+time+") uid" + obj.UserID + ":</span> " + obj.Message + "<br>";
+						html += "<span id='cid" + obj.ChatID + "' class='preText'>("+time+") @" + obj.FirstName + ":</span> " + obj.Message + "<br>";
 					}//<span class="preText">(1:54pm) Josh:</span> chat text goes here<br>
 				});
 				
@@ -99,8 +98,6 @@
 				tgroup = sendTo.substring(1);
 				sendTo = "-1";
 			}
-			
-			var url="core/chat.php";
 			
 			$.post(url, {person: sendTo, message: text, group: tgroup}, function(data) {
 				console.log("Message sent: " + sendTo + ":" + text + ":" + tgroup);

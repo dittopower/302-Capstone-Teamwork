@@ -48,6 +48,11 @@
 		global $home;
 		require_once $home."core/group.php";
 	}
+	
+	function lib_chat(){
+		global $home;
+		require_once $home."core/chat.php";
+	}
 
 //Local Templates	
 	function page(){
