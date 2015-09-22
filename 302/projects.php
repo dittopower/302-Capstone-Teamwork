@@ -17,8 +17,49 @@
 	)
 	
 	*/
-	
-	if($group == 1){//ingroup()
+	 if(isset($_POST['supervisor'])){
+		
+		$supervisorNum = $_POST['supervisor'];
+					
+		echo "<h2>Your Projects (Supervisor #".$supervisorNum.")</h2>";
+		
+		echo "<table>";	
+		
+		echo "<tr><th>Title</th>";
+		echo "<th>Description</th>";
+		echo "<th>Requirements</th>";
+		echo "<th>Type</th>";
+		echo "<th>Skills</th>";
+		echo "<th>Unit</th>";
+		echo "<th>Applications</th></tr>";
+		
+		
+		$projects = arraySQL("SELECT * FROM Projects WHERE Supervisor=".$supervisorNum." AND P_Id <> 0 ORDER BY P_Id ASC");
+		
+		foreach($projects as $thing){
+			echo "<tr><td>" . $thing["Name"] . "</td>";
+			echo "<td>" . $thing["Description"] . "</td>";
+			echo "<td>" . $thing["requirements"] . "</td>";
+			echo "<td><ul><li>" . $thing["ProjectType1"] ."</li><li>". $thing["ProjectType2"] ."</li><li>". $thing["ProjectType3"] . "</li></ul></td>";
+			
+			$skills=explode(",",$thing["skill"]);
+			
+			echo "<td><ul>";
+				foreach($skills as $skill){
+					echo "<li>" . $skill . "</li>";
+				}
+			echo "</ul></td>";
+			
+			echo "<td>" . $thing["UnitCode"] . "</td>";			
+			echo "<td>applications go here</td>";
+			
+			echo "</tr>";
+		}
+		
+		echo "</table>";
+		
+	}
+	else if($group == 1){//ingroup()
 		
 		if(isset($_POST['apply']) && isset($_POST['coverletter'])){
 			$newproject = $_POST['apply'];
@@ -27,7 +68,7 @@
 			
 			echo "Group #" . $group . " applying to project #" . $newproject . "<br><br>";
 			
-			$result = runSQL("INSERT INTO Project_Applications (P_Id, GroupId, CoverLetter, TimeSubmitted) VALUES(".$newproject.", ".$group.", '".$coverLetter."', now())");
+			$result = runSQL("INSERT INTO Project_Applications (P_Id, GroupId, CoverLetter, Status, TimeSubmitted) VALUES(".$newproject.", ".$group.", '".$coverLetter."', 'Applied', now())");
 			
 			if($result){ echo "Project successfully applied for."; }
 			else{ echo "Something went wrong.<br><br><br>" . $coverLetter; }
@@ -67,6 +108,7 @@
 			echo "<th>Supervisor</th>";
 			echo "<th>Apply</th></tr>";
 			
+			
 			$projects = arraySQL("SELECT * FROM Projects ORDER BY P_Id ASC");
 			
 			foreach($projects as $thing){
@@ -86,7 +128,9 @@
 				echo "<td>" . $thing["UnitCode"] . "</td>";
 				echo "<td>" . $thing["Supervisor"] . "</td>";
 				
-				if($thing["P_Id"] == $currentProject){
+				$app = singleSQL("SELECT ApplicationID FROM Project_Applications WHERE GroupId=" . $group . " AND P_Id=" . $thing["P_Id"]);
+				
+				if($app != "" && $app != 0 && $app != "0"){
 					echo "<td>Applied.</td>";
 				}
 				else{
@@ -103,6 +147,10 @@
 	}
 	else{
 		echo "You must be in a group to select a project.";	
-	}
-	
+	}	
 ?>
+<br><br>
+<form action="" method="post">
+	<input type="hidden" name="supervisor" value="0">
+	<input type="submit" value="Supervisor view preview" class="button button1">
+</form>
