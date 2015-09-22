@@ -18,6 +18,10 @@ table td, table th{
 	padding: 5px;
 }
 
+.wide{
+	width: 30%;
+}
+
 table td ul{
 	margin-left: 20px;
 }
