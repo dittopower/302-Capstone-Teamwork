@@ -3,7 +3,6 @@
 	page();
 	lib_files();
 	$subject = $_GET['unit'];
-	$debug = true;
 	
 	if(isset($_POST['G_resolve'])){
 		debug("yo");

@@ -17,7 +17,10 @@
 	<script src="//teamwork.deamon.info/jquery-2.1.4.min.js"></script>
 	
 	<script>
-		var loop = setInterval(looping, 2000);
+		var freq = 2000;
+		var same = 0;
+		var freqmod = 0;
+		var loop = setInterval(looping, freq);
 		<?php $ids=members_id();$names=members();
 			echo "var tabs = [{id:'g-2',name:'Global',content:'',last:''}";
 			if(inGroup()){
@@ -75,11 +78,26 @@
 					}//<span class="preText">(1:54pm) Josh:</span> chat text goes here<br>
 				});
 				
+				
+				if (html == ""){
+					same++;
+					if(Math.floor(same/10) > freqmod){
+						freqmod = Math.floor(same/10);
+						clearInterval(loop);
+						loop = setInterval(looping, (freq * Math.pow(2.5, freqmod)));
+					}
+				}else if(freqmod > 0){
+					same = 0;
+					freqmod = 0;
+					clearInterval(loop);
+					loop = setInterval(looping, freq);
+				}
+				
 				tabs[tab]["content"] += html;
 				
-				changeTab(currentTab);//refresh chat
-				
-			});			
+				$("#chat-text").html(tabs[tab]["content"]);//refresh chat
+			});	
+				console.log("Updated chat: " + Date().match(/\d\d\:\d\d\:\d\d/)[0]);		
 
 		}
 	
