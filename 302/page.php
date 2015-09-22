@@ -2,8 +2,8 @@
 	lib_login();
 	lib_group();
 	if(($_SESSION['registered'] != 1) && ($_SERVER['REQUEST_URI'] != "/first_time/")){
-		header("Location: http://teamwork.deamon.info/first_time");
-		echo "<a href='//teamwork.deamon.info/first_time'>rediect</a>";
+		header("Location: http://$_SERVER[HTTP_HOST]/first_time");
+		echo "<a href='http://$_SERVER[HTTP_HOST]/first_time'>rediect</a>";
 		die();
 	}
 	?>
@@ -12,9 +12,9 @@
 <HEAD>
 	<title>Teamwork</title>
 	<link rel="Shortcut Icon" href="https://esoe.qut.edu.au/static/favicon-d177589c7efc2024aefe76fe35962db2.ico">
-	<link rel="stylesheet" type="text/css" href="//teamwork.deamon.info/style.css">
+	<link rel="stylesheet" type="text/css" href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/style.css">
 	
-	<script src="//teamwork.deamon.info/jquery-2.1.4.min.js"></script>
+	<script src="http://<?php echo "$_SERVER[HTTP_HOST]";?>/jquery-2.1.4.min.js"></script>
 	
 	<script>
 		var freq = 2000;
@@ -161,7 +161,7 @@
 	<aside><!-- sidebar -->
 	
 		<div id="infobox">
-			<img src="/qut-logo-200.jpg" class="logoimg">
+			<img src="http://<?php echo "$_SERVER[HTTP_HOST]";?>/qut-logo-200.jpg" class="logoimg">
 			<h3>QUT || Teamwork</h3>
 			<h4>Current Team: Team 18</h4>			
 		</div>
@@ -174,14 +174,9 @@
 						<!-- Chat tabs get loaded into here. -->
 					</span>
 				</ul>
-				<div id="logoutBtn"><?php user_form();?></div>
 			</div>
 			
-			<div id="chat-text">
-				<span class="preText">(1:54pm) Josh:</span> chat text goes here<br>
-				<span class="preText">(1:55pm) Josh:</span> something like this<br>
-				<span class="preText">(1:56pm) Josh:</span> some more text here
-			</div>
+			<div id="chat-text"></div>
 			
 			<div id="chatControls">
 				<input id="chatInput" type="text" placeholder="Type a message here...">
@@ -193,10 +188,15 @@
 	
 	<nav>
 		<ul>
-			<li><a href="./">Home/Feed</a></li>
-			<li><a href="files.php">Files</a></li>
-			<li><a href="./">Edit Profile</a></li>
+			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>">Teamwork</a></li>
+		<?php if(inGroup()){?>
+			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/group"><?php echo "$_SESSION[gname]"?></a></li>
+			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/files">Files</a></li>
+		<?php }else{?>
+			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/group/find">Group Finder</a></li>
+		<?php } ?>
 		</ul>
+		<div id="logoutBtn"><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/user"><?php echo "$_SESSION[name]";?></a> | <?php user_form();?></div>
 	</nav>
 	
 	<section>	
@@ -207,7 +207,7 @@
 
 <!--page content end -->
 			<footer>
-				idk if we need a footer<br><br><br>
+				For QUT 2015.<br><br><br>
 				Joshua Henley | Damon Jones | Emma Jackson | Will Jakobs | Declan Winter
 			</footer>
 		</section>
