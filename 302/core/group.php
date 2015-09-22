@@ -18,7 +18,7 @@
 		if($g != $_SESSION['group'] && $g != ""){
 			if(singleSQL("Select 1 from Group_Members where UserId = '$_SESSION[person]' and GroupId = '$g';")){
 				$_SESSION['group'] = $g;
-				$_SESSION['gname'] = singleSQL("Select GroupName from Group_Members where UserId = '$_SESSION[person]' and GroupId = '$g';");
+				$_SESSION['gname'] = singleSQL("Select GroupName from `Groups` g join Group_Members m on g.`GroupId` = m.GroupId where UserId = '$_SESSION[person]' and g.GroupId = '$g';");
 			}else{
 				unset($_SESSION['group']);
 				return false;
@@ -98,6 +98,23 @@
 		}else{
 			note("membership","Failed-Remove::$user >> $group :: by $_SESSION[person]");
 			return false;
+		}
+	}
+	
+	/*
+	Insists the user select a group before continuing.
+	*/
+	function group_selected(){
+		if(!inGroup()){
+			echo "<h1>Please select a group:</h1>";
+			$sql = "SELECT g.`GroupId`,`GroupName`,`GroupProject`,`UnitCode` FROM `Groups` g join Group_Members m on g.`GroupId` = m.GroupId WHERE m.UserId = '$_SESSION[person]'";
+			debug($sql);
+			$result = multiSQL($sql);
+			while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
+				echo "<div><a href='./?group=$row[GroupId]'>$row[GroupName]</a> on $row[GroupProject] for $row[UnitCode]";
+			}
+			echo "<hr><h1>Or</h1><ul><li><a href='http://$_SERVER[HTTP_HOST]/group/find'>Find a Group</a></li></ul>";
+			die();
 		}
 	}
 ?>
