@@ -192,6 +192,7 @@
 		<?php if(inGroup()){?>
 			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/group"><?php echo "$_SESSION[gname]"?></a></li>
 			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/files">Files</a></li>
+			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/projects.php">Projects</a></li>
 		<?php }else{?>
 			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/group/find">Group Finder</a></li>
 		<?php } ?>
