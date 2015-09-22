@@ -24,7 +24,7 @@
 		<?php $ids=members_id();$names=members();
 			echo "var tabs = [{id:'g-2',name:'Global',content:'',last:''}";
 			if(inGroup()){
-			echo ",{id:'g$_SESSION[group]',name:'# $_SESSION[gname]',content:'',last:''}";
+			echo ",{id:'g$_SESSION[group]',name:'$_SESSION[gname]',content:'',last:''}";
 			}
 			foreach($ids as $key=>$value){
 			echo ",{id:'$value',name:'$names[$key]',content:'',last:''}";
