@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 13, 2015 at 07:46 AM
+-- Generation Time: Sep 22, 2015 at 07:46 AM
 -- Server version: 5.5.42-37.1
 -- PHP Version: 5.4.23
 
@@ -23,6 +23,46 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Chat`
+--
+
+CREATE TABLE IF NOT EXISTS `Chat` (
+  `ChatID` int(11) NOT NULL,
+  `UserID` int(11) DEFAULT NULL,
+  `UserReceive` int(11) DEFAULT NULL,
+  `GroupID` int(11) DEFAULT NULL,
+  `Message` text COLLATE utf8_unicode_ci,
+  `TimeSent` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `Chat`
+--
+
+INSERT INTO `Chat` (`ChatID`, `UserID`, `UserReceive`, `GroupID`, `Message`, `TimeSent`) VALUES
+(1, 92213407, -1, -2, 'yo', '2015-09-16 13:33:02'),
+(2, 92213407, 92213408, -1, 'private', '2015-09-16 13:33:11'),
+(3, 92213407, -1, 1, 'group', '2015-09-16 13:33:16'),
+(4, 92213408, -1, -2, 'testtttinnggg', '2015-09-16 14:20:15'),
+(5, 92213408, 92213407, -1, 'hello', '2015-09-16 14:20:43'),
+(6, 92213407, 92213408, -1, 'hi', '2015-09-16 14:20:47'),
+(7, 92213407, 92213409, -1, 'yo', '2015-09-16 14:58:43'),
+(8, 92213407, 92213408, -1, 'dfghio', '2015-09-16 15:27:04'),
+(9, 92213407, -1, 1, 'josh may or may not like spagetti', '2015-09-16 15:28:13'),
+(10, 92213407, -1, -2, '5', '2015-09-16 15:46:41'),
+(11, 92213407, 92213408, -1, '6', '2015-09-16 15:49:03'),
+(12, 92213408, 92213407, -1, 'hello', '2015-09-16 15:52:25'),
+(13, 92213408, -1, -2, 'bvhfgdgh', '2015-09-18 12:40:25'),
+(25, 92213408, -1, -2, 'message', '2015-09-22 05:52:43'),
+(24, 92213407, -1, -2, '*test', '2015-09-22 05:47:15'),
+(23, 92213407, -1, -2, 'teat', '2015-09-22 05:47:08'),
+(22, 92213407, -1, -2, '5', '2015-09-22 05:44:33'),
+(21, 92213408, -1, -2, 'test', '2015-09-22 05:43:59'),
+(20, 92213408, -1, -2, 'ttt', '2015-09-22 05:36:11');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `D_Accounts`
 --
 
@@ -36,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `D_Accounts` (
   `LastName` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `DateOfBirth` date DEFAULT NULL,
   `Email` varchar(60) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=92213411 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=92213412 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `D_Accounts`
@@ -167,7 +207,8 @@ INSERT INTO `D_Accounts` (`UserId`, `PassPhrase`, `Length`, `salt`, `Username`, 
 (92213407, '333aaab00310842c2e70a7707dc7b337', 8, 'øÐRXšêj	9i÷|è¼ªÐH2q-•þ ÃîNáŠ†EHó\Zg`*\Zü¹˜Ë–Ó…À©ý0ƒ+8§jªóÄ', 'n8857954', 'Damon', 'Jones', '0000-00-00', 'dittopower@gmail.com'),
 (92213408, '079c0f7ad0928bd321faceab9da586af', 8, 'ó\0kX¬ìDêý~åáîä¤›ðI#©T#;…ÁOô­åXñT÷Í˜„p‹‡nó¶ ¡Pj-Àš»ãæDEóŒ', 'jesh', 'Jesh', 'Henrjrk', '1995-08-31', 'dhdjh@jrjf.com'),
 (92213409, '64204daef0f3adc705ca16fe74d87a22', 8, 'ÝÚñµv)\\JoåŒºäêGçL†;/¸‚ÞõqFÈÝÖ‰™ç©hVÉm„¼Ýwq›e%8ûÉ¼b¸«h5þ=—', 'n123456789', 'Josh', 'Isnoob', '0000-00-00', 'jh@jh.com'),
-(92213410, '933eba6a666c2933c526802884bd9304', 9, '‘›¤w¨Zí©¦éš‹Ã ü Ë­ÉdüÂ\n\r©õs¢Èú@ª®^$XBú¶T¥.Å£óŒ}¡4½i¸ÑÕiã®', 'woops', 'Idk', 'Test', '0000-00-00', '1@test.com');
+(92213410, '933eba6a666c2933c526802884bd9304', 9, '‘›¤w¨Zí©¦éš‹Ã ü Ë­ÉdüÂ\n\r©õs¢Èú@ª®^$XBú¶T¥.Å£óŒ}¡4½i¸ÑÕiã®', 'woops', 'Idk', 'Test', '0000-00-00', '1@test.com'),
+(92213411, 'e8e971cd0cf1428aa0730dc1389a9ca1', 8, 'N!…	þØŽÕíž¤‘$o‹/Pîw,Ò''¯îtß‹âCe­K[Iç''ä}õ›éùûŸÑ2cLD¹qG:Ðù', 'dwinterr', 'Declan', 'Winter', '0000-00-00', 'test@email.com');
 
 -- --------------------------------------------------------
 
@@ -197,7 +238,15 @@ CREATE TABLE IF NOT EXISTS `D_Media` (
   `owner` int(11) NOT NULL,
   `share` smallint(6) NOT NULL,
   `people` varchar(50) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `D_Media`
+--
+
+INSERT INTO `D_Media` (`media_id`, `location`, `owner`, `share`, `people`) VALUES
+(40, '../302MEDIA/1/README_0.md', 92213407, 3, '1'),
+(41, '../302MEDIA/1/1380078_10201429769764479_2054867537_n.jpg', 92213407, 3, '1');
 
 -- --------------------------------------------------------
 
@@ -224,14 +273,18 @@ CREATE TABLE IF NOT EXISTS `Groups` (
   `GroupName` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `GroupProject` int(11) NOT NULL,
   `UnitCode` varchar(10) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `Groups`
 --
 
 INSERT INTO `Groups` (`GroupId`, `GroupName`, `GroupProject`, `UnitCode`) VALUES
-(1, 'Null', 0, 'INB302');
+(1, 'Null', 1, 'INB302'),
+(8, 'INB302 G8', 0, 'INB302'),
+(6, 'INB302 G6', 0, 'INB302'),
+(9, 'INB302 G9', 0, 'INB302'),
+(10, 'INB302 G10', 0, 'INB302');
 
 -- --------------------------------------------------------
 
@@ -250,10 +303,28 @@ CREATE TABLE IF NOT EXISTS `Group_Members` (
 --
 
 INSERT INTO `Group_Members` (`GroupId`, `UserId`, `Role`) VALUES
-(0, 92213407, NULL),
-(0, 92213408, NULL),
-(0, 92213409, NULL),
-(0, 92213410, NULL);
+(1, 92213407, NULL),
+(1, 92213408, NULL),
+(1, 92213409, NULL),
+(1, 92213410, NULL),
+(9, 92213407, NULL),
+(8, 81908605, NULL),
+(8, 92213411, NULL),
+(8, 92213408, NULL),
+(8, 92213409, NULL),
+(8, 92213407, NULL),
+(4, 92213407, NULL),
+(4, 92213409, NULL),
+(4, 92213408, NULL),
+(6, 81986746, NULL),
+(6, 81087636, NULL),
+(6, 92213407, NULL),
+(9, 92213409, NULL),
+(9, 92213408, NULL),
+(9, 92213411, NULL),
+(10, 81908605, NULL),
+(10, 81986746, NULL),
+(10, 81087636, NULL);
 
 -- --------------------------------------------------------
 
@@ -264,10 +335,18 @@ INSERT INTO `Group_Members` (`GroupId`, `UserId`, `Role`) VALUES
 CREATE TABLE IF NOT EXISTS `Group_Requests` (
   `UserId` int(11) NOT NULL,
   `UnitCode` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `Similar` int(1) NOT NULL,
   `PreferenceType1` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `PreferenceType2` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `PreferenceType3` varchar(20) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `Group_Requests`
+--
+
+INSERT INTO `Group_Requests` (`UserId`, `UnitCode`, `Similar`, `PreferenceType1`, `PreferenceType2`, `PreferenceType3`) VALUES
+(92213407, 'INB300', 0, 'Analysis', '', '');
 
 -- --------------------------------------------------------
 
@@ -285,15 +364,45 @@ CREATE TABLE IF NOT EXISTS `Projects` (
   `skill` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `requirements` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `UnitCode` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `Supervisor` int(11) NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `Supervisor` int(11) NOT NULL,
+  `Start` date NOT NULL,
+  `End` date NOT NULL,
+  `Dueby` date NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `Projects`
 --
 
-INSERT INTO `Projects` (`P_Id`, `Name`, `ProjectType1`, `ProjectType2`, `ProjectType3`, `Description`, `skill`, `requirements`, `UnitCode`, `Supervisor`) VALUES
-(1, 'Teamwork', 'Web', 'Development', NULL, 'The InPlace sucessor', 'web,css,php,etc', 'cool story bro', 'INB302', 0);
+INSERT INTO `Projects` (`P_Id`, `Name`, `ProjectType1`, `ProjectType2`, `ProjectType3`, `Description`, `skill`, `requirements`, `UnitCode`, `Supervisor`, `Start`, `End`, `Dueby`) VALUES
+(1, 'Teamwork', 'Web', 'Development', NULL, 'The InPlace sucessor', 'web,css,php,etc', 'cool story bro', 'INB302', 0, '2015-08-03', '2015-10-23', '2015-08-02'),
+(0, 'Not Selected', '', NULL, NULL, '', '', '', '', 0, '0000-00-00', '0000-00-00', '0000-00-00'),
+(3, 'Bird Watch', 'Development', 'Application', 'Database', 'Create an android application to log species of bird in the wild. Will primarily be used by Australian icon Troy Bundaberg,', 'java,xml,sql', 'Previous application development experience', 'INB302', 0, '2015-08-10', '2015-09-30', '2015-08-02'),
+(4, 'Accounting Software', 'Development', 'Web', 'Application', 'Create a website to manage accounting things, must be better than MYOB.', 'html,css,php,mysql', 'Must be very scaleable', 'INB302', 0, '2015-08-05', '2015-11-30', '2015-08-02');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Project_Applications`
+--
+
+CREATE TABLE IF NOT EXISTS `Project_Applications` (
+  `ApplicationID` int(11) NOT NULL,
+  `P_Id` int(11) DEFAULT NULL,
+  `GroupId` int(11) DEFAULT NULL,
+  `CoverLetter` text COLLATE utf8_unicode_ci,
+  `Status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TimeSubmitted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `Project_Applications`
+--
+
+INSERT INTO `Project_Applications` (`ApplicationID`, `P_Id`, `GroupId`, `CoverLetter`, `Status`, `TimeSubmitted`) VALUES
+(1, 3, 1, 'im really good at applications i swear on me mum', NULL, '2015-09-22 09:23:31'),
+(2, 1, 1, 'ayyyyyyyyyyy i aint even writin dis\r\n', NULL, '2015-09-22 09:38:27'),
+(3, 4, 1, 'this is a cover letter man', NULL, '2015-09-22 09:48:25');
 
 -- --------------------------------------------------------
 
@@ -320,12 +429,31 @@ INSERT INTO `Project_Types` (`type`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Unit`
+--
+
+CREATE TABLE IF NOT EXISTS `Unit` (
+  `UnitCode` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `Unit` varchar(50) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `Unit`
+--
+
+INSERT INTO `Unit` (`UnitCode`, `Unit`) VALUES
+('INB302', 'IT Capstone Project'),
+('INB300', 'Professional Practice in IT');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `User_Details`
 --
 
 CREATE TABLE IF NOT EXISTS `User_Details` (
   `UserId` int(11) NOT NULL,
-  `GPA` decimal(1,1) DEFAULT NULL,
+  `GPA` decimal(7,1) DEFAULT NULL,
   `Skills` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `Blurb` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `LinkedIn` int(11) DEFAULT NULL,
@@ -340,13 +468,23 @@ CREATE TABLE IF NOT EXISTS `User_Details` (
 --
 
 INSERT INTO `User_Details` (`UserId`, `GPA`, `Skills`, `Blurb`, `LinkedIn`, `Email`, `Facebook`, `Skype`, `Phone`) VALUES
-(0, NULL, '', '', NULL, NULL, NULL, NULL, NULL),
-(92213407, '0.9', '', 'hi', 0, 0, 0, 0, 466971872),
-(92213408, '0.9', '', 'i make websites, i like pokemon', 0, 0, 0, 0, 405141011);
+(92213409, '6.0', '', 'i make websites, i like pokemon', 0, 0, 0, 0, 405141011),
+(92213407, '6.9', '', 'hi', 0, 0, 0, 0, 466971872),
+(92213408, '5.0', '', 'i make websites, i like pokemon', 0, 0, 0, 0, 405141011),
+(81087636, '4.0', '', '', 0, 0, 0, 0, 404040404),
+(81986746, '4.0', '', '', 0, 0, 0, 0, 2147483647),
+(81908605, '3.6', '', '', 0, 0, 0, 0, 2147483647),
+(92213411, '4.8', '', 'i am smart', 0, 0, 0, 0, 404040404);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `Chat`
+--
+ALTER TABLE `Chat`
+  ADD PRIMARY KEY (`ChatID`);
 
 --
 -- Indexes for table `D_Accounts`
@@ -397,10 +535,22 @@ ALTER TABLE `Projects`
   ADD PRIMARY KEY (`P_Id`);
 
 --
+-- Indexes for table `Project_Applications`
+--
+ALTER TABLE `Project_Applications`
+  ADD PRIMARY KEY (`ApplicationID`);
+
+--
 -- Indexes for table `Project_Types`
 --
 ALTER TABLE `Project_Types`
   ADD PRIMARY KEY (`type`);
+
+--
+-- Indexes for table `Unit`
+--
+ALTER TABLE `Unit`
+  ADD PRIMARY KEY (`UnitCode`);
 
 --
 -- Indexes for table `User_Details`
@@ -413,10 +563,15 @@ ALTER TABLE `User_Details`
 --
 
 --
+-- AUTO_INCREMENT for table `Chat`
+--
+ALTER TABLE `Chat`
+  MODIFY `ChatID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
+--
 -- AUTO_INCREMENT for table `D_Accounts`
 --
 ALTER TABLE `D_Accounts`
-  MODIFY `UserId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=92213411;
+  MODIFY `UserId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=92213412;
 --
 -- AUTO_INCREMENT for table `D_Articles`
 --
@@ -426,7 +581,7 @@ ALTER TABLE `D_Articles`
 -- AUTO_INCREMENT for table `D_Media`
 --
 ALTER TABLE `D_Media`
-  MODIFY `media_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=37;
+  MODIFY `media_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=42;
 --
 -- AUTO_INCREMENT for table `D_Perms`
 --
@@ -436,12 +591,17 @@ ALTER TABLE `D_Perms`
 -- AUTO_INCREMENT for table `Groups`
 --
 ALTER TABLE `Groups`
-  MODIFY `GroupId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `GroupId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `Projects`
 --
 ALTER TABLE `Projects`
-  MODIFY `P_Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `P_Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `Project_Applications`
+--
+ALTER TABLE `Project_Applications`
+  MODIFY `ApplicationID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
