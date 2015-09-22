@@ -4,6 +4,36 @@
 	lib_files();
 	$subject = $_GET['unit'];
 	
+	function makeGroup($group){
+		global $subject;
+		$sql = "INSERT INTO `deamon_INB302`.`Groups` (`GroupName`, `GroupProject`, `UnitCode`) VALUES ('Pending', '0', '$subject')";
+		if(runSQL($sql)){
+			debug("Group Created");
+			$gid = singleSQL("Select LAST_INSERT_ID();");
+			note("Groups","Created::$gid::$_SESSION[person]");
+			runSQL("UPDATE `deamon_INB302`.`Groups` SET `GroupName` = '$subject G$gid' WHERE `Groups`.`GroupId` = $gid");
+			$sql = "INSERT INTO `deamon_INB302`.`Group_Members` (`GroupId`, `UserId`) VALUES";
+			foreach($group as $member){
+				$sql .= " ('$gid', '$member'),";
+			}
+			$sql = trim($sql, ',');
+			debug("$sql");
+			if(runSQL($sql)){
+				debug("Inserted?");
+				note("Groups","$gid :: Inserted Members");
+				foreach($group as $member){
+					runSQL("DELETE FROM `deamon_INB302`.`Group_Requests` WHERE `Group_Requests`.`UserId` = '$member' AND `Group_Requests`.`UnitCode` = '$subject'");
+				}
+			}else{
+				debug("Failed insert");
+				note("Groups","$gid :: Failed Members");
+			}
+		}else{
+			debug("Failed group creation");
+			note("Groups","FAILED::$sql");
+		}
+	}
+	
 	if(isset($_POST['G_resolve'])){
 		debug("yo");
 		$result = multiSQL("SELECT `UserId`, GPA, `Similar`, `PreferenceType1`, `PreferenceType2`, `PreferenceType3` FROM `Group_Requests` NATURAL join User_Details WHERE `UnitCode` = '$subject' ORDER by User_Details.GPA desc, `PreferenceType1`, `PreferenceType2`, 'PreferenceType3'");
@@ -56,35 +86,23 @@
 				debug("$id - Right size");
 				if(count($group) > 5){
 					//split the group
+					debug("Split the group");
+					$group1 = array();
+					$group2 = array();
+					for($i = 0; $i < count($group)/2;$i++){
+						$group1[] = $group[$i];
+					}
+					for($i = count($group)-1; $i > count($group)/2;$i--){
+						$group2[] = $group[$i];
+					}
+					debug($group1);
+					debug($group2);
+					makeGroup($group1);
+					makeGroup($group2);
 				}else{
 					//form the group
 					debug("don't split");
-					$sql = "INSERT INTO `deamon_INB302`.`Groups` (`GroupName`, `GroupProject`, `UnitCode`) VALUES ('Pending', '0', '$subject')";
-					if(runSQL($sql)){
-						debug("Group Created");
-						$gid = singleSQL("Select LAST_INSERT_ID();");
-						note("Groups","Created::$gid::$_SESSION[person]");
-						runSQL("UPDATE `deamon_INB302`.`Groups` SET `GroupName` = '$subject G$gid' WHERE `Groups`.`GroupId` = $gid");
-						$sql = "INSERT INTO `deamon_INB302`.`Group_Members` (`GroupId`, `UserId`) VALUES";
-						foreach($group as $member){
-							$sql .= " ('$gid', '$member'),";
-						}
-						$sql = trim($sql, ',');
-						debug("$sql");
-						if(runSQL($sql)){
-							debug("Inserted?");
-							note("Groups","$gid :: Inserted Members");
-							foreach($group as $member){
-								runSQL("DELETE FROM `deamon_INB302`.`Group_Requests` WHERE `Group_Requests`.`UserId` = '$member' AND `Group_Requests`.`UnitCode` = '$subject'");
-							}
-						}else{
-							debug("Failed insert");
-							note("Groups","$gid :: Failed Members");
-						}
-					}else{
-						debug("Failed group creation");
-						note("Groups","FAILED::$sql");
-					}
+					makeGroup($group);
 				}
 			}else{
 				debug("$id - wrong size");
