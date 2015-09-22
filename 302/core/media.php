@@ -3,6 +3,7 @@
 	lib_code();
 	lib_database();
 	lib_login();
+	lib_group();
 	lib_perms();
 	lib_files();
 	
@@ -94,7 +95,7 @@
 					media_send($row['location']);
 					break;
 				default:
-					if($_SESSION['person'] == $row['owner']){
+					if($_SESSION['group'] == $row['people']){
 						media_send($row['location']);
 					}else{
 						toss(401);
@@ -123,12 +124,8 @@
 			$uploadTxt = "Sorry, there was an error uploading your file. ";
 			global $uploadOk;
 			$uploadOk = 1;
-			if(strlen($_POST['location']) >= 1){
-				$target_dir = $home.$_POST['location']."/";
-			}else{
-				$target_dir = $home."../media/".$_SESSION['person']."/";
-			}
-			if(dir_access("access",$target_dir)){
+			if(inGroup()){
+				$target_dir = $home."../302MEDIA/$_SESSION[group]/";
 				dir_Ensure($target_dir);
 				if(isset($_POST["filename"]) || $_POST["filename"] != ""){
 					$_FILES["fileToUpload"]["name"] = $_POST["filename"];
@@ -148,7 +145,7 @@
 					}
 				}
 				// Check file size
-				if ($_FILES["fileToUpload"]["size"] > (5*1024*1024)) {
+				if ($_FILES["fileToUpload"]["size"] > (50*1024*1024)) {
 					$uploadTxt .= "Sorry, your file is too large. ";
 					note('upload',"Problem::filesize");
 					$uploadOk = 0;
@@ -199,6 +196,20 @@
 							isOk(move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file));
 					}
 				}
+				switch($_POST['share']){
+					case 1:
+						$share = 1;
+						break;
+					case 2:
+						$share = 2;
+						break;
+					case 3:
+						$share = 3;
+						break;
+					default:
+						$share = 0;
+						break;
+				}
 				//Log it in the database
 				if($uploadOk){
 					$target_file = substr($target_file, strlen($home));
@@ -206,7 +217,8 @@
 						$id = singleSQL("Select media_id from D_Media where location = '$target_file'");
 						note('upload',"Replaced::".basename( $_FILES["fileToUpload"]["name"]));
 					}else{
-						$sql = "INSERT INTO `deamon_core`.`D_Media` (`location`, `owner`, `share`, `people`) VALUES ('$target_file', '$_SESSION[person]', '3', '');";
+						$sql = "INSERT INTO `D_Media` (`location`, `owner`, `share`, `people`) VALUES ('$target_file', '$_SESSION[person]', '$share', '$_SESSION[group]');";
+						debug($sql);
 						runSQL($sql);
 						$id = singleSQL("Select LAST_INSERT_ID();");
 						note('upload',"Uploaded::".basename( $_FILES["fileToUpload"]["name"]));
@@ -227,7 +239,7 @@
 			if($row == 0){
 				return "That file doesn't exist and so can't be deleted.";
 			}else{
-				if($row['owner'] == $_SESSION['person']){
+				if($row['people'] == $_SESSION['group']){
 					runSQL("DELETE FROM D_Media WHERE media_id=$_POST[file]");
 					unlink($home.$row['location']);
 					note('upload',"Deleted::media-$_POST[file]::".basename($row['location']));
@@ -255,6 +267,11 @@
 				echo "<label for='fileoveride'>Overide Existing File?</label>";
 				echo "<input type='checkbox' id='fileoveride' name='fileoveride' value='1'>";
 			}
+			echo "<label for='share'>Sharing?</label>";
+			echo "<select id='share' name='share'>";
+			echo "<option value='0'>Private</option>";
+			echo "<option value='3' selected>Public</option>";
+			echo "</select>";
 			if(getUserLevel('access') != 3 && $where != ""){
 				echo "<input type='text' hidden name='location' value='$where'>";
 			}
