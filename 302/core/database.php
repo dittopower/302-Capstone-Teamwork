@@ -28,7 +28,7 @@
 	function rowSQL($sql){
 		global $mysqli;
 		$p = mysqli_query($mysqli,$sql);
-		$row = mysqli_fetch_array($p,MYSQLI_BOTH);
+		$row = mysqli_fetch_array($p,MYSQLI_ASSOC);
 		if($row != NULL){
 			return $row;
 		}
@@ -64,11 +64,6 @@
 			return 0;
 		}
 	}//runs a command that will give a result as an array (for real)
-	
-	function realsingleSQL($sql){
-		global $mysqli;
-		return mysqli_query($mysqli,$sql);
-	}//runs an sql statement and returns only a single result
 	
 	function runSQL($sql){
 		global $mysqli;

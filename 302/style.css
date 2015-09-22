@@ -9,6 +9,23 @@ h1, h2, h3{
 	margin-bottom: 12px;
 }
 
+table{
+	border-collapse: collapse;
+}
+
+table td, table th{
+	border: 1px solid black;
+	padding: 5px;
+}
+
+table td ul{
+	margin-left: 20px;
+}
+
+table tr:nth-child(odd){
+	background-color: lightgrey;
+}
+
 aside{
 	width: 22%;
 	height: 100%;
