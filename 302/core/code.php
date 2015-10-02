@@ -116,6 +116,18 @@
 		echo "<div class='status'>$what</div>";
 		}
 	}
+	
+	function card($heading='Example Card', $content='Generic content placeholder here', $size=''){
+		echo "<div class='card' ";
+		if($size != ''){
+			echo "style='width:$size'";
+		}
+		echo ">";
+		echo "<h3>$heading</h3><hr>";
+		echo $content;
+		//"<input class='button button1' type='button' value='$button'>";
+		echo "</div>";
+	}
 
 ///Page Functions
 	//Page's URL
