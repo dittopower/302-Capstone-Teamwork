@@ -86,8 +86,8 @@ aside{
 			background: #01467d;
 			
 			font-size: 0.8em;
-    overflow-x: hidden;
-    overflow-y: scroll;
+			overflow-x: hidden;
+			overflow-y: scroll;
 		}
 				
 			#chat-tabs ul{
