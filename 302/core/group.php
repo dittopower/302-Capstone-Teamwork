@@ -7,15 +7,20 @@
 	/*
 	Set a users current Group
 		- Defaults to GET or POST group if not specified
-		- Check that the user is in the group returns false if not.
+		- Checks that the user is a member of target group
+		- returns false group setting fails.
+		
+		note: this function automatically runs on the inclusion of this library.
 	*/
 	function group($g = ""){
 		if($g == ""){
 			if(is_numeric($_GET['group'])){
 				$g = $_GET['group'];
+			}else if(isset($_SESSION['group'])){
+				$g = $_SESSION['group'];
 			}
 		}
-		if($g != $_SESSION['group'] && $g != ""){
+		if($g != ""){
 			if(singleSQL("Select 1 from Group_Members where UserId = '$_SESSION[person]' and GroupId = '$g';")){
 				$_SESSION['group'] = $g;
 				$_SESSION['gname'] = singleSQL("Select GroupName from `Groups` g join Group_Members m on g.`GroupId` = m.GroupId where UserId = '$_SESSION[person]' and g.GroupId = '$g';");
@@ -28,12 +33,20 @@
 	}
 	group();
 	
+	
+	/*
+	* Check if the user currently has a group set.
+	* 	- Returns bool
+	*/
 	function inGroup(){
 		return isset($_SESSION['group']);
 	}
+	
+	
 	/*
 	Get the names of members of a group.
-	returns array.
+		- returns array
+		- Defaults to currently set group
 	*/
 	function members($group = ""){
 		if($group == ""){
@@ -47,9 +60,11 @@
 		return $text;
 	}
 	
+	
 	/*
 	Get the ids of members of a group.
-	returns array.
+		- returns array
+		- Defaults to currently set group
 	*/
 	function members_id($group = ""){
 		if($group == ""){
@@ -63,8 +78,10 @@
 		return $text;
 	}
 	
+	
 	/*
 	Adds a member to a group.
+		- Defaults to currently set user/group
 	*/
 	function add_member($group = "", $user = "",$role = null){
 		if($group == ""){
@@ -82,8 +99,10 @@
 		}
 	}
 	
+	
 	/*
 	Removes a member from a group.
+		- Defaults to currently set user/group
 	*/
 	function remove_member($group = "", $user = ""){
 		if($group == ""){
@@ -101,19 +120,24 @@
 		}
 	}
 	
+	
 	/*
 	Insists the user select a group before continuing.
 	*/
 	function group_selected(){
 		if(!inGroup()){
-			echo "<h1>Please select a group:</h1>";
+			echo "<h1>Select a group:</h1>";
 			$sql = "SELECT g.`GroupId`,`GroupName`,`GroupProject`,`UnitCode` FROM `Groups` g join Group_Members m on g.`GroupId` = m.GroupId WHERE m.UserId = '$_SESSION[person]'";
 			debug($sql);
 			$result = multiSQL($sql);
 			while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
-				echo "<div><a href='./?group=$row[GroupId]'>$row[GroupName]</a> on $row[GroupProject] for $row[UnitCode]";
+				$cardcontent = "Unit: $row[UnitCode]<br>";
+				$cardcontent .= "Project: $row[GroupProject]<br>";
+				$cardcontent .= "<a href='./?group=$row[GroupId]'><input class='button button1' type='button' value='Open'></a>";
+				card($row['GroupName'],$cardcontent,200);
+
 			}
-			echo "<hr><h1>Or</h1><ul><li><a href='http://$_SERVER[HTTP_HOST]/group/find'>Find a Group</a></li></ul>";
+			echo "<hr><h1><a href='http://$_SERVER[HTTP_HOST]/group/find'>Find a Group</a></h1>";
 			die();
 		}
 	}
