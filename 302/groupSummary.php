@@ -33,7 +33,7 @@
 		echo "<br>For Unit: <strong>" . $thing["UnitCode"] . "</strong>";
 		
 		echo "<br>With supervisor: <strong>" . $thing["Supervisor"] . "</strong>";
-				
+
 	}
 	else{
 		echo "You must be in a group to view your groups details.";	

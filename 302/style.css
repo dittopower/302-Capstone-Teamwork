@@ -209,12 +209,16 @@ section{
 	padding: 30px 30px 30px 30px;
 }
 
-	input[type="password"], input[type="text"]{
+	input[type="password"], input[type="text"], input[type="email"]{
 		border-radius: 3px;
 		border: 0;
 		padding: 10px;
 		
 		border: 1px solid #d4d7da;
+	}
+	
+	label{
+		padding-right: 10px;
 	}
 	
 	.button{
