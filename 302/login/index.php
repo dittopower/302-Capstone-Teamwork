@@ -1,4 +1,16 @@
-<html class="no-js gr__esoe_qut_edu_au" lang="en"><head>
+<?php
+	if(isset($_SESSION["SupervisorID"])){
+		header("Location: /supervisorProjects.php");
+		die();
+	}
+	else if(){
+		
+		
+		
+	}
+?>
+<html class="no-js gr__esoe_qut_edu_au" lang="en">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -22,14 +34,6 @@
 
     <!-- Favicon -->
     <link rel="Shortcut Icon" href="https://esoe.qut.edu.au/static/favicon-d177589c7efc2024aefe76fe35962db2.ico">
-
-    
-    
-    
-    
-
-    
-
 </head>
 <body id="login-home" class="">
 <noscript>Your web browser does not support JavaScript or it is not currently enabled. We recommend you &lt;a href="http://www.enable-javascript.com/" target="_blank"&gt;enable JavaScript&lt;/a&gt; or change to a JavaScript enabled web browser</noscript>
@@ -57,9 +61,6 @@
 
                 <div class="form-group-container">
 
-                    
-
-                    
                         <script>
                             if (sessionStorage.getItem("loginAttempts") != null) {
                                 sessionStorage.removeItem("loginAttempts");
@@ -83,7 +84,10 @@
                     <small class="help-block" data-bv-validator="notEmpty" data-bv-for="password" data-bv-result="VALID" style="display: none;">Password is required</small></div>
 
                     <p class="forgot-pw"><a href="https://access.qut.edu.au/selfservice/password/recover?redirectURL=https://esoe.qut.edu.au/qut-login">Forgot your password?</a></p>
-
+					<select name="userType" style="width: 100%; margin-top: 15px; padding: 5px;">
+						<option value="student">Student</option>
+						<option value="supervisor">Supervisor</option>
+					</select>
                     <button type="submit" class="btn btn-default">Login</button>
                 </div>
             </form>

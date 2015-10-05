@@ -4,20 +4,23 @@
 	page();
 	
 	lib_login();
+	lib_code();
 	
 	session_start();
 	
 	if(isset($_POST['username']) && isset($_POST['FirstName']) && isset($_POST['Surname']) && isset($_POST['Email']) && isset($_POST['password']) && isset($_POST['password2'])){
 		
+		$user = escapeSQL(strtolower($_POST['username']));
+		
 		$nplength = strlen($_POST['password']);
 		if($nplength > 6){
 			if(isset($_POST['password2'])){
 				$salt = salt();
-				$npass = encrypt($_POST['password'],$salt,$nuser);
-				$npass2 = encrypt($_POST['password2'],$salt,$nuser);
+				$npass = encrypt($_POST['password'],$salt,$user);
+				$npass2 = encrypt($_POST['password2'],$salt,$user);
 				if($npass === $npass2){
 					
-					$un = $_POST['username'];
+					$un = escapeSQL(strtolower($_POST['username']));
 					$fn = $_POST['FirstName'];
 					$sn = $_POST['Surname'];
 					$em = $_POST['Email'];

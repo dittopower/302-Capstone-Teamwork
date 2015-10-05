@@ -6,9 +6,27 @@
 	session_start();
 	
 //Login
-	if(isset($_POST['username']) && isset($_POST['password'])){
-			$user = escapeSQL(strtolower($_POST['username']));
-			$pass = $_POST['password'];
+	
+	if(isset($_POST['username']) && isset($_POST['password']) && isset($_POST['userType'])){
+		
+		$user = escapeSQL(strtolower($_POST['username']));
+		$pass = $_POST['password'];
+		
+		if($_POST['userType'] == 'supervisor'){
+			
+			$data = rowSQL("SELECT SupervisorID, Password, Salt FROM Supervisor WHERE Username='$user'");
+			
+			if($data['Password'] === encrypt($pass,$data['Salt'],$user)){
+				
+				$_SESSION['SupervisorID'] = $data['SupervisorID'];
+			
+			} else {
+				$e_login = "Incorrect Login Details.";
+				note('login',"(Supervisor) Failed" . $data['Password'] . "|" . encrypt($pass,$data['Salt'],$user) . "::$user");
+			}
+			
+		}
+		else if($_POST['userType'] == 'student'){
 
 			$data = rowSQL("SELECT UserId, PassPhrase, Length, salt FROM D_Accounts WHERE username='$user'");
 			
@@ -22,7 +40,9 @@
 				$e_login = "Incorrect Login Details.";
 				note('login',"Failed::$user");
 			}
+			
 		}
+	}
 
 //Logout		
 	if (isset($_POST['logout'])){

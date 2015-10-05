@@ -163,7 +163,7 @@
 		<div id="infobox">
 			<img src="http://<?php echo "$_SERVER[HTTP_HOST]";?>/qut-logo-200.jpg" class="logoimg">
 			<h3>QUT || Teamwork</h3>
-			<h4>Current Team: Team 18</h4>			
+			<h4>Current Group: <?php echo $_SESSION['gname'] . " (#" . $_SESSION['group'] . ")"; ?></h4>			
 		</div>
 		
 		<div id="chatarea">
