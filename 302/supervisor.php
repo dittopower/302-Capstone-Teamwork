@@ -41,8 +41,8 @@
 	
 	<nav>
 		<ul>
-			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/projects.php">Projects</a></li>
-			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/projects.php">Projects1</a></li>
+			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/projects.php">View Projects</a></li>
+			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/projects.php">Create Project</a></li>
 		</ul>
 		<div id="logoutBtn"><?php echo $_SESSION['SupervisorID']; ?> | <form action="" method="post"><input type="submit" name="SupervisorLogout" value="Logout" class="button button1"></form></div>
 	</nav>
