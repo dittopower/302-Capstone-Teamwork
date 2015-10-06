@@ -2,6 +2,15 @@
 	session_start();
 	require_once "$_SERVER[DOCUMENT_ROOT]/lib.php";
 	
+	if(isset($_POST["SupervisorLogout"])){
+		unset($_SESSION);
+		$_SESSION = array();
+		session_destroy();
+		
+		header("Location: /");
+		exit();
+	}//logout
+	
 	if( isset($_SESSION["SupervisorID"]) ){
 		lib_database();
 ?>
@@ -35,7 +44,7 @@
 			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/projects.php">Projects</a></li>
 			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/projects.php">Projects1</a></li>
 		</ul>
-		<div id="logoutBtn"><?php echo $_SESSION['SupervisorID']; ?> | <input type="button" value="Logout" class="button button1"></div>
+		<div id="logoutBtn"><?php echo $_SESSION['SupervisorID']; ?> | <form action="" method="post"><input type="submit" name="SupervisorLogout" value="Logout" class="button button1"></form></div>
 	</nav>
 	
 	<section>	
