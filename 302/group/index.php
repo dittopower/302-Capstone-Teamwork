@@ -66,7 +66,7 @@
 	* Project Information
 	*/
 		$cardcontent = "";
-		$thing = rowSQL("SELECT Name, ProjectType1, ProjectType2, ProjectType3, Description, skill, requirements, p.UnitCode, Supervisor, DATE_FORMAT(`Start`, '%a %d %b %Y') as start, DATE_FORMAT(`End`, '%a %d %b %Y') as end FROM Projects p join Groups on P_Id = GroupProject WHERE GroupId='$_SESSION[group]'");
+		$thing = rowSQL("SELECT Name, ProjectType1, ProjectType2, ProjectType3, Description, skill, requirements, p.UnitCode, p.Supervisor, DATE_FORMAT(`Start`, '%a %d %b %Y') as start, DATE_FORMAT(`End`, '%a %d %b %Y') as end FROM Projects p join Groups on P_Id = GroupProject WHERE GroupId='$_SESSION[group]'");
 		$cardcontent .= "Project Title: <strong>" . $thing["Name"] . "</strong>";
 		$cardcontent .= "<br>Project Duration: <strong>".$thing['start']." to ".$thing['end']."</strong>";
 		$cardcontent .= "<br>Project Description: <strong>" . $thing["Description"] . "</strong>";

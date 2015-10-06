@@ -21,9 +21,10 @@
 		echo "<th>GroupName</th>";
 		echo "<th>GroupProject</th>";
 		echo "<th>UnitCode</th>";
-		echo "<th>Group Members</th></tr>";
+		echo "<th>Group Members</th>";
+		echo "<th></th><th></th></tr>";
 		
-		$groups = arraySQL("SELECT * FROM Groups WHERE Supervisor=".$supervisorNum);
+		$groups = arraySQL("SELECT * FROM Groups WHERE Supervisor=".$supervisorNum);//maybe it needs to go off of the projects supervisor not the groups
 		
 		foreach($groups as $thing){
 			echo "<tr>";
@@ -41,6 +42,9 @@
 				echo "<li>".$item["name"]."</li>";
 			}
 			echo "</ul></td>";
+			
+			echo "<td><input type='button' value='Edit Members'></td>";
+			echo "<td><input type='button' value='View'></td>";
 			
 			echo "</tr>";
 		}
