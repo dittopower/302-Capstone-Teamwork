@@ -50,6 +50,17 @@ aside{
 	
 	background: white;
 }
+
+	#supervisorSide{
+		width: calc(100% - 16px);
+		height: calc(100% - 16px);
+		
+		padding: 8px;
+	}
+	
+		#supervisorSide ul{
+			margin-left: 25px;
+		}
 	
 	#infobox{
 		width: calc(100% - 16px);

@@ -13,6 +13,7 @@
 	
 	if( isset($_SESSION["SupervisorID"]) ){
 		lib_database();
+		//lib_group();
 ?>
 	
 <HTML>
@@ -35,7 +36,15 @@
 		</div>
 		
 		<div id="chatarea">
-			<h3>Not a chat</h3>
+			<div id="supervisorSide">
+				<h3>Not a chat</h3>
+				<ul>
+					<li>other</li>
+					<li>supervisor</li>
+					<li>functionality</li>
+					<li>here.</li>
+				</ul>
+			</div>
 		</div>
 	</aside>
 	
@@ -43,6 +52,7 @@
 		<ul>
 			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/projects.php">View Projects</a></li>
 			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/projects.php">Create Project</a></li>
+			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/supervisorGroups.php">View Groups</a></li>
 		</ul>
 		<div id="logoutBtn"><?php echo $_SESSION['SupervisorID']; ?> | <form action="" method="post"><input type="submit" name="SupervisorLogout" value="Logout" class="button button1"></form></div>
 	</nav>

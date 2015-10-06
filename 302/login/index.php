@@ -3,11 +3,6 @@
 		header("Location: /supervisorProjects.php");
 		die();
 	}
-	else if(){
-		
-		
-		
-	}
 ?>
 <html class="no-js gr__esoe_qut_edu_au" lang="en">
 <head>

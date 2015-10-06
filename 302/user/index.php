@@ -6,12 +6,12 @@
 	if(isset($_GET['u'])){
 		echo "Someone else's profile";
 	}else{
-		echo "$_SESSION[name]'s Profile";
+		echo "<h1>$_SESSION[name]'s Profile</h1>";
 		
 		lib_login();
 		lib_database();
 		global $mysqli;
-		$sql= mysqli_prepare($mysqli, "SELECT GPA,Skills,Blurb,LinkedIn,User_Details.Email,Facebook,Skype,Phone,FirstName,LastName FROM `deamon_INB302`.`User_Details` INNER JOIN D_Accounts ON D_Accounts.UserId=User_Details.UserId WHERE User_Details.UserId = ?");
+		$sql= mysqli_prepare($mysqli, "SELECT GPA,Skills,Blurb,LinkedIn,D_Accounts.Email,Facebook,Skype,Phone,FirstName,LastName FROM `deamon_INB302`.`User_Details` INNER JOIN D_Accounts ON D_Accounts.UserId=User_Details.UserId WHERE User_Details.UserId = ?");
 		mysqli_stmt_bind_param($sql,"s",$_SESSION['person']);
 		mysqli_stmt_execute($sql);
 		mysqli_stmt_bind_result($sql,$GPA,$Skills,$Blurb,$LinkedIn,$Email,$Facebook,$Skype,$Phone,$FirstName,$LastName);

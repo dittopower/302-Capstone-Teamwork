@@ -1,0 +1,52 @@
+<?php
+		
+	require_once("supervisor.php");
+	
+	if(isset($_POST["editgroup"])){
+		
+		//edit groups
+		
+	}
+	else{
+		
+		//display groups
+		
+		$supervisorNum = $_SESSION['SupervisorID'];
+		
+		echo "<h2>Your Groups (Supervisor #".$supervisorNum.")</h2>";
+		
+		echo "<table>";	
+		
+		echo "<tr><th>GroupId</th>";
+		echo "<th>GroupName</th>";
+		echo "<th>GroupProject</th>";
+		echo "<th>UnitCode</th>";
+		echo "<th>Group Members</th></tr>";
+		
+		$groups = arraySQL("SELECT * FROM Groups WHERE Supervisor=".$supervisorNum);
+		
+		foreach($groups as $thing){
+			echo "<tr>";
+			
+			echo "<td>" . $thing["GroupId"] . "</td>";
+			echo "<td>" . $thing["GroupName"] . "</td>";
+			echo "<td>" . $thing["GroupProject"] . "</td>";
+			echo "<td>" . $thing["UnitCode"] . "</td>";
+			
+			echo "<td><ul>";
+			
+			$groupmembers = arraySQL("SELECT CONCAT(`FirstName`,' ',`LastName`) as name FROM `D_Accounts` a JOIN `Group_Members` g WHERE g.`UserId` = a.`UserId` and `GroupId` = '".$thing["GroupId"]."'");;
+			
+			foreach($groupmembers as $item){
+				echo "<li>".$item["name"]."</li>";
+			}
+			echo "</ul></td>";
+			
+			echo "</tr>";
+		}
+		
+		echo "</table>";
+		
+	}
+	
+?>
