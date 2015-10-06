@@ -18,7 +18,7 @@
 	}
 	else{
 		
-		$supervisorNum = $_POST['supervisor'];
+		$supervisorNum = $_SESSION['SupervisorID'];
 		
 		echo "<h2>Your Projects (Supervisor #".$supervisorNum.")</h2>";
 		
