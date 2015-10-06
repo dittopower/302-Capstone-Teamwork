@@ -100,8 +100,8 @@
 		$cardcontent .= "<h3>Start Vote</h3><hr>";
 		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
 			$cardcontent .= "<form method='POST'>";
-			$cardcontent .= "<input type='text' name='who' hidden value='$row[UserId]'><label for='r$row[UserId]'>$row[FirstName]</label>";
-			$cardcontent .= "<input id='r$row[UserId]' class='button button1' type='submit' name='vote' value='Remove'></form>";
+			$cardcontent .= "<input type='text' id='r$row[UserId]' name='who' hidden value='$row[UserId]'><label for='r$row[UserId]'>$row[FirstName]</label><br>";
+			$cardcontent .= "<br><input class='button button1' type='submit' name='vote' value='Remove'><br></form>";
 		}
 		//Leave
 		$cardcontent .= "<h3>Leave</h3><hr><form method='POST' onsubmit='return you_sure()'>
