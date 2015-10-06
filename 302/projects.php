@@ -108,8 +108,3 @@
 		echo "You must be in a group to select a project.";	
 	}	
 ?>
-<br><br>
-<form action="" method="post">
-	<input type="hidden" name="supervisor" value="0">
-	<input type="submit" value="Supervisor view preview" class="button button1">
-</form>
