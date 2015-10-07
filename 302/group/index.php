@@ -53,13 +53,15 @@
 	* Group Members display
 	*/
 		$memberids = members_id($group);
+		//$membernames = arraySQL("SELECT Name FROM UserDetails");
 		$i = 0;
 		$cardcontent = "";
-		foreach(members($group) as $item){
-			$cardcontent .= "#" . $memberids[$i] . ": " . $item . "<br>";
+		foreach(members($group) as $item){			
+			$cardcontent .= "#" . $memberids[$i] . ": <a href='/user/?u=".$item."'>" . $item . "</a><br>";
 			$i++;
 		}
-	card("Group Members",$cardcontent);
+		
+		card("Group Members",$cardcontent);
 		
 		
 	/*
