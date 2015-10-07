@@ -363,3 +363,15 @@ section{
 #leave_group{
 	float: left;
 }
+
+	.sucess{
+		color:green;
+		font-weight: bolder;
+	}
+	.error{
+		color:red;
+		font-weight: bolder;
+	}
+	.target{
+		color:blue;
+	}
