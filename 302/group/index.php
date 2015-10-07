@@ -52,18 +52,19 @@
 	/*
 	* Group Members display
 	*/
-		$memberids = members_id($group);
-		$i = 0;
+		//$memberids = members_id($group);
+		$mymembers = arraySQL("SELECT `Username`, CONCAT(`FirstName`,' ',`LastName`) as Name FROM `D_Accounts` a join Group_Members m on m.`UserId` = a.`UserId` WHERE m.GroupId = '$_SESSION[group]' and a.UserId != '$_SESSION[person]'");
+		//$i = 0;
 		$cardcontent = "";
-		foreach(members($group) as $item){
-			
-			$name = singleSQL("SELECT Username FROM D_Accounts WHERE UserId='".$memberids[$i]."'");
-			
-			$cardcontent .= "#" . $memberids[$i] . ": <a href='/user/?u=". $name ."'>" . $item . "</a><br>";
-			$i++;
+		// foreach(members($group) as $item){
+			// $name = singleSQL("SELECT Username FROM D_Accounts WHERE UserId='".$memberids[$i]."'");
+			// $cardcontent .= "#" . $memberids[$i] . ": <a href='/user/?u=". $name ."'>" . $item . "</a><br>";
+			// $i++;
+		// }
+		foreach($mymembers as $item){
+			$cardcontent .= "<a href='/user/?u=$item[Username]'>#$item[Username]: $item[Name]</a><br>";
 		}
-		
-		card("Group Members",$cardcontent);
+	card("Group Members",$cardcontent);
 		
 		
 	/*
