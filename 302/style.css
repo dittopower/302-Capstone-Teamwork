@@ -80,9 +80,16 @@ aside{
 		}
 		
 		#logoutBtn{
-			position: absolute;
+			/*position: absolute;
 			top: 4px;
-			right: 54px;
+			right: 54px;*/
+			float:right;
+		}
+		#logoutBtn * {
+			height: 100%;
+		}
+		#logoutbutton{
+			font-size: inherit;
 		}
 	
 	#chatarea{
@@ -188,6 +195,7 @@ nav{
 	nav ul{
 		list-style: none;
 		height: 100%;
+		display:inline;
 	}
 
 	nav ul li{
@@ -251,6 +259,7 @@ section{
 	.button1{
 		color: white;
 		background-color: #01467d;
+		text-decoration:none;
 	}
 	.button1:hover{
 		background-color: #012e52;
@@ -341,6 +350,12 @@ section{
 			background-color: #f2f2f2;
 			margin: 5px 0 15px 0;
 		}
+		
+		.card li{
+		    margin-left: 30;
+			margin-top: 2;
+		}
+		
 #remove_button{
 	float: left;
 }

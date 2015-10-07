@@ -1,45 +1,46 @@
 <?php
 	require_once "$_SERVER[DOCUMENT_ROOT]/lib.php";
 	page();
-	
-	//Placeholder here
+	global $mysqli;
+		
+	//Get data
 	if(isset($_GET['u'])){
-		echo "Someone else's profile";
+		$sql= mysqli_prepare($mysqli, "SELECT GPA,Skills,Blurb,LinkedIn,D_Accounts.Email,Facebook,Skype,Phone,FirstName,LastName,Username FROM `deamon_INB302`.`User_Details` INNER JOIN D_Accounts ON D_Accounts.UserId=User_Details.UserId WHERE Username = ?");
+		mysqli_stmt_bind_param($sql,"s",$_GET['u']);
 	}else{
-		echo "<h1>$_SESSION[name]'s Profile</h1>";
-		
-		lib_login();
-		lib_database();
-		global $mysqli;
-		$sql= mysqli_prepare($mysqli, "SELECT GPA,Skills,Blurb,LinkedIn,D_Accounts.Email,Facebook,Skype,Phone,FirstName,LastName FROM `deamon_INB302`.`User_Details` INNER JOIN D_Accounts ON D_Accounts.UserId=User_Details.UserId WHERE User_Details.UserId = ?");
+		$sql= mysqli_prepare($mysqli, "SELECT GPA,Skills,Blurb,LinkedIn,D_Accounts.Email,Facebook,Skype,Phone,FirstName,LastName,Username FROM `deamon_INB302`.`User_Details` INNER JOIN D_Accounts ON D_Accounts.UserId=User_Details.UserId WHERE User_Details.UserId = ?");
 		mysqli_stmt_bind_param($sql,"s",$_SESSION['person']);
-		mysqli_stmt_execute($sql);
-		mysqli_stmt_bind_result($sql,$GPA,$Skills,$Blurb,$LinkedIn,$Email,$Facebook,$Skype,$Phone,$FirstName,$LastName);
-		$result = $sql->store_result();
-
-				while (mysqli_stmt_fetch($sql)) {
-					echo "<div align=\"center\">";
-					echo "<br />Your <b><i>Profile</i></b> is as follows:<br />";
-					echo "<b>Name:</b> ".$FirstName.' '.$LastName;
-					echo "<br /><b>GPA:</b> ".$GPA;
-					echo "<br /><b>Skills:</b> ".$Skills;
-					echo "<br /><b>Blurb:</b> ".$Blurb;
-					echo "<br /><b>LinkedIn:</b> ".$LinkedIn;
-					echo "<br /><b>Email:</b> ".$Email;
-					echo "<br /><b>Facebook:</b> ".$Facebook;
-					echo "<br /><b>Skype:</b> ".$Skype;
-					echo "<br /><b>Phone:</b> ".$Phone;
-					echo "</div>"; 
-					echo "<a href='./edit'>Edit profile</a>";
-					}
-					
-		mysqli_stmt_close($sql);
-
-		die();
-		
-		
-		
 	}
-
+	mysqli_stmt_execute($sql);
+	mysqli_stmt_bind_result($sql,$GPA,$Skills,$Blurb,$LinkedIn,$Email,$Facebook,$Skype,$Phone,$FirstName,$LastName,$Username);
+	$result = $sql->store_result();
 	
+	//Display data
+	$cardcontent .= "";
+	while (mysqli_stmt_fetch($sql)) {
+		if(!isset($_GET['u'])){
+			echo "<a href='./edit' class='button button1' style='text-decoration: none;float:right;'>Edit profile</a>";
+		}
+		echo "<h1>Profile: $FirstName $LastName</h1>";
+		echo "<h2>ID: $Username</h2>";
+		
+		$cardcontent .=  "<b>Email:</b> <a href='mailto:$Email'>$Email</a>";
+		$cardcontent .=  "<br /><b>Phone:</b> <a href='tel:$Phone'>$Phone</a>";
+		$cardcontent .=  "<br /><b>Skype:</b> <a href='skype:$Skype?chat'>$Skype</a>";
+		$cardcontent .=  "<br /><b>LinkedIn:</b> <a href='https://www.linkedin.com/profile/view?id=$LinkedIn'>LinkedIn Profile</a>";
+		$cardcontent .=  "<br /><b>Facebook:</b> <a href='https://www.facebook.com/$Facebook' target='_blank'>$Facebook</a>";
+		card("Contact", $cardcontent);
+		
+		$cardcontent = "<b>GPA:</b> ".$GPA;
+		$cardcontent .=   "<br /><b>Skills:</b> <ul>";
+		$myskills = explode(", ",$Skills);
+		foreach($myskills as $item){
+			$cardcontent .=   "<li>$item</li>";
+		}
+		$cardcontent .=   "</ul>";
+		card("About Me", $cardcontent, 250);
+		card("Blurb", $Blurb);
+	}
+				
+	mysqli_stmt_close($sql);
 ?>

@@ -197,7 +197,11 @@
 			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/group/find">Group Finder</a></li>
 		<?php } ?>
 		</ul>
-		<div id="logoutBtn"><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/user"><?php echo "$_SESSION[name]";?></a> | <?php user_form();?></div>
+		<form id='logoutBtn' class='_pannel' method='POST'>
+		<a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/user" class='button button1'><?php echo "$_SESSION[name]";?></a>
+		<input name='logout' hidden>
+		<input class='button button1' id='logoutbutton' type='submit' value='Logout'>
+		</form>
 	</nav>
 	
 	<section>	
