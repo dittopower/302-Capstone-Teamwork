@@ -356,6 +356,10 @@ section{
 			margin-top: 2;
 		}
 		
-#remove_button{
+#start_vote_person{
+	float: left;
+}
+
+#leave_group{
 	float: left;
 }

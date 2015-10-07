@@ -100,17 +100,17 @@
 		$cardcontent .= "<h3>Start Vote</h3><hr>";
 		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
 			$cardcontent .= "<form method='POST'>";
-			$cardcontent .= "<input type='text' id='r$row[UserId]' name='who' hidden value='$row[UserId]'><label for='r$row[UserId]'>$row[FirstName]</label><br>";
-			$cardcontent .= "<div id='remove_button'><input class='button button1' type='submit' name='vote' value='Remove'></div></form><br><br><br>";
+			$cardcontent .= "<div id='start_vote_person'><input type='text' id='r$row[UserId]' name='who' hidden value='$row[UserId]'><label for='r$row[UserId]'>$row[FirstName]</label><br>";
+			$cardcontent .= "<input class='button button1' type='submit' name='vote' value='Remove'></div></form><br>";
 		}
 		//Leave
-		$cardcontent .= "<h3>Leave</h3><hr><form method='POST' onsubmit='return you_sure()'>
+		$cardcontent .= "<div id='leave_group'><h3>Leave</h3><hr><form method='POST' onsubmit='return you_sure()'>
 		<script>
 		function you_sure(){
 		return confirm('Are you sure you want leave the group:\"$_SESSION[gname]\". This may cause problems with your completion of assessment. ');
 		}
 		</script>
-		<input class='button button1' type='submit' name='quit' value='Leave Group'></form>";
+		<input class='button button1' type='submit' name='quit' value='Leave Group'></form></div>";
 	card("Remove Member",$cardcontent);
 	
 	
