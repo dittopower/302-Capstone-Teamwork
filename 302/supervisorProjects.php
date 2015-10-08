@@ -24,7 +24,7 @@
 		
 		echo "<table>";	
 		
-		echo "<tr><th>Title</th>";
+		echo "<tr><th>TTitle</th>";
 		echo "<th>Description</th>";
 		echo "<th>Requirements</th>";
 		echo "<th>Type</th>";
