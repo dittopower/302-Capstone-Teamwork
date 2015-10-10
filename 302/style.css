@@ -364,12 +364,11 @@ section{
 			margin-top: 2;
 		}
 		
-<<<<<<< HEAD
 	#applications ul{
 		list-style: none;
 		margin: 0;
 	}
-=======
+
 		.pinfo{
 			display: inline-block;
 			margin-left: 1em;
@@ -382,8 +381,7 @@ section{
 			right: 1em;
 			top: 1em;
 		}
->>>>>>> origin/master
-		
+
 #start_vote_person{
 	float: left;
 }
