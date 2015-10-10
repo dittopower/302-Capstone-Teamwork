@@ -27,7 +27,7 @@ table td ul{
 }
 
 table tr:nth-child(odd){
-	background-color: lightgrey;
+	background-color: #D3DBE0;
 }
 
 .apply{
@@ -264,6 +264,10 @@ section{
 	.button1:hover{
 		background-color: #012e52;
 	}
+	.button1:disabled{
+		background-color: #6C6E6F;
+		cursor: not-allowed;
+	}
 	
 	.button2{
 		color: white;
@@ -354,6 +358,19 @@ section{
 		.card li{
 		    margin-left: 30;
 			margin-top: 2;
+		}
+		
+		.pinfo{
+			display: inline-block;
+			margin-left: 1em;
+			margin-bottom: 2em;
+			vertical-align: top;
+			margin-right: 1em;
+		}
+		.pinfo input{
+		    position: absolute;
+			right: 1em;
+			top: 1em;
 		}
 		
 #start_vote_person{
