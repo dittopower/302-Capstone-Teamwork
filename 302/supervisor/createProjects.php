@@ -1,10 +1,32 @@
 <?php
 		
-	require_once('supervisor/supervisor.php');
+	require_once('supervisor.php');
 ?>
 <html>
 	<body>
-		<form action='supervisor/createProjects.php' method='POST' id='projcreate'>
+<?php
+	if(isset($_POST['title']) && isset($_POST['description']) && isset($_POST['requirements']) && isset($_POST['type1']) && isset($_POST['type2']) && isset($_POST['type3']) && isset($_POST['skills']) && isset($_POST['unit']) && isset($_POST['start']) && isset($_POST['end']) && isset($_POST['dueby'])){
+		$title = $_POST['title'];
+		$description = $_POST['description'];
+		$requirements = $_POST['requirements'];
+		$type1 = $_POST['type1'];
+		$type2 = $_POST['type2'];
+		$type3 = $_POST['type3'];
+		$skills = $_POST['skills'];
+		$unit = $_POST['unit'];
+		$start = $_POST['start'];
+		$end = $_POST['end'];
+		$dueby = $_POST['dueby'];
+		
+		$res = runSQL("INSERT INTO Projects (Name, ProjectType1, ProjectType2, ProjectType3, Description, skill, requirements, UnitCode, Start, End, Dueby) VALUES('".$title."', '".$type1."', '".$type2."', '".$type3."', '".$description."', '".$skills."', '".$requirements."', '".$unit."', '".$start."', '".$end."', '".$dueby."')");
+			
+		if($res){ 
+			echo "Project Created.";
+		}
+	}
+	else{
+?>
+		<form action='createProjects.php' method='POST' id='projcreate'>
 			<input type='text' name='title' placeholder='Project Title' value=''><br><br>
 			<textarea rows="4" cols="40" name='decscription' form='projcreate' placeholder='Project Description' value=''></textarea><br><br>
 			<input type='text' name='requirements' placeholder='Requirements' value=''><br><br>
@@ -50,33 +72,9 @@
 			<input type='text' name='dueby' placeholder='Deliverables Due Date' value=''><br><br>
 			<input type='submit' name='createproj' value='Create' class='button button1'><br><br>
 		</form>
-
-	</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	<body>
+<html>
+<?php 
+	}
+	echo print_r($_POST);
+?>
