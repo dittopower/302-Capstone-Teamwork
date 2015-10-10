@@ -1,10 +1,3 @@
-<?php
-	if(isset($_SESSION["SupervisorID"]) && $_SESSION['SupervisorLoggingIn'] == "true"){
-		$_SESSION['SupervisorLoggingIn'] = "";
-		header("Location: http://" . $_SERVER[HTTP_HOST] . "/supervisor/supervisorProjects.php");
-		die();
-	}
-?>
 <html class="no-js gr__esoe_qut_edu_au" lang="en">
 <head>
     <meta charset="utf-8">

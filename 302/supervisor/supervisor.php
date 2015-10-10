@@ -79,4 +79,4 @@
 	
 	register_shutdown_function('myEnd');
 	
-	} else{  echo "You do not have permission to access this page."; exit(); } ?>
+	} else{ header("Location: http://" . $_SERVER[HTTP_HOST]); } ?>
