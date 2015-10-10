@@ -36,7 +36,16 @@
 		
 		$s = true; $skills = '';
 		if(isset($_POST['skills'])){//skills
-			$skills = '';
+			if($_POST['skills'] != ""){
+				$skills = explode(',',$_POST['skills']);
+				debug($skills);
+				for($ii = 0; $ii< count($skills);$ii++){
+					$skills[$ii] = ucfirst(trim($skills[$ii]));
+				}
+				debug($skills);
+				$skills = implode($skills,', ');
+				debug($skills);
+			}
 		}
 		
 		if(isset($_POST['Blurb'])){//blurb
@@ -103,7 +112,7 @@
 		$cardcont .= "<input type='LinkedIn' name='LinkedIn' id='LinkedIn' value='".$LinkedIn."'></div>";
 		
 		$cardcont .= "<div><label for='Skype'>Skype:";if(isset($sk) && !$sk){$cardcont .= "<span class='error'> Error</span>";} $cardcont .= "</label>";
-		$cardcont .= "<input type='Skype' name='Skype' id='Skype' value='".$Skype."'></div>";
+		$cardcont .= "<input type='Skype' name='Skype' id='Skype' value='".$Skype."'><span class=target> Necessary for Group Calls from this site.</span></div>";
 		
 		$cardcont .= "<div><label for='Facebook'>Facebook:";if(isset($f) && !$f){$cardcont .= "<span class='error'> Error</span>";} $cardcont .= "</label>";
 		$cardcont .= "<p>facebook.com/<b class='target'>Your-Profile</b></p>";
@@ -113,7 +122,11 @@
 		$cardcont = "<div><label for='gpa'>Average Grade <i>GPA</i> (optional):";if(isset($g) && !$g){$cardcont .= "<span class='error'> Error</span>";} $cardcont .= "</label>";
 		$cardcont .= "<input type='number' name='gpa' id='gpa' min=0 max=7 step=0.1 value=".$GPA."></div>";
 		
-		$cardcont .="Skills goes here";
+		$cardcont .= "<div><label for='skills'>Skills:<br><i>Enter your Skills separted by commas <b>,</b> .</i><br>";
+		if(isset($s) && !$s){
+			$cardcont .= "<span class='error'> Error</span>";
+		}
+		$cardcont .= "<textarea name='skills' id='skills' cols='40' rows='4' id='Blurb' placeholder='I.e. Researching, Programming, Tightrope walking, Maths, Statistics, Report writing'>$Skills</textarea></div>";
 	card("Academic Details",$cardcont);
 		
 		$cardcont = "<div><label for='Blurb'>Blurb:";if(isset($b) && !$b){$cardcont .= "<span class='error'> Error</span>";} $cardcont .= "</label>";
