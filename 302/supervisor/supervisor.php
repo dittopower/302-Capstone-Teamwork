@@ -50,7 +50,7 @@
 	
 	<nav>
 		<ul>
-			<li><a href="projects.php">View Projects</a></li>
+			<li><a href="supervisorProjects.php">View Projects</a></li>
 			<li><a href="createProjects.php">Create Project</a></li>
 			<li><a href="supervisorGroups.php">View Groups</a></li>
 		</ul>
