@@ -22,6 +22,10 @@ table td, table th{
 	width: 30%;
 }
 
+.indent{
+	margin-left: 40px;
+}
+
 table td ul{
 	margin-left: 20px;
 }
@@ -355,6 +359,11 @@ section{
 		    margin-left: 30;
 			margin-top: 2;
 		}
+		
+	#applications ul{
+		list-style: none;
+		margin: 0;
+	}
 		
 #start_vote_person{
 	float: left;

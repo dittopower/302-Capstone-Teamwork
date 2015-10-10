@@ -1,5 +1,6 @@
 <?php
-	if(isset($_SESSION["SupervisorID"])){
+	if(isset($_SESSION["SupervisorID"]) && $_SESSION['SupervisorLoggingIn'] == "true"){
+		$_SESSION['SupervisorLoggingIn'] = "";
 		header("Location: http://" . $_SERVER[HTTP_HOST] . "/supervisor/supervisorProjects.php");
 		die();
 	}

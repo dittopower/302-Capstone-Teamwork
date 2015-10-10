@@ -19,6 +19,7 @@
 			if($data['Password'] === encrypt($pass,$data['Salt'],$user)){
 				
 				$_SESSION['SupervisorID'] = $data['SupervisorID'];
+				$_SESSION['SupervisorLoggingIn'] = "true";
 			
 			} else {
 				$e_login = "Incorrect Login Details.";
@@ -74,7 +75,7 @@
 		echo "</form>";
 	}
 	
-	if(!isUser()){
+	if(!isUser() && ! isset($_SESSION['SupervisorID'])){
 		global $local;
 		include $local."login/index.php";
 		die();

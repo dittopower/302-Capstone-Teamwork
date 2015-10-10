@@ -1,5 +1,7 @@
 <?php
 	
+	lib_code();
+	
 	global $mysqli;
 
 	//Get data

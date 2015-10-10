@@ -1,7 +1,7 @@
 <?php require_once "$_SERVER[DOCUMENT_ROOT]/lib.php";
 	lib_login();
 	lib_group();
-	if(($_SESSION['registered'] != 1) && ($_SERVER['REQUEST_URI'] != "/first_time/")){
+	if(($_SESSION['registered'] != 1) && ($_SERVER['REQUEST_URI'] != "/first_time/") && !isset($_SESSION['SupervisorID'])){
 		header("Location: http://$_SERVER[HTTP_HOST]/first_time");
 		echo "<a href='http://$_SERVER[HTTP_HOST]/first_time'>rediect</a>";
 		die();
@@ -165,7 +165,7 @@
 		<div id="infobox">
 			<img src="http://<?php echo "$_SERVER[HTTP_HOST]";?>/qut-logo-200.jpg" class="logoimg">
 			<h3>QUT || Teamwork</h3>
-			<h4>Current Group: <?php echo $_SESSION['gname'] . " (#" . $_SESSION['group'] . ")"; ?></h4>			
+			<h4>Current Group: <?php echo $_SESSION['gname']; ?></h4>			
 		</div>
 		
 		<div id="chatarea">
