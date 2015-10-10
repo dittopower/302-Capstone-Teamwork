@@ -121,7 +121,7 @@
 	function media_upload(){
 		global $home;
 		if($_POST['do'] == 'Upload' && isset($_FILES['fileToUpload'])){
-			$uploadTxt = "Sorry, there was an error uploading your file. ";
+			$uploadTxt = "<span class='error'>Sorry, there was an error uploading your file.</span>";
 			global $uploadOk;
 			$uploadOk = 1;
 			if(inGroup()){
@@ -146,7 +146,7 @@
 				}
 				// Check file size
 				if ($_FILES["fileToUpload"]["size"] > (50*1024*1024)) {
-					$uploadTxt .= "Sorry, your file is too large. ";
+					$uploadTxt .= "<span class='error'>Sorry, your file is too large.</span>";
 					note('upload',"Problem::filesize");
 					$uploadOk = 0;
 				}
@@ -157,7 +157,7 @@
 					} else {
 						$uploadOk = 0;
 						note('upload',"Problem::storefile");
-						$uploadTxt .= "There was an Error Storing your file. ";
+						$uploadTxt .= "<span class='error'>There was an Error Storing your file.</span>";
 					}
 				}
 				// Check if $uploadOk isnt set to 1 by an error
@@ -223,7 +223,7 @@
 						$id = singleSQL("Select LAST_INSERT_ID();");
 						note('upload',"Uploaded::".basename( $_FILES["fileToUpload"]["name"]));
 					}
-					$uploadTxt = "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded to <a href='//$_SERVER[HTTP_HOST]/files/view?$id' target='_blank'>$_SERVER[HTTP_HOST]/files/view?$id</a>.<hr>";
+					$uploadTxt = "<span class='sucess'>The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded to <a href='//$_SERVER[HTTP_HOST]/files/view?$id' target='_blank'>$_SERVER[HTTP_HOST]/files/view?$id</a>.</span><hr>";
 				}else{
 					note('upload',"Failed::".basename( $_FILES["fileToUpload"]["name"]));
 				}
@@ -237,16 +237,16 @@
 		if($_POST['do'] == 'Delete' && is_numeric($_POST['file'])){
 			$row = rowSQL("Select * from D_Media where media_id = $_POST[file]");
 			if($row == 0){
-				return "That file doesn't exist and so can't be deleted.";
+				return "<span class='error'>That file doesn't exist and so can't be deleted.</span>";
 			}else{
 				if($row['people'] == $_SESSION['group']){
 					runSQL("DELETE FROM D_Media WHERE media_id=$_POST[file]");
 					unlink($home.$row['location']);
 					note('upload',"Deleted::media-$_POST[file]::".basename($row['location']));
-					return "You deleted the file ".basename($row['location']).".";
+					return "<span class='sucess'>You deleted the file ".basename($row['location']).".</span>";
 				}else{
 					note('upload',"ABUSE::media-$_POST[file]::Attempt to delete someone else's file");
-					return "No, that's not your file. So you can't delete it.";
+					return "<span class='error'>No, that's not your file. So you can't delete it.</span>";
 				}
 			}
 		}

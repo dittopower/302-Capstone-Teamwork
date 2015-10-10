@@ -1,19 +1,41 @@
 <?php
 		
 	require_once("supervisor.php");
+	
+	if(isset($_POST["appAction"])){//accept or deny applications
 		
-	if(isset($_POST["viewapplication"])){
+		echo "<h2>Application decision</h2>";
+		echo $_POST["appAction"] . "<br><br>" . $_POST["appid"];
+		
+	}
+	else if(isset($_POST["viewapplication"])){
 		
 		$appid = $_POST["viewapplication"];
 		
 		echo "<h2>Application #".$appid."</h2>";
 		
 		$appRows = rowSQL("SELECT * FROM Project_Applications WHERE ApplicationID=".$appid);
+		
 		echo "<br>Group: " . singleSQL("SELECT GroupName FROM Groups WHERE GroupId=" . $appRows["GroupId"]);
 		echo "<br>Project #".  $appRows["P_Id"] .": " . singleSQL("SELECT Name FROM Projects WHERE P_Id=" . $appRows["P_Id"]);
-		echo "<br><br>Cover Letter: " . $appRows["CoverLetter"];
+		
+		$groupMembers = arraySQL("SELECT CONCAT(`FirstName`,' ',`LastName`) AS name, a.Username AS username FROM `D_Accounts` a JOIN `Group_Members` g WHERE g.`UserId` = a.`UserId` and `GroupId`=".$appRows["GroupId"]);
+		
+		echo "<br>Group Members:<br>";
+		
+		echo "<ul class='indent'>";
+			foreach($groupMembers as $person){
+				echo "<li><a href='/user/?u=".$person['username']."'>".$person['name']."</a></li>";
+			}
+		echo "</ul>";
+		
+		echo "<br><br>Team Skills: ____";
+		echo "<br>Cover Letter: " . $appRows["CoverLetter"];
 		echo "<br><br>Status: " . $appRows["Status"];
 		echo "<br>Time Submitted: " . date('j/n/y g:ia', strtotime($appRows["TimeSubmitted"]));
+		
+		echo "<br><br><form action='' method='post'><input type='hidden' name='appid' value='".$appid."'><input name='appAction' type='submit' value='Accept' class='button button1'></form><br>";
+		echo "<form action='' method='post'><input type='hidden' name='appid' value='".$appid."'><input name='appAction' type='submit' value='Decline' class='button button1'></form>";
 		
 	}
 	else{
@@ -22,7 +44,7 @@
 		
 		echo "<h2>Your Projects (Supervisor #".$supervisorNum.")</h2>";
 		
-		echo "<table>";	
+		echo "<table id='applications'>";
 		
 		echo "<tr><th>Title</th>";
 		echo "<th>Description</th>";
@@ -51,12 +73,13 @@
 			
 			echo "<td>" . $thing["UnitCode"] . "</td>";	
 			
-			
 			echo "<td class='wide'><ul>";			
 			$apps = arraySQL("SELECT * FROM Project_Applications WHERE P_Id=" . $thing["P_Id"]);
 			foreach($apps as $single){
-				echo "<li>#" . $single["ApplicationID"] . "</a> - " . substr($single["CoverLetter"], 0, 50) . "...<br>" . date('j/n/y g:ia', strtotime($single["TimeSubmitted"]));
-				echo "<form action='' method='post'><input type='hidden' name='viewapplication' value='".$single["ApplicationID"]."'><input type='submit' value='View Application' class='button button1'></form><br></li>";
+				echo "<li><div class='left'>#" . $single["ApplicationID"] . "</a> - " . substr($single["CoverLetter"], 0, 50) . "...<br>" . date('j/n/y g:ia', strtotime($single["TimeSubmitted"]));
+					echo "<form action='' method='post'><input type='hidden' name='viewapplication' value='".$single["ApplicationID"]."'><input type='submit' value='View Application' class='button button1'></form><br>";
+				echo "</li>";//fix the floating things (clear)
+				
 			}			
 			echo "</ul></td>";
 			

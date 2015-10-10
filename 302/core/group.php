@@ -52,7 +52,7 @@
 		if($group == ""){
 			$group = $_SESSION['group'];
 		}
-		$result = multiSQL("SELECT CONCAT(`FirstName`,' ',`LastName`) as name FROM `D_Accounts` a JOIN `Group_Members` g WHERE g.`UserId` = a.`UserId` and g.UserId != '$_SESSION[person]' and `GroupId` = '$group' ORDER BY UserId");
+		$result = multiSQL("SELECT CONCAT(`FirstName`,' ',`LastName`) as name FROM `D_Accounts` a JOIN `Group_Members` g WHERE g.`UserId` = a.`UserId` and g.UserId != '$_SESSION[person]' and `GroupId` = '$group'");
 		$text = [];
 		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
 			$text[] = $row['name'];

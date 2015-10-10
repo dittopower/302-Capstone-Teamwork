@@ -56,51 +56,51 @@
 			
 			echo "<h2>All Projects</h2>";
 			
-			echo "<table>";	
+		/*	echo "<table>";	
 			
-			echo "<tr><th>Title</th>";
-			echo "<th>Description</th>";
-			echo "<th>Requirements</th>";
-			echo "<th>Type</th>";
-			echo "<th>Skills</th>";
-			echo "<th>Unit</th>";
-			echo "<th>Supervisor</th>";
-			echo "<th>Apply</th></tr>";
-			
+			echo "<tr class='card'><th class='ptitle'>Title</th>";
+			echo "<th class='pdes'>Description</th>";
+			echo "<th class='preq'>Requirements</th>";
+			echo "<th class='ptype'>Type</th>";
+			echo "<th class='pskill'>Skills</th>";
+			echo "<th class='punit'>Unit</th>";
+			echo "<th class='psup'>Supervisor</th>";
+			echo "<th class='papply'>Apply</th></tr>";
+			*/
 			
 			$projects = arraySQL("SELECT * FROM Projects WHERE P_Id <> 0 ORDER BY P_Id ASC");
 			
 			foreach($projects as $thing){
-				echo "<tr><td>" . $thing["Name"] . "</td>";
-				echo "<td>" . $thing["Description"] . "</td>";
-				echo "<td>" . $thing["requirements"] . "</td>";
-				echo "<td><ul><li>" . $thing["ProjectType1"] ."</li><li>". $thing["ProjectType2"] ."</li><li>". $thing["ProjectType3"] . "</li></ul></td>";
+				//echo "<tr class='card'><td class='ptitle'><h3>" . $thing["Name"] . "</h3></td>";
+				$cardcont = "<span class='pinfo'><h4>Description</h4>" . $thing["Description"] . "</span>";
+				$cardcont .= "<span class='pinfo'><h4>Requirements</h4>" . $thing["requirements"] . "</span>";
+				$cardcont .= "<span class='pinfo'><h4>Project Type</h4><ul><li>" . $thing["ProjectType1"] ."</li><li>". $thing["ProjectType2"] ."</li><li>". $thing["ProjectType3"] . "</li></ul></span>";
 				
 				$skills=explode(",",$thing["skill"]);
 				
-				echo "<td><ul>";
+				$cardcont .= "<span class='pinfo'><h4>Skills</h4><ul>";
 					foreach($skills as $skill){
-						echo "<li>" . $skill . "</li>";
+						$cardcont .= "<li>" . $skill . "</li>";
 					}
-				echo "</ul></td>";
+				$cardcont .= "</ul></span>";
 				
-				echo "<td>" . $thing["UnitCode"] . "</td>";
-				echo "<td>" . $thing["Supervisor"] . "</td>";
+				$cardcont .= "<span class='pinfo'><h4>Unit</h4>" . $thing["UnitCode"] . "</span>";
+				$cardcont .= "<span class='pinfo'><h4>Supervisor</h4>" . $thing["Supervisor"] . "</span>";
 				
 				$app = singleSQL("SELECT ApplicationID FROM Project_Applications WHERE GroupId=" . $group . " AND P_Id=" . $thing["P_Id"]);
 				
 				if($app != "" && $app != 0 && $app != "0"){
-					echo "<td>Applied.</td>";
+					$cardcont .= "<span class='pinfo'><input type='submit' class='button button1' value='Applied' disabled></span>";
 				}
 				else{
-					echo "<td><form action='' method='post'><input type='hidden' name='apply' value='".$thing["P_Id"]."'>";
-					echo "<input type='submit' class='button button1' value='Apply'></form></td>";
+					$cardcont .= "<span class='pinfo'><form action='' method='post'><input type='hidden' name='apply' value='".$thing["P_Id"]."'>";
+					$cardcont .= "<input type='submit' class='button button1' value='Apply'></form></span>";
 				}
-				
-				echo "</tr>";
+				card($thing["Name"],$cardcont,"calc(100% - 60px)");
+				//echo "</tr>";
 			}
 			
-			echo "</table>";
+			//echo "</table>";
 			
 		}//if no input
 	}

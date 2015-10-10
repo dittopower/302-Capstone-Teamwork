@@ -1,5 +1,7 @@
 <?php
 	
+	lib_code();
+	
 	global $mysqli;
 
 	//Get data
@@ -40,7 +42,7 @@
 			$cardcontent .=   "<br /><b>Skills:</b> <ul>";
 			$myskills = explode(", ",$Skills);
 			foreach($myskills as $item){
-				$cardcontent .=   "<li>$item</li>";
+				$cardcontent .=   "<li>".$item."</li>";
 			}
 			$cardcontent .=   "</ul>";
 			card("About Me", $cardcontent, 250);
