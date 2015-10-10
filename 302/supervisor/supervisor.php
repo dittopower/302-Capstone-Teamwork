@@ -50,9 +50,9 @@
 	
 	<nav>
 		<ul>
-			<li><a href="./projects.php">View Projects</a></li>
-			<li><a href="./createProjects.php">Create Project</a></li>
-			<li><a href="./supervisorGroups.php">View Groups</a></li>
+			<li><a href="projects.php">View Projects</a></li>
+			<li><a href="createProjects.php">Create Project</a></li>
+			<li><a href="supervisorGroups.php">View Groups</a></li>
 		</ul>
 		<form id='logoutBtn' class='_pannel' method='POST' action=''>
 			<?php echo singleSQL("SELECT CONCAT(FirstName, ' ', Surname) FROM Supervisor WHERE SupervisorID=".$_SESSION['SupervisorID']); ?>&nbsp;
