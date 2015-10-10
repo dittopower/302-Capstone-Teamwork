@@ -52,18 +52,20 @@
 	/*
 	* Group Members display
 	*/
-		//$memberids = members_id($group);
-		$mymembers = arraySQL("SELECT `Username`, CONCAT(`FirstName`,' ',`LastName`) as Name FROM `D_Accounts` a join Group_Members m on m.`UserId` = a.`UserId` WHERE m.GroupId = '$_SESSION[group]' and a.UserId != '$_SESSION[person]'");
-		//$i = 0;
+		$mymembers = arraySQL("SELECT `Username`, CONCAT(`FirstName`,' ',`LastName`) as Name, Skype FROM `D_Accounts` a join Group_Members m on m.`UserId` = a.`UserId` left join User_Details d on m.UserId = d.UserId WHERE m.GroupId = '$_SESSION[group]' and a.UserId != '$_SESSION[person]'");
 		$cardcontent = "";
-		// foreach(members($group) as $item){
-			// $name = singleSQL("SELECT Username FROM D_Accounts WHERE UserId='".$memberids[$i]."'");
-			// $cardcontent .= "#" . $memberids[$i] . ": <a href='/user/?u=". $name ."'>" . $item . "</a><br>";
-			// $i++;
-		// }
+		$groupcall = [];
 		foreach($mymembers as $item){
-			$cardcontent .= "<a href='/user/?u=$item[Username]'>#$item[Username]: $item[Name]</a><br>";
+			$cardcontent .= "<a href='/user/?u=$item[Username]'>#$item[Username]: $item[Name]</a>";
+			if($item['Skype'] != NULL && $item['Skype'] != ""){
+				$cardcontent .= "<a class='skype skype_single' href='skype:$item[Skype]?chat'><img src='http://www.skypeassets.com/content/dam/skype/images/misc/Trademark/s-logo-solid.jpg'></a>";
+				$groupcall[] = $item['Skype'];
+			}
+			$cardcontent .= "<br>";
 		}
+		$cardcontent .= "<hr><span>Group Call: <a class='skype skype_group' href='skype:";
+		$cardcontent .= implode($groupcall,";");
+		$cardcontent .= "?chat&topic=$_SESSION[gname]'><img src='http://www.skypeassets.com/content/dam/skype/images/misc/Trademark/s-logo-solid.jpg'></a></span>";
 	card("Group Members",$cardcontent);
 		
 		

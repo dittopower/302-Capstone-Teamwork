@@ -15,6 +15,8 @@
 	<link rel="stylesheet" type="text/css" href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/style.css">
 	
 	<script src="http://<?php echo "$_SERVER[HTTP_HOST]";?>/jquery-2.1.4.min.js"></script>
+	<!--Skype for audio calls-->
+	<script type="text/javascript" src="http://www.skypeassets.com/i/scom/js/skype-uri.js"></script>
 	
 	<script>
 		var freq = 2000;
