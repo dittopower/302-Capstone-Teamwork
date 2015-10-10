@@ -36,7 +36,7 @@
 		}
 		echo "</ul></td>";
 		
-		echo "<td><input type='button' value='Edit Members'></td>";
+		echo "<td><input type='button' value='Generate Report'></td>";
 		echo "<td><input type='button' value='View'></td>";
 		
 		echo "</tr>";

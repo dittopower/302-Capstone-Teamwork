@@ -1,6 +1,6 @@
 <?php
 	if(isset($_SESSION["SupervisorID"])){
-		header("Location: /supervisorProjects.php");
+		header("Location: http://" . $_SERVER[HTTP_HOST] . "/supervisor/supervisorProjects.php");
 		die();
 	}
 ?>

@@ -56,7 +56,7 @@
 			$apps = arraySQL("SELECT * FROM Project_Applications WHERE P_Id=" . $thing["P_Id"]);
 			foreach($apps as $single){
 				echo "<li>#" . $single["ApplicationID"] . "</a> - " . substr($single["CoverLetter"], 0, 50) . "...<br>" . date('j/n/y g:ia', strtotime($single["TimeSubmitted"]));
-				echo "<form action='' method='post'><input type='hidden' name='viewapplication' value='".$single["ApplicationID"]."'><input type='submit' value='View'></form></li>";
+				echo "<form action='' method='post'><input type='hidden' name='viewapplication' value='".$single["ApplicationID"]."'><input type='submit' value='View Application' class='button button1'></form><br></li>";
 			}			
 			echo "</ul></td>";
 			
