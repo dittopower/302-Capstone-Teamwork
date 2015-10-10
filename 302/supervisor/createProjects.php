@@ -1,10 +1,7 @@
 <?php
 		
 	require_once('supervisor.php');
-?>
-<html>
-	<body>
-<?php
+
 	if(isset($_POST['title']) && isset($_POST['description']) && isset($_POST['requirements']) && isset($_POST['type1']) && isset($_POST['type2']) && isset($_POST['type3']) && isset($_POST['skills']) && isset($_POST['unit']) && isset($_POST['start']) && isset($_POST['end']) && isset($_POST['dueby'])){
 		$title = $_POST['title'];
 		$description = $_POST['description'];
@@ -72,8 +69,6 @@
 			<input type='text' name='dueby' placeholder='Deliverables Due Date' value=''><br><br>
 			<input type='submit' name='createproj' value='Create' class='button button1'><br><br>
 		</form>
-	<body>
-<html>
 <?php 
 	}
 	echo print_r($_POST);
