@@ -375,3 +375,13 @@ section{
 	.target{
 		color:blue;
 	}
+	.skype{
+		display:inline-block;
+	}
+	.skype_single img{
+		width:2em;
+		margin-left:1em;
+	}
+	.skype_group img{
+		width:3em;
+	}
