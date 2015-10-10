@@ -50,11 +50,14 @@
 	
 	<nav>
 		<ul>
-			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/projects.php">View Projects</a></li>
-			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/createProjects.php">Create Project</a></li>
-			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/supervisorGroups.php">View Groups</a></li>
+			<li><a href="./projects.php">View Projects</a></li>
+			<li><a href="./createProjects.php">Create Project</a></li>
+			<li><a href="./supervisorGroups.php">View Groups</a></li>
 		</ul>
-		<div id="logoutBtn"><?php echo $_SESSION['SupervisorID']; ?> | <form action="" method="post"><input type="submit" name="SupervisorLogout" value="Logout" class="button button1"></form></div>
+		<form id='logoutBtn' class='_pannel' method='POST' action=''>
+			<?php echo singleSQL("SELECT CONCAT(FirstName, ' ', Surname) FROM Supervisor WHERE SupervisorID=".$_SESSION['SupervisorID']); ?>&nbsp;
+			<input class='button button1' name="SupervisorLogout" id='logoutbutton' type='submit' value='Logout'>
+		</form>
 	</nav>
 	
 	<section>	
