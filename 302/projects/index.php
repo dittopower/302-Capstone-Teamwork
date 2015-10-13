@@ -68,11 +68,17 @@
 			echo "<th class='papply'>Apply</th></tr>";
 			*/
 			
-			$projects = arraySQL("SELECT * FROM Projects WHERE P_Id <> 0 ORDER BY P_Id ASC");
+			if(inGroup()){
+				$sql = "SELECT `P_Id`, `Name`, `ProjectType1`, `ProjectType2`, `ProjectType3`, `Description`, `skill`, `requirements`, p.`UnitCode`, s.FirstName as Supervisor, DATE_FORMAT(`Start`,'%d/%c/%Y') as Start, DATE_FORMAT(`End`,'%d/%c/%Y') as End, DATE_FORMAT(`Dueby`,'%d/%c/%Y') as Dueby FROM Projects p JOIN Supervisor s ON p.Supervisor = s.SupervisorID JOIN Groups g on g.UnitCode = p.UnitCode WHERE P_Id <> 0 and g.GroupId = '$_SESSION[group]' AND DATE(p.Start) > DATE_SUB(DATE(NOW()),INTERVAL 1 QUARTER) ORDER by `Start`";
+			}else{
+				$sql = "SELECT `P_Id`, `Name`, `ProjectType1`, `ProjectType2`, `ProjectType3`, `Description`, `skill`, `requirements`, `UnitCode`, s.FirstName as Supervisor, DATE_FORMAT(`Start`,'%d/%c/%Y') as Start, DATE_FORMAT(`End`,'%d/%c/%Y') as End, DATE_FORMAT(`Dueby`,'%d/%c/%Y') as Dueby FROM Projects p JOIN Supervisor s ON p.Supervisor = s.SupervisorID WHERE P_Id <> 0 AND DATE(p.Start) > DATE_SUB(DATE(NOW()),INTERVAL 1 QUARTER) order by p.Start";
+			}
+			$projects = arraySQL($sql);
 			
 			foreach($projects as $thing){
 				//echo "<tr class='card'><td class='ptitle'><h3>" . $thing["Name"] . "</h3></td>";
-				$cardcont = "<span class='pinfo'><h4>Description</h4>" . $thing["Description"] . "</span>";
+				$cardcont = "<span class='pinfo'><h4>Dates</h4><i>Start</i><p>$thing[Start]</p><br><i>Finish</i><p>$thing[End]</p></span>";
+				$cardcont .= "<span class='pinfo'><h4>Description</h4>" . $thing["Description"] . "</span>";
 				$cardcont .= "<span class='pinfo'><h4>Requirements</h4>" . $thing["requirements"] . "</span>";
 				$cardcont .= "<span class='pinfo'><h4>Project Type</h4><ul><li>" . $thing["ProjectType1"] ."</li><li>". $thing["ProjectType2"] ."</li><li>". $thing["ProjectType3"] . "</li></ul></span>";
 				
