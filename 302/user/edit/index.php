@@ -129,8 +129,8 @@
 		$cardcont .= "<textarea name='skills' id='skills' cols='40' rows='4' id='Blurb' placeholder='I.e. Researching, Programming, Tightrope walking, Maths, Statistics, Report writing'>$Skills</textarea></div>";
 	card("Academic Details",$cardcont);
 		
-		$cardcont = "<div><label for='Blurb'>Blurb:";if(isset($b) && !$b){$cardcont .= "<span class='error'> Error</span>";} $cardcont .= "</label>";
-		$cardcont .= "<textarea type='Blurb' name='Blurb' id='Blurb'>".$Blurb."</textarea></div>";
+		$cardcont = "<div>";if(isset($b) && !$b){$cardcont .= "<span class='error'> Error</span><br>";}
+		$cardcont .= "<textarea type='Blurb' name='Blurb' cols='80' rows='6' id='Blurb'>".$Blurb."</textarea></div>";
 	card("About You",$cardcont);
 		
 		echo "<div><input type='submit' name='done' class='button button1' value='Update Details'></form>";
