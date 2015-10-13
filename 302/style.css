@@ -91,9 +91,7 @@ aside{
 		}
 		#logoutBtn * {
 			height: 100%;
-		}
-		#logoutbutton{
-			font-size: inherit;
+			padding: 16px 22px 17px 22px;
 		}
 	
 	#chatarea{
@@ -251,6 +249,8 @@ section{
 		
 		cursor: pointer;
 		cursor: hand;
+    font-size: medium;
+    font-weight: normal;
 	}
 	
 	.button-none{
@@ -411,3 +411,21 @@ section{
 	.skype_group img{
 		width:3em;
 	}
+	
+	.file{
+		width:calc(1em*10);
+		overflow-wrap: break-word;
+		border-width: 1;/*Not sure about the border but the files just need a little something to distinguish them.*/
+		border-color: grey;
+		border-style: dashed;
+	}
+	.file a {
+		display: block;
+		text-align: center;
+	}
+	.file input[type="button"], .file input[type="submit"]{
+		float:none;
+		margin:0;
+		width: 100%;
+	}
+	

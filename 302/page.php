@@ -15,8 +15,6 @@
 	<link rel="stylesheet" type="text/css" href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/style.css">
 	
 	<script src="http://<?php echo "$_SERVER[HTTP_HOST]";?>/jquery-2.1.4.min.js"></script>
-	<!--Skype for audio calls-->
-	<script type="text/javascript" src="http://www.skypeassets.com/i/scom/js/skype-uri.js"></script>
 	
 	<script>
 		var freq = 2000;
@@ -194,7 +192,7 @@
 		<?php if(inGroup()){?>
 			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/group"><?php echo "$_SESSION[gname]"?></a></li>
 			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/files">Files</a></li>
-			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/projects.php">Projects</a></li>
+			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/projects">Projects</a></li>
 		<?php }else{?>
 			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/group/find">Group Finder</a></li>
 		<?php } ?>

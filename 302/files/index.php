@@ -41,10 +41,11 @@
 
 	//Display File list
 	$result = multiSQL("Select media_id, location, share, a.FirstName from D_Media m join D_Accounts a on m.`owner` = a.UserId where people = $_SESSION[group]");
-	echo "<table><tr><th>File Name:</th><th>Size</th><th>Owner</th><th>Sharing Status:</th><th>Controls:</th></tr>";
+	//echo "<table><tr><th>File Name:</th><th>Size</th><th>Owner</th><th>Sharing Status:</th><th>Controls:</th></tr>";
 	while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
-		echo "<tr><td><a href='//$_SERVER[HTTP_HOST]/files/view?$row[media_id]' target='_blank'>".basename($row['location'])."</a></td><td>";
-		echo size_byte(filesize($home.$row['location']))."</td><td>$row[FirstName]</td><td>";
+		echo "<div class='card file'>";
+		echo "<h3><a href='//$_SERVER[HTTP_HOST]/files/view?$row[media_id]' target='_blank'>".basename($row['location'])."</a></h3><hr>";
+		echo size_byte(filesize($home.$row['location']))." ";
 		switch($row['share']){
 			case 0:
 				echo "Group Only";
@@ -59,8 +60,9 @@
 				echo "Public Link";
 				break;
 		}
-		echo "</td><td><a href='//$_SERVER[HTTP_HOST]/files/view?$row[media_id]&download' class='button button1' target='_blank'>Download</a>";
-		echo "<form method='POST'><input type='text' name='file' value='$row[media_id]' hidden><input type='submit' class='button button1' value='Delete' name='do'></form></td></tr>";
+		echo "<br>By $row[FirstName]";
+		echo "<br><a href='//$_SERVER[HTTP_HOST]/files/view?$row[media_id]&download' class='button button1' target='_blank'>Download</a>";
+		echo "<form method='POST'><input type='text' name='file' value='$row[media_id]' hidden><input type='submit' class='button button2' value='Delete' name='do'></form>";
+		echo "</div>";
 	}
-	echo "</table>";
 ?>
