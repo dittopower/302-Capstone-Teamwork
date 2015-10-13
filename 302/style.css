@@ -22,6 +22,12 @@ table td, table th{
 	width: 30%;
 }
 
+.nospace h3{
+	margin: 0;
+	padding: 0;
+	display: inline;
+}
+
 .indent{
 	margin-left: 40px;
 }
