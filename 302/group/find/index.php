@@ -48,16 +48,28 @@
 ?>
 <div>
 <h1>Active Requests</h1>
-<?php table("Select UnitCode, PreferenceType1 as 'Preference 1', PreferenceType2 as 'Preference 2', PreferenceType3 as 'Preference 3' from Group_Requests where UserId = '$_SESSION[person]'"); ?>
+<?php 
+	$result = multiSQL("Select UnitCode, PreferenceType1 as 'Preference 1', PreferenceType2 as 'Preference 2', PreferenceType3 as 'Preference 3' from Group_Requests where UserId = '$_SESSION[person]'"); 
+	while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
+		card($row['UnitCode'],"Preferences: ".$row['Preference 1'].", ".$row['Preference 2'].", ".$row['Preference 3']);
+	}
+?>
 </div>
 <hr>
 
 <form method='POST'>
+<style>
+form .card div {
+    margin-top: 10;
+    margin-bottom: 10;
+}
+</style>
 	<h1>Find a Team</h1>
-	<?php if(isset($requested)){if($requested){echo "<div class='req_lodged'>Request Sucessful lodged</div>";}else{echo "<div class='req_failed'>Request Failed.</div>";}}?>
+	<?php if(isset($requested)){if($requested){echo "<div class='sucess'>Request Sucessful lodged</div>";}else{echo "<div class='error'>Request Failed.</div>";}}?>
 	
+	<div class='card'>
 	<div>
-		<label for='unit'>Unit Code<?php if(isset($requested) && (!isset($request['unit']))){echo ": You already have a request for a group in this subject please resolve it before trying again.";}?></label>
+		<label for='unit'>Unit Code</label>
 		<input list='units' name='unit' id='unit'>
 		<datalist id='units'>
 		<?php
@@ -67,6 +79,7 @@
 			}
 		?>
 		</datalist>
+		<?php if(isset($requested) && (!isset($request['unit']))){echo "<br><span class='error'>You already have a request for a group in this subject please resolve it before trying again.</span>";}?>
 	</div>
 	
 	<div>
@@ -112,5 +125,6 @@
 		</datalist>
 	</div>
 	
-	<input type='submit' name='findgroup' value='Submit'>
+	<input type='submit' class='button button1' name='findgroup' value='Submit'>
+	</div>
 </form>
