@@ -43,7 +43,7 @@
 			<h2>Applying for project #<?php echo $projectID . " (" . $projectName . ")"; ?></h2><br>
 			<div class="apply">
 				<form action="" method="post">
-					<textarea name="coverletter" placeholder="Write your cover letter here..."></textarea><br>
+					<textarea name="coverletter" placeholder="Insert your cover letter here..."></textarea><br>
 					<input type="hidden" name="apply" value="<?php echo $projectID; ?>">
 					<input type="submit" value="Submit Application" class="button button1">
 				</form>

@@ -236,7 +236,7 @@ section{
 	padding: 30px 30px 30px 30px;
 }
 
-	input[type="password"], input[type="text"], input[type="email"]{
+	input[type="password"], input[type="text"], input[type="email"], .inputpadding{
 		border-radius: 3px;
 		border: 0;
 		padding: 10px;

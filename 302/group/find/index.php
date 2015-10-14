@@ -111,6 +111,6 @@
 		?>
 		</datalist>
 	</div>
-	
-	<input type='submit' name='findgroup' value='Submit'>
+	<br>
+	<input type='submit' name='findgroup' value='Submit' class='button button1'>
 </form>

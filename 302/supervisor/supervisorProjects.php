@@ -94,8 +94,8 @@
 		echo "<br><br><h3>Status:</h3> " . $appRows["Status"];
 		echo "<br><h3>Time Submitted:</h3> " . date('j/n/y g:ia', strtotime($appRows["TimeSubmitted"]));
 		
-		echo "<br><br><form action='' method='post'><input type='hidden' name='appid' value='".$appid."'><input name='appAction' type='submit' value='Accept' class='button button1'></form><br>";
-		echo "<form action='' method='post'><input type='hidden' name='appid' value='".$appid."'><input name='appAction' type='submit' value='Decline' class='button button1'></form></span>";
+		echo "<br><br><form action='' method='post'><input type='hidden' name='appid' value='".$appid."'><input name='appAction' type='submit' value='Accept' class='button button3'></form><br>";
+		echo "<form action='' method='post'><input type='hidden' name='appid' value='".$appid."'><input name='appAction' type='submit' value='Decline' class='button button2'></form></span>";
 		
 	}
 	else{

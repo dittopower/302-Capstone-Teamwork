@@ -37,13 +37,9 @@
 		
 		<div id="chatarea">
 			<div id="supervisorSide">
-				<h3>Not a chat</h3>
-				<ul>
-					<li>other</li>
-					<li>supervisor</li>
-					<li>functionality</li>
-					<li>here.</li>
-				</ul>
+				<h3>Supervisor Actions</h3>
+				<input type="button" value="Generate Summary Report" class='button button1'><br><br>
+				<input type="button" value="Some other function" class='button button1'>
 			</div>
 		</div>
 	</aside>
