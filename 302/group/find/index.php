@@ -127,4 +127,5 @@ form .card div {
 	
 	<input type='submit' class='button button1' name='findgroup' value='Submit'>
 	</div>
+
 </form>
