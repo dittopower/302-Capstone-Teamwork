@@ -110,7 +110,7 @@
 		
 		
 		
-		$projects = arraySQL("SELECT * FROM Projects WHERE Supervisor=".$supervisorNum." AND P_Id <> 0 ORDER BY P_Id ASC");
+		$projects = arraySQL("SELECT *, DATE_FORMAT(`Start`,'%d/%c/%Y') as Start, DATE_FORMAT(`End`,'%d/%c/%Y') as End FROM Projects WHERE Supervisor=".$supervisorNum." AND P_Id <> 0 ORDER BY P_Id ASC");
 		
 		$cardcontent="";
 		
@@ -127,7 +127,7 @@
 			$cardcontent .= "<th class='wide'>Applications</th></tr>";
 			
 			$cardcontent .= "<tr>";
-			$cardcontent .= "<td>" . $thing["Description"] . "</td>";
+			$cardcontent .= "<td>" . $thing["Description"] . "<br><br><strong>Start:</strong> ".$thing["Start"]."<br><strong>End:</strong> ".$thing["End"]."</td>";
 			$cardcontent .= "<td>" . $thing["requirements"] . "</td>";
 			$cardcontent .= "<td><ul><li>" . $thing["ProjectType1"] ."</li><li>". $thing["ProjectType2"] ."</li><li>". $thing["ProjectType3"] . "</li></ul></td>";
 			
