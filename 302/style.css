@@ -13,13 +13,46 @@ table{
 	border-collapse: collapse;
 }
 
-table td, table th{
+	table td, table th{
+		border: 1px solid black;
+		padding: 5px;
+	}
+
+	table td ul{
+		margin-left: 20px;
+	}
+
+	table tr:nth-child(odd){
+		background-color: #D3DBE0;
+	}
+
+.cardtable{
+	width: 100%;
+}
+	
+.cardtable td, .cardtable th{
+	border: 0;
+	text-align: left;
+}
+
+.cardtable tr{
 	border: 1px solid black;
-	padding: 5px;
+}
+
+.cardtable tr:nth-child(odd){
+	background-color: white;
 }
 
 .wide{
 	width: 30%;
+}
+
+.clear{
+	clear:both;
+}
+
+.inline{
+	display: inline;
 }
 
 .nospace h3{
@@ -30,14 +63,6 @@ table td, table th{
 
 .indent{
 	margin-left: 40px;
-}
-
-table td ul{
-	margin-left: 20px;
-}
-
-table tr:nth-child(odd){
-	background-color: #D3DBE0;
 }
 
 .apply{
@@ -303,6 +328,14 @@ section{
 		background-color: #008a82;
 	}
 	
+	.button5{
+		color: white;
+		background-color: #cd0000;
+	}
+	.button5:hover{
+		background-color: #a90000;
+	}
+	
 	p{
 		padding: 5px 0 5px 0;
 	}
@@ -370,23 +403,69 @@ section{
 			margin-top: 2;
 		}
 		
-	#applications ul{
-		list-style: none;
-		margin: 0;
+	/******** DUPLICATE EXCEPT FOR 1 BIT *************/
+	
+	.card2{
+	    display: inline-block;
+		position: relative;
+		/* width: 95%; */
+		padding: 15px;
+		height: auto;
+		background-color: white;
+		color: black;
+		/* margin: auto;
+		margin-bottom: 30px; */
+		margin:15px;
+		vertical-align: top;
+		
+		-webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.5);
+		-moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.5);
+		box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.5);
 	}
+	
+		.card2 h3{
+			margin-bottom: 0;
+		}
+		
+		.card2 input[type="button"], .card input[type="submit"]{
+			margin: 3px;
+		}
+		
+		.card2 hr{
+			border:0;
+			height: 1px;
+			background-color: #f2f2f2;
+			margin: 5px 0 15px 0;
+		}
+		
+		.card2 li{
+		    margin-left: 30;
+			margin-top: 2;
+		}
+		
+		/********************** end of DUPLICATE *********************/
+		
+	#applications{
+		width: calc(100% - 30px);
+		margin: auto;
+		
+		background: white;
+	}
+	
+		
 
-		.pinfo{
-			display: inline-block;
-			margin-left: 1em;
-			margin-bottom: 2em;
-			vertical-align: top;
-			margin-right: 1em;
-		}
-		.pinfo input{
-		    position: absolute;
-			right: 1em;
-			top: 1em;
-		}
+	.pinfo{
+		display: inline-block;
+		margin-left: 1em;
+		margin-bottom: 2em;
+		vertical-align: top;
+		margin-right: 1em;
+	}
+	.pinfo input{
+		position: absolute;
+		right: 1em;
+		top: 1em;
+	}
 
 #start_vote_person{
 	float: left;

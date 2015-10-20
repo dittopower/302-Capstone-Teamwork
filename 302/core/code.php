@@ -128,6 +128,18 @@
 		//"<input class='button button1' type='button' value='$button'>";
 		echo "</div>";
 	}
+	
+	function card2($heading='Example Card', $content='Generic content placeholder here', $size=''){ /* I NEEDED TO ADD THIS BECAUSE I COULD STOP THE BUTTONS FLOATING */
+		echo "<div class='card2' ";
+		if($size != ''){
+			echo "style='width:$size'";
+		}
+		echo ">";
+		echo "<h3>$heading</h3><hr>";
+		echo $content;
+		//"<input class='button button1' type='button' value='$button'>";
+		echo "</div>";
+	}
 
 ///Page Functions
 	//Page's URL

@@ -2,6 +2,8 @@
 	session_start();
 	require_once "$_SERVER[DOCUMENT_ROOT]/lib.php";
 	
+	lib_code();
+	
 	if(isset($_POST["SupervisorLogout"])){
 		unset($_SESSION);
 		$_SESSION = array();

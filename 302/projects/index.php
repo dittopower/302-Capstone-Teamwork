@@ -50,8 +50,73 @@
 			</div>
 			
 		<?php
-		}else{
-	
+		}else if(isset($_POST["studentDecision"]) && isset($_POST["appid"])){
+			
+			$decision = $_POST["studentDecision"];
+			$appid = $_POST["appid"];
+			
+			$res = rowSQL("SELECT pa.GroupId as GroupId, pa.P_Id as P_Id, p.Supervisor as Sup FROM Project_Applications pa LEFT JOIN Projects p ON pa.P_Id=p.P_Id WHERE pa.ApplicationID=".$appid);
+			$groupid = $res["GroupId"];
+			$projectid = $res["P_Id"];
+			$supervisor = $res["Sup"];
+			
+			if($decision == "Accept"){
+				
+				$q1 = runSQL("UPDATE Project_Applications SET Status='StudentAccepted' WHERE ApplicationID=" . $appid);
+				if($q1){ echo "Project_Applications field updated.<br>"; }
+				else{ echo "Something went wrong.<br>"; }
+				
+				$q2 = runSQL("UPDATE Groups SET GroupProject='".$projectid."' WHERE GroupId=".$groupid);//, Supervisor='".$supervisor."' IDK IF WE WANT TO DO THIS ????
+				if($q2){ echo "Groups field updated."; }
+				else{ echo "Something went wrong."; }
+				
+			}
+			else if($decision == "Decline"){
+				
+				$q1 = runSQL("UPDATE Project_Applications SET Status='StudentDeclined' WHERE ApplicationID=" . $appid);
+				if($q1){ echo "Project_Applications field updated.<br>"; }
+				else{ echo "Something went wrong.<br>"; }
+				
+			}
+			
+			echo "<br><a href=''>Back.</a>";
+			
+		}
+		else{
+			
+			$ifalreadyaccepted = singleSQL("SELECT P_Id FROM Project_Applications WHERE GroupId=" . $group . " AND Status='StudentAccepted'");
+			
+			$applicationAction = arraySQL("SELECT ApplicationID, P_Id FROM Project_Applications WHERE GroupId=" . $group . " AND Status='SupervisorAccepted'");
+			
+			if($ifalreadyaccepted == 0){//hopefully there isn't a project zero
+				if(count($applicationAction) > 0){
+				
+					$topcard = "";
+					
+					foreach($applicationAction as $thing){
+						$projectname = singleSQL("SELECT Name FROM Projects WHERE P_Id=" . $thing["P_Id"]);
+					
+						$topcard .= "<h4>".$projectname."</h4><p>Your application was accepted by the supervisor.</p>";
+						
+						$topcard .= "<form method='post'><input type='hidden' name='appid' value='".$thing["ApplicationID"]."'><input type='submit' name='studentDecision' value='Decline' class='button button5'></form>";
+						$topcard .= "<form method='post'><input type='hidden' name='appid' value='".$thing["ApplicationID"]."'><input type='submit' name='studentDecision' value='Accept' class='button button3'></form>";
+						
+						$topcard .= "<div class='clear'></div><br><hr>";
+					}
+					
+					card("Applications Requiring Action",$topcard,"calc(100% - 60px)");//bro
+					
+					echo "<p>&nbsp;</p>";
+				
+				}
+			}
+			else{
+				$projectname = singleSQL("SELECT Name FROM Projects WHERE P_Id=" . $ifalreadyaccepted);
+				echo "You have already accepted project: <strong>" . $projectname . "</strong>";
+				
+				echo "<p>&nbsp;</p>";
+			}
+			
 			$currentProject = singleSQL("SELECT GroupProject FROM Groups WHERE GroupId=" . $group);
 			
 			echo "<h2>All Projects</h2>";

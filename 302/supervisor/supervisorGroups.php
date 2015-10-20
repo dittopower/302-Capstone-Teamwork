@@ -8,40 +8,48 @@
 	
 	echo "<h2>Your Groups (Supervisor #".$supervisorNum.")</h2>";
 	
-	echo "<table>";	
 	
-	echo "<tr><th>GroupId</th>";
-	echo "<th>GroupName</th>";
-	echo "<th>GroupProject</th>";
-	echo "<th>UnitCode</th>";
-	echo "<th>Group Members</th>";
-	echo "<th></th><th></th></tr>";
+	
+	
 	
 	$groups = arraySQL("SELECT * FROM Groups WHERE Supervisor=".$supervisorNum);//maybe it needs to go off of the projects supervisor not the groups
 	
+	$cardcontent = "";
+	
 	foreach($groups as $thing){
-		echo "<tr>";
+		$cardcontent .= "<table class='cardtable'>";	
 		
-		echo "<td>" . $thing["GroupId"] . "</td>";
-		echo "<td>" . $thing["GroupName"] . "</td>";
-		echo "<td>" . $thing["GroupProject"] . "</td>";
-		echo "<td>" . $thing["UnitCode"] . "</td>";
+		$cardcontent .= "<tr><th>GroupId</th>";
+		$cardcontent .= "<th>GroupProject</th>";
+		$cardcontent .= "<th>UnitCode</th>";
+		$cardcontent .= "<th>Group Members</th>";
+		$cardcontent .= "<th></th></tr>";
 		
-		echo "<td><ul>";
+		$cardcontent .= "<tr>";
+		
+		$cardcontent .= "<td>" . $thing["GroupId"] . "</td>";
+		$cardcontent .= "<td>" . $thing["GroupProject"] . "</td>";
+		$cardcontent .= "<td>" . $thing["UnitCode"] . "</td>";
+		
+		$cardcontent .= "<td><ul>";
 		
 		$groupmembers = arraySQL("SELECT CONCAT(`FirstName`,' ',`LastName`) as name FROM `D_Accounts` a JOIN `Group_Members` g WHERE g.`UserId` = a.`UserId` and `GroupId` = '".$thing["GroupId"]."'");;
 		
 		foreach($groupmembers as $item){
-			echo "<li>".$item["name"]."</li>";
+			$cardcontent .= "<li>".$item["name"]."</li>";
 		}
-		echo "</ul></td>";
+		$cardcontent .= "</ul></td>";
 		
-		echo "<td><input type='button' value='Generate Report' class='button button1'></td>";
-		echo "<td><input type='button' value='View' class='button button1'></td>";
+		//$cardcontent .= "<td><input type='button' value='Generate Report' class='button button1'></td>";
+		$cardcontent .= "<td><input type='button' value='View' class='button button1'></td>";
 		
-		echo "</tr>";
+		$cardcontent .= "</tr>";
+		$cardcontent .= "</table>";
+		
+		card("Group: " . $thing["GroupName"],$cardcontent,"calc(100% - 60px)");//bro
+		$cardcontent = "";
 	}
 	
-	echo "</table>";
+	
 	
 ?>

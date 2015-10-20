@@ -9,7 +9,12 @@
 		
 		$type = $_POST["appAction"];
 		
-		if($type=="Accept"){ $type .= 'e'; }
+		if($type=="Accept"){
+			$type = "SupervisorAccepted";
+		}
+		else if($type=="Decline"){
+			$type = "SupervisorDeclined";
+		}
 		
 		$appid = $_POST["appid"];//id of the project application
 		
@@ -18,23 +23,16 @@
 		$gid = $val["GroupId"];//group id
 		$pid = $val["P_Id"];//project id
 				
-		$q1 = runSQL("UPDATE Project_Applications SET Status='".$type."d' WHERE ApplicationID=" . $appid);
+		$q1 = runSQL("UPDATE Project_Applications SET Status='".$type."' WHERE ApplicationID=" . $appid);
 		
 		if(!$g1){ echo "Project_Applications field updated.<br>"; }
 		else{ echo "Something went wrong.<br>"; }
 		
-		if($type == "Accept"){
-			$q2 = runSQL("UPDATE Groups SET GroupProject='".$pid."' WHERE GroupId=".$gid);
-			if(!$g2){ echo "Groups field updated."; }
+		$oldproject = singleSQL("SELECT GroupProject FROM Groups WHERE GroupId=".$gid);
+		if($oldproject == $pid){//if this was their project previously
+			$q2 = runSQL("UPDATE Groups SET GroupProject='0' WHERE GroupId=".$gid);
+			if(!$g2){ echo "Reverted to no project."; }
 			else{ echo "Something went wrong."; }
-		}
-		else{//if the project is declined after already being accepted
-			$oldproject = singleSQL("SELECT GroupProject FROM Groups WHERE GroupId=".$gid);
-			if($oldproject == $pid){//if this was their project previously
-				$q2 = runSQL("UPDATE Groups SET GroupProject='0' WHERE GroupId=".$gid);
-				if(!$g2){ echo "Reverted to no project."; }
-				else{ echo "Something went wrong."; }
-			}
 		}
 		
 		echo "<br><a href='supervisorProjects.php'>Back.</a>";
@@ -94,9 +92,14 @@
 		echo "<br><br><h3>Status:</h3> " . $appRows["Status"];
 		echo "<br><h3>Time Submitted:</h3> " . date('j/n/y g:ia', strtotime($appRows["TimeSubmitted"]));
 		
-		echo "<br><br><form action='' method='post'><input type='hidden' name='appid' value='".$appid."'><input name='appAction' type='submit' value='Accept' class='button button3'></form><br>";
-		echo "<form action='' method='post'><input type='hidden' name='appid' value='".$appid."'><input name='appAction' type='submit' value='Decline' class='button button2'></form></span>";
+		echo "<br><br><h3>Actions:</h3><br>";
 		
+		if($appRows["Status"] == "StudentAccepted" || $appRows["Status"] == "StudentDeclined"){
+			echo "No actions available, application already processed.";
+		}else{
+			echo "<form action='' method='post'><input type='hidden' name='appid' value='".$appid."'><input name='appAction' type='submit' value='Accept' class='button button3'></form><br>";
+			echo "<form action='' method='post'><input type='hidden' name='appid' value='".$appid."'><input name='appAction' type='submit' value='Decline' class='button button2'></form></span>";
+		}
 	}
 	else{
 		
@@ -104,60 +107,71 @@
 		
 		echo "<h2>Your Projects (Supervisor #".$supervisorNum.")</h2>";
 		
-		echo "<table id='applications'>";
 		
-		echo "<tr><th>Title</th>";
-		echo "<th>Description</th>";
-		echo "<th>Requirements</th>";
-		echo "<th>Type</th>";
-		echo "<th>Skills</th>";
-		echo "<th>Unit</th>";
-		echo "<th class='wide'>Applications</th></tr>";
 		
 		
 		$projects = arraySQL("SELECT * FROM Projects WHERE Supervisor=".$supervisorNum." AND P_Id <> 0 ORDER BY P_Id ASC");
 		
+		$cardcontent="";
+		
 		foreach($projects as $thing){
-			echo "<tr><td>" . $thing["Name"] . "</td>";
-			echo "<td>" . $thing["Description"] . "</td>";
-			echo "<td>" . $thing["requirements"] . "</td>";
-			echo "<td><ul><li>" . $thing["ProjectType1"] ."</li><li>". $thing["ProjectType2"] ."</li><li>". $thing["ProjectType3"] . "</li></ul></td>";
+			
+			$cardcontent .= "<table class='cardtable'>";
+			
+			$cardcontent .= "<tr>";
+			$cardcontent .= "<th>Description</th>";
+			$cardcontent .= "<th>Requirements</th>";
+			$cardcontent .= "<th>Type</th>";
+			$cardcontent .= "<th>Skills</th>";
+			$cardcontent .= "<th>Unit</th>";
+			$cardcontent .= "<th class='wide'>Applications</th></tr>";
+			
+			$cardcontent .= "<tr>";
+			$cardcontent .= "<td>" . $thing["Description"] . "</td>";
+			$cardcontent .= "<td>" . $thing["requirements"] . "</td>";
+			$cardcontent .= "<td><ul><li>" . $thing["ProjectType1"] ."</li><li>". $thing["ProjectType2"] ."</li><li>". $thing["ProjectType3"] . "</li></ul></td>";
 			
 			$skills=explode(",",$thing["skill"]);
 			
-			echo "<td><ul>";
+			$cardcontent .= "<td><ul>";
 				foreach($skills as $skill){
-					echo "<li>" . $skill . "</li>";
+					$cardcontent .= "<li>" . $skill . "</li>";
 				}
-			echo "</ul></td>";
+			$cardcontent .= "</ul></td>";
 			
-			echo "<td>" . $thing["UnitCode"] . "</td>";	
+			$cardcontent .= "<td>" . $thing["UnitCode"] . "</td>";	
 			
-			echo "<td class='wide'><ul>";			
+			$cardcontent .= "<td class='wide'><ul>";			
 			$apps = arraySQL("SELECT * FROM Project_Applications WHERE P_Id=" . $thing["P_Id"]);
 			foreach($apps as $single){
-				echo "<li><div class='left'>#" . $single["ApplicationID"] . "</a> - " . substr($single["CoverLetter"], 0, 50) . "...<br>" . date('j/n/y g:ia', strtotime($single["TimeSubmitted"]));
-					echo "<form action='' method='post'><input type='hidden' name='viewapplication' value='".$single["ApplicationID"]."'>";
+				$cardcontent .= "<li><div class='left'>#" . $single["ApplicationID"] . "</a> - " . substr($single["CoverLetter"], 0, 50) . "...<br>" . date('j/n/y g:ia', strtotime($single["TimeSubmitted"]));
+					$cardcontent .= "<form action='' method='post'><input type='hidden' name='viewapplication' value='".$single["ApplicationID"]."'>";
 					
 					if($single["Status"]!="Applied"){//shows the supervisor their previous decisions
-						echo "<input type='submit' value='(".$single["Status"].") View Application'";
-						if($single["Status"]=="Accepted"){ echo "class='button button3'>"; }
-						else if($single["Status"]=="Declined"){ echo "class='button button2'>"; }
-						else{ echo "class='button button1'>"; }
+						$cardcontent .= "<input type='submit' value='(".$single["Status"].") View Application'";
+						
+						if($single["Status"]=="SupervisorAccepted"){ $cardcontent .= " class='button button1'>"; }
+						else if($single["Status"]=="SupervisorDeclined"){ $cardcontent .= " class='button button2'>"; }
+						else if($single["Status"]=="StudentDeclined"){ $cardcontent .= " class='button button5'>"; }
+						else if($single["Status"]=="StudentAccepted"){ $cardcontent .= " class='button button3'>"; }
+						else{ $cardcontent .= " class='button button1'>"; }
 					}else{
-						echo "<input type='submit' value='View Application' class='button button1'>";
+						$cardcontent .= "<input type='submit' value='View Application' class='button button1'>";
 					}
 					
-					echo "</form><br>";
-				echo "</li>";//fix the floating things (clear)
+					$cardcontent .= "</form><br>";
+				$cardcontent .= "</li>";//fix the floating things (clear)
 				
 			}			
-			echo "</ul></td>";
+			$cardcontent .= "</ul></td>";
 			
-			echo "</tr>";
+			$cardcontent .= "</tr></table>";
+			
+			card2($thing["Name"],$cardcontent,"calc(100% - 60px)");//bro
+			
+			$cardcontent="";
+			
 		}
-		
-		echo "</table>";
 		
 	}
 	
