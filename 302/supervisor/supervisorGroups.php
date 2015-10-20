@@ -28,7 +28,10 @@
 		$cardcontent .= "<tr>";
 		
 		$cardcontent .= "<td>" . $thing["GroupId"] . "</td>";
-		$cardcontent .= "<td>" . $thing["GroupProject"] . "</td>";
+		
+		$projectName = singleSQL("SELECT Name From Projects WHERE P_Id=" . $thing["GroupProject"]);
+		
+		$cardcontent .= "<td>" . $projectName . "</td>";
 		$cardcontent .= "<td>" . $thing["UnitCode"] . "</td>";
 		
 		$cardcontent .= "<td><ul>";
@@ -41,7 +44,7 @@
 		$cardcontent .= "</ul></td>";
 		
 		//$cardcontent .= "<td><input type='button' value='Generate Report' class='button button1'></td>";
-		$cardcontent .= "<td><input type='button' value='View' class='button button1'></td>";
+		$cardcontent .= "<td><input type='button' value='View' class='button button1' disabled></td>";
 		
 		$cardcontent .= "</tr>";
 		$cardcontent .= "</table>";
