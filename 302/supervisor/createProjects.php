@@ -24,15 +24,27 @@
 	else{
 ?>
 		<form action='createProjects.php' method='POST' id='projcreate'>
-			<?php if(isset ($_POST['title']) && $_POST['title'] == null){echo "<span id='span'>You are missisng a title</span><br>";} ?>
+			<?php if(isset ($_POST['title']) && $_POST['title'] == null){
+				echo "<span class='error'>You are missisng a title</span><br>";
+				} 
+			?>
 			<input type='text' name='title' placeholder='Project Title' value='<?php echo $_POST["title"]; ?>'><br><br>
-			<?php if(isset ($_POST['description']) && $_POST['description'] == null){echo "<span id='span'>You are missisng a project description</span><br>";} ?>
+			<?php if(isset ($_POST['description']) && $_POST['description'] == null){
+				echo "<span class='error'>You are missisng a project description</span><br>";
+				}
+			?>
 			<textarea rows="4" cols="40" name='description' form='projcreate' placeholder='Project Description' value='<?php echo $_POST["description"]; ?>'><?php if(isset($_POST['description'])){echo $_POST['description'];}?></textarea><br><br>
-			<?php if(isset ($_POST['requirements']) && $_POST['requirements'] == null){echo "<span id='span'>You are missisng requirements</span><br>";} ?>
+			<?php if(isset ($_POST['requirements']) && $_POST['requirements'] == null){
+				echo "<span class='error'>You are missisng requirements</span><br>";
+				} 
+			?>
 			<input type='text' name='requirements' placeholder='Requirements' value='<?php echo $_POST["requirements"]; ?>'><br><br>
 			<div>
 				<label for='type1'>Project Type Preference 1</label>
-				<?php if(isset ($_POST['type1']) && $_POST['type1'] == null){echo "<br><span id='span'>You are missisng this preference</span><br>";} ?>
+				<?php if(isset ($_POST['type1']) && $_POST['type1'] == null){
+					echo "<br><span class='error'>You are missisng this preference</span><br>";
+					}
+				?>
 				<input list='types1' name='type1' id='type1' value='<?php echo $_POST["type1"]; ?>'>
 				<datalist id='types1'>
 					<option value='any'>
@@ -48,35 +60,49 @@
 			</div>
 			<div>
 				<label for='type2'>Project Type Preference 2</label>
-				<?php if(isset ($_POST['type2']) && $_POST['type2'] == null){echo "<br><span id='span'>You are missisng this preference</span><br>";} ?>
-				<input list='types2' name='type2' id='type2' value='<?php echo $_POST["type2"]; ?>'>
-				<datalist id='types2'>
-					<option value='any'>
-				<?php
-					echo $types;
+				<?php if(isset ($_POST['type2']) && $_POST['type2'] == null){
+					echo "<br><span class='error'>You are missisng this preference</span><br>";
+					} 
 				?>
-				</datalist>
+				<input list='types1' name='type2' id='type2' value='<?php echo $_POST["type2"]; ?>'>
+
 			</div>
 			<div>
 				<label for='type3'>Project Type Preference 3</label>
-				<?php if(isset ($_POST['type3']) && $_POST['type3'] == null){echo "<br><span id='span'>You are missisng this preference</span><br>";} ?>
-				<input list='types3' name='type3' id='type3' value='<?php echo $_POST["type3"]; ?>'>
-				<datalist id='types3'>
-					<option value='any'>
-				<?php
-					echo $types;
+				<?php if(isset ($_POST['type3']) && $_POST['type3'] == null){
+					echo "<br><span class='error'>You are missisng this preference</span><br>";
+					} 
 				?>
-				</datalist>
+				<input list='types1' name='type3' id='type3' value='<?php echo $_POST["type3"]; ?>'>
+
 			</div><br>
-			<?php if(isset ($_POST['skills']) && $_POST['skills'] == null){echo "<span id='span'>You are missisng the skills required</span><br>";} ?>
+			<?php if(isset ($_POST['skills']) && $_POST['skills'] == null){
+				echo "<span class='error'>You are missisng the skills required</span><br>";
+				} 
+			?>
 			<input type='text' name='skills' placeholder='Skills required' value='<?php echo $_POST["skills"]; ?>'><br><br>
-			<?php if(isset ($_POST['unit']) && $_POST['unit'] == null){echo "<span id='span'>You are missisng this date</span><br>";} ?>
+			<?php if(isset ($_POST['unit']) && $_POST['unit'] == null){
+				echo "<span class='error'>You are missisng this date</span><br>";
+				} 
+			?>
 			<input type='text' name='unit' placeholder='Unit Code' value='<?php echo $_POST["unit"]; ?>'><br><br>
-			Project Start Date:<br><?php if(isset ($_POST['start']) && $_POST['start'] == null){echo "<span id='span'>You are missisng this date</span><br>";} ?>
+			Project Start Date:<br>
+			<?php if(isset ($_POST['start']) && $_POST['start'] == null){
+				echo "<span class='error'>You are missisng this date</span><br>";
+				}
+			?>
 			<input type='date' name='start' value='<?php echo $_POST["start"]; ?>'><br><br>
-			Project End Date:<?php if(isset ($_POST['end']) && $_POST['end'] == null){echo "<br><span id='span'>You are missisng this date</span><br>";} ?>
+			Project End Date:
+			<?php if(isset ($_POST['end']) && $_POST['end'] == null){
+				echo "<br><span class='error'>You are missisng this date</span><br>";
+				} 
+			?>
 			<br><input type='date' name='end' value='<?php echo $_POST["end"]; ?>'><br><br>
-			Deliverables Due Date:<br><?php if(isset ($_POST['dueby']) && $_POST['dueby'] == null){echo "<span id='span'>You are missisng this date</span><br>";} ?>
+			Deliverables Due Date:<br>
+			<?php if(isset ($_POST['dueby']) && $_POST['dueby'] == null){
+				echo "<span class='error'>You are missisng this date</span><br>";
+				} 
+			?>
 			<br><input type='date' name='dueby' value='<?php echo $_POST["dueby"]; ?>'><br><br>
 			<input type='submit' name='createproj' value='Create' class='button button1'><br><br>
 		</form>
