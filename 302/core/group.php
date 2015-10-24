@@ -111,8 +111,11 @@
 		if($user == ""){
 			$user = $_SESSION['person'];
 		}
-		if(runSQL("DELETE FROM `deamon_INB302`.`Group_Members` WHERE `Group_Members`.`GroupId` = '$group' AND `Group_Members`.`UserId` = '$user';")){
+		if(runSQL("DELETE FROM `Group_Members` WHERE `Group_Members`.`GroupId` = '$group' AND `Group_Members`.`UserId` = '$user';")){
 			note("membership","REMOVED::$user >> $group :: by $_SESSION[person]");
+			if(singleSQL("SELECT count(*) FROM Group_Members where GroupId = '$group' group by GroupId") < 1){
+				runSQL("DELETE FROM `Groups` WHERE `GroupId` = '$group'");
+			}
 			return true;
 		}else{
 			note("membership","Failed-Remove::$user >> $group :: by $_SESSION[person]");
