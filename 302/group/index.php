@@ -13,31 +13,55 @@
 	//Require user to be in a group
 	group_selected();
 	
+	function vote_remove($who){
+		$sql = "SELECT count(*) as value FROM Group_Members where GroupId = '$_SESSION[group]'";
+		$sql .= " UNION ALL SELECT count(*) from Group_Mod where Group_Id = '$_SESSION[group]' and who = '$who' and ACTION = 'REMOVE'";
+		$sql .= " UNION ALL SELECT count(*) from Group_Mod where Group_Id = '$_SESSION[group]' and who = '$who'";
+		$res = arraySQL($sql);
+		debug($sql);
+		debug($res);
+		if($res[0]['value']-1 == $res[2]['value']){
+			debug("right number");
+			if($res[1]['value'] == $res[2]['value']){
+				debug("remove");
+				remove_member($_SESSION['group'],$who);
+				runSQL("Delete from Group_Mod where Group_Id = '$_SESSION[group]' and who = '$who'");
+				note("member_vote","COMPLETE::$_SESSION[group]::removed::$who");
+			}else{
+				debug("dont");
+				note("member_vote","COMPLETE::$_SESSION[group]::Kept::$who");
+				runSQL("Delete from Group_Mod where Group_Id = '$_SESSION[group]' and who = '$who'");
+			}
+		}
+	}
+	
 	if(isset($_POST['vote']) && is_numeric($_POST['who']) && $_POST['who'] != $_SESSION['person']){
 		switch($_POST['vote']){
 			case 'Remove':
-				if(runSQL("INSERT INTO `deamon_INB302`.`Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Remove', '$_POST[who]');")){
+				if(runSQL("INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Remove', '$_POST[who]') ON DUPLICATE KEY UPDATE `Action` = 'Remove';;")){
 					note('member_vote',"DONE:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
+					vote_remove($_POST['who']);
 				}else{
 					note('member_vote',"FAILED:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
 				}
 				break;
 			case 'Keep':
-				if(runSQL("INSERT INTO `deamon_INB302`.`Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Cancel', '$_POST[who]');")){
+				if(runSQL("INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Cancel', '$_POST[who]') ON DUPLICATE KEY UPDATE `Action` = 'Cancel';")){
 					note('member_vote',"DONE:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
+					vote_remove($_POST['who']);
 				}else{
 					note('member_vote',"FAILED:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
 				}
 				break;
 			case 'Accept':
-				if(runSQL("INSERT INTO `deamon_INB302`.`Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Add', '$_POST[who]');")){
+				if(runSQL("INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Add', '$_POST[who]') ON DUPLICATE KEY UPDATE `Action` = 'Add';")){
 					note('member_vote',"DONE:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
 				}else{
 					note('member_vote',"FAILED:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
 				}
 				break;
 			case 'Decline':
-				if(runSQL("INSERT INTO `deamon_INB302`.`Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Cancel', '$_POST[who]');")){
+				if(runSQL("INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Cancel', '$_POST[who]') ON DUPLICATE KEY UPDATE `Action` = 'Cancel';")){
 					note('member_vote',"DONE:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
 				}else{
 					note('member_vote',"FAILED:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
@@ -95,7 +119,7 @@
 		$cardcontent .= "<br>";
 		$cardcontent .= "<br>For Unit: <strong>" . $thing["UnitCode"] . "</strong>";
 		$cardcontent .= "<br>With supervisor: <strong>" . $thing["Supervisor"] . "</strong>";
-	card("Your Project Details",$cardcontent);
+	card("Your Project Details",$cardcontent, 500);
 	
 
 
@@ -120,12 +144,12 @@
 	* Leaving groups and voting to remove members
 	*/
 		//Current in progress votes
-		$sql = "Select FirstName,Mod_Id,UserId  from Group_Mod join D_Accounts on who = UserId where Who != '$_SESSION[person]' and Group_Id = '$_SESSION[group]' and `Action` = 'Remove' group by Who";
+		$sql = "Select FirstName, UserId  from Group_Mod join D_Accounts on who = UserId where Who != '$_SESSION[person]' and Group_Id = '$_SESSION[group]' and `Action` = 'Remove' group by Who";
 		$result = multiSQL($sql);
 		$cardcontent = "<h3>Current Votes</h3><hr>";
 		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
 			$cardcontent .= "<form method='POST'>";
-			$cardcontent .= "<input type='text' id='r$row[Mod_Id]' name='who' hidden value='$row[UserId]'><Label for='r$row[Mod_Id]'>$row[FirstName]</label><br>";
+			$cardcontent .= "<input type='text' id='r$row[UserId]' name='who' hidden value='$row[UserId]'><Label for='r$row[UserId]'>$row[FirstName]</label><br>";
 			$cardcontent .= "<input class='button button1' type='submit' name='vote' value='Remove'>";
 			$cardcontent .= "<input class='button button1' type='submit' name='vote' value='Keep'></form><hr>";
 		}
@@ -147,19 +171,19 @@
 		}
 		</script>
 		<input class='button button1' type='submit' name='quit' value='Leave Group'></form></div>";
-	card("Remove Member",$cardcontent,280);
+	card("Remove Member",$cardcontent);
 	
 	
 	/*
 	* Vote to add members
 	*/
 		//Current Votes
-		$sql = "Select FirstName,Mod_Id,UserId  from Group_Mod join D_Accounts on who = UserId where Who != '$_SESSION[person]' and Group_Id = '$_SESSION[group]' and `Action` = 'Add' group by Who";
+		$sql = "Select FirstName,UserId  from Group_Mod join D_Accounts on who = UserId where Who != '$_SESSION[person]' and Group_Id = '$_SESSION[group]' and `Action` = 'Add' group by Who";
 		$result = multiSQL($sql);
 		$cardcontent = "<h3>Current Votes</h3><hr>";
 		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
 			$cardcontent .= "<form method='POST'>";
-			$cardcontent .= "<input type='text' id='r$row[Mod_Id]' name='who' hidden value='$row[UserId]'><Label for='r$row[Mod_Id]'>$row[FirstName]</label><br>";
+			$cardcontent .= "<input type='text' id='r$row[UserId]' name='who' hidden value='$row[UserId]'><Label for='r$row[UserId]'>$row[FirstName]</label><br>";
 			$cardcontent .= "<input class='button button1' type='submit' name='vote' value='Accept'>";
 			$cardcontent .= "<input class='button button1' type='submit' name='vote' value='Decline'></form><hr>";
 		}
