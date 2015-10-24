@@ -1,6 +1,5 @@
 <?php
-	require_once "$_SERVER[DOCUMENT_ROOT]/lib.php";
-	lib_code();
+
 	require_once("supervisor.php");
 	
 	if(isset($_POST["appAction"])){//accept or deny applications

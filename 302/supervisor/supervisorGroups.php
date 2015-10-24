@@ -1,16 +1,12 @@
 <?php
 		
 	require_once("supervisor.php");
-					
+	
 	//display groups
 	
 	$supervisorNum = $_SESSION['SupervisorID'];
 	
 	echo "<h2>Your Groups (Supervisor #".$supervisorNum.")</h2>";
-	
-	
-	
-	
 	
 	$groups = arraySQL("SELECT * FROM Groups WHERE Supervisor=".$supervisorNum);//maybe it needs to go off of the projects supervisor not the groups
 	
