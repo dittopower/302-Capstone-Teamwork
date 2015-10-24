@@ -103,13 +103,24 @@
 	}
 	else{
 		
+		//********** edit project start **************//
+		
+		if(isset($_POST["editid"]) && isset($_POST["editproject"])){
+			
+			
+			//eh
+			
+			echo "<span class='error'>Project #" . $_POST["editid"] . " updated.</span>";//not actually an error
+			
+			echo "<p>&nbsp;</p>";
+		}
+
+		//********** edit project end **************//
+		
 		$supervisorNum = $_SESSION['SupervisorID'];
 		
 		echo "<h2>Your Projects (Supervisor #".$supervisorNum.")</h2>";
-		
-		
-		
-		
+
 		$projects = arraySQL("SELECT *, DATE_FORMAT(`Start`,'%d/%c/%Y') as Start, DATE_FORMAT(`End`,'%d/%c/%Y') as End FROM Projects WHERE Supervisor=".$supervisorNum." AND P_Id <> 0 ORDER BY P_Id ASC");
 		
 		$cardcontent="";
@@ -121,13 +132,16 @@
 			$cardcontent .= "<tr>";
 			$cardcontent .= "<th>Description</th>";
 			$cardcontent .= "<th>Requirements</th>";
-			$cardcontent .= "<th>Type</th>";
+			$cardcontent .= "<th>Project Type</th>";
 			$cardcontent .= "<th>Skills</th>";
 			$cardcontent .= "<th>Unit</th>";
 			$cardcontent .= "<th class='wide'>Applications</th></tr>";
 			
 			$cardcontent .= "<tr>";
-			$cardcontent .= "<td>" . $thing["Description"] . "<br><br><strong>Start:</strong> ".$thing["Start"]."<br><strong>End:</strong> ".$thing["End"]."</td>";
+			
+			$cardcontent .= "<td>" . $thing["Description"] . "<br><br><strong>Start:</strong> ".$thing["Start"]."<br><strong>End:</strong> ".$thing["End"];
+			$cardcontent .= "<br><br><form method='post'><input type='hidden' name='editid' value='".$thing["P_Id"]."'><input type='submit' name='editproject' value='Edit Project' class='button button1'></form></td>";
+			
 			$cardcontent .= "<td>" . $thing["requirements"] . "</td>";
 			$cardcontent .= "<td><ul><li>" . $thing["ProjectType1"] ."</li><li>". $thing["ProjectType2"] ."</li><li>". $thing["ProjectType3"] . "</li></ul></td>";
 			
@@ -141,11 +155,15 @@
 			
 			$cardcontent .= "<td>" . $thing["UnitCode"] . "</td>";	
 			
-			$cardcontent .= "<td class='wide'><ul>";			
+			$cardcontent .= "<td class='wide'>";			
 			$apps = arraySQL("SELECT * FROM Project_Applications WHERE P_Id=" . $thing["P_Id"]);
 			foreach($apps as $single){
-				$cardcontent .= "<li><div class='left'>#" . $single["ApplicationID"] . "</a> - " . substr($single["CoverLetter"], 0, 50) . "...<br>" . date('j/n/y g:ia', strtotime($single["TimeSubmitted"]));
-					$cardcontent .= "<form action='' method='post'><input type='hidden' name='viewapplication' value='".$single["ApplicationID"]."'>";
+				
+				$cardcontent .= "<span class='preText'>" . date('j/n/y g:ia', strtotime($single["TimeSubmitted"])) . "</span><br>";
+				$cardcontent .= "#" . $single["ApplicationID"] . "</a> - <strong>\"" . substr($single["CoverLetter"], 0, 75) . "...\"</strong><br>";
+				
+				
+				$cardcontent .= "<form action='' method='post'><input type='hidden' name='viewapplication' value='".$single["ApplicationID"]."'>";
 					
 					if($single["Status"]!="Applied"){//shows the supervisor their previous decisions
 						$cardcontent .= "<input type='submit' value='(".$single["Status"].") View Application'";
@@ -160,10 +178,10 @@
 					}
 					
 					$cardcontent .= "</form><br>";
-				$cardcontent .= "</li>";//fix the floating things (clear)
+				$cardcontent .= "";//fix the floating things (clear)
 				
 			}			
-			$cardcontent .= "</ul></td>";
+			$cardcontent .= "</td>";
 			
 			$cardcontent .= "</tr></table>";
 			

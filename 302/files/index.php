@@ -16,7 +16,7 @@
 		div(media_upload());
 	}
 	//$cardcont .= "Select file to upload:";
-	$cardcont .= "<input type='file' class='button button1' name='fileToUpload' id='fileToUpload'>";
+	$cardcont .= "<input type='file' class='button' name='fileToUpload' id='fileToUpload'>";
 	if($filename != ""){
 		$cardcont .= "<label for='filename'>File will be uploaded as: $filename</label>";
 		$cardcont .= "<input type='text' hidden name='filename' id='filename' value='$filename'>";

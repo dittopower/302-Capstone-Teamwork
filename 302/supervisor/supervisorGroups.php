@@ -32,10 +32,10 @@
 		
 		$cardcontent .= "<td><ul>";
 		
-		$groupmembers = arraySQL("SELECT CONCAT(`FirstName`,' ',`LastName`) as name FROM `D_Accounts` a JOIN `Group_Members` g WHERE g.`UserId` = a.`UserId` and `GroupId` = '".$thing["GroupId"]."'");;
+		$groupmembers = arraySQL("SELECT CONCAT(`FirstName`,' ',`LastName`) as name, a.username as username FROM `D_Accounts` a JOIN `Group_Members` g WHERE g.`UserId` = a.`UserId` and `GroupId` = '".$thing["GroupId"]."'");;
 		
 		foreach($groupmembers as $item){
-			$cardcontent .= "<li>".$item["name"]."</li>";
+			$cardcontent .= "<li><a href='/user/?u=".$item['username']."' target='_blank'>".$item['name']."</a></li>";
 		}
 		$cardcontent .= "</ul></td>";
 		
