@@ -137,7 +137,7 @@
 				card($row['GroupName'],$cardcontent,200);
 
 			}
-			echo "<hr><h1><a href='http://$_SERVER[HTTP_HOST]/group/find'>Find a Group</a></h1>";
+			echo "<hr><br><form action='http://$_SERVER[HTTP_HOST]/group/find/'><input type='submit' value='Find a Group' class='button button1'></form>";
 			die();
 		}
 	}
