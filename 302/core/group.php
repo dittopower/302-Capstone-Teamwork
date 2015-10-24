@@ -83,14 +83,14 @@
 	Adds a member to a group.
 		- Defaults to currently set user/group
 	*/
-	function add_member($group = "", $user = "",$role = null){
+	function add_member($group = "", $user = ""){
 		if($group == ""){
 			$group = $_SESSION['group'];
 		}
 		if($user == ""){
 			$user = $_SESSION['person'];
 		}
-		if(runSQL("INSERT INTO `deamon_INB302`.`Group_Members` (`GroupId`, `UserId`, `Role`) VALUES ('$group', '$user', $role);")){
+		if(runSQL("INSERT INTO `Group_Members` (`GroupId`, `UserId`) VALUES ('$group', '$user');")){
 			note("membership","ADDED::$user >> $group :: by $_SESSION[person]");
 			return true;
 		}else{

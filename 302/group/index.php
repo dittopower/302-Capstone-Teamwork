@@ -13,6 +13,7 @@
 	//Require user to be in a group
 	group_selected();
 	
+	debug($_POST);
 	function vote_remove($who){
 		$sql = "SELECT count(*) as value FROM Group_Members where GroupId = '$_SESSION[group]'";
 		$sql .= " UNION ALL SELECT count(*) from Group_Mod where Group_Id = '$_SESSION[group]' and who = '$who' and ACTION = 'REMOVE'";
@@ -27,10 +28,36 @@
 				remove_member($_SESSION['group'],$who);
 				runSQL("Delete from Group_Mod where Group_Id = '$_SESSION[group]' and who = '$who'");
 				note("member_vote","COMPLETE::$_SESSION[group]::removed::$who");
+				echo "<span class='error'>Vote Success: Member Evicted</span>";
 			}else{
 				debug("dont");
 				note("member_vote","COMPLETE::$_SESSION[group]::Kept::$who");
 				runSQL("Delete from Group_Mod where Group_Id = '$_SESSION[group]' and who = '$who'");
+				echo "<span class='sucess'>Vote Failed: Member Retained</span>";
+			}
+		}
+	}
+	
+	function vote_add($who){
+		$sql = "SELECT count(*) as value FROM Group_Members where GroupId = '$_SESSION[group]'";
+		$sql .= " UNION ALL SELECT count(*) from Group_Mod where Group_Id = '$_SESSION[group]' and who = '$who' and ACTION = 'ADD'";
+		$sql .= " UNION ALL SELECT count(*) from Group_Mod where Group_Id = '$_SESSION[group]' and who = '$who'";
+		$res = arraySQL($sql);
+		debug($sql);
+		debug($res);
+		if($res[0]['value'] == $res[2]['value']){
+			debug("right number");
+			if($res[1]['value'] == $res[2]['value']){
+				debug("add");
+				add_member($_SESSION['group'],$who);
+				runSQL("Delete from Group_Mod where Group_Id = '$_SESSION[group]' and who = '$who'");
+				note("member_vote","COMPLETE::$_SESSION[group]::added::$who");
+				echo "<span class='Sucess'>Vote Success: Member Added</span>";
+			}else{
+				debug("dont");
+				note("member_vote","COMPLETE::$_SESSION[group]::rejected::$who");
+				runSQL("Delete from Group_Mod where Group_Id = '$_SESSION[group]' and who = '$who'");
+				echo "<span class='error'>Vote Failed: Applicant Rejected</span>";
 			}
 		}
 	}
@@ -53,16 +80,19 @@
 					note('member_vote',"FAILED:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
 				}
 				break;
+			case 'Add':
 			case 'Accept':
 				if(runSQL("INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Add', '$_POST[who]') ON DUPLICATE KEY UPDATE `Action` = 'Add';")){
 					note('member_vote',"DONE:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
+					vote_add($_POST['who']);
 				}else{
 					note('member_vote',"FAILED:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
 				}
 				break;
 			case 'Decline':
-				if(runSQL("INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Cancel', '$_POST[who]') ON DUPLICATE KEY UPDATE `Action` = 'Cancel';")){
+				if(runSQL("INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Deny', '$_POST[who]') ON DUPLICATE KEY UPDATE `Action` = 'Deny';")){
 					note('member_vote',"DONE:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
+					vote_add($_POST['who']);
 				}else{
 					note('member_vote',"FAILED:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
 				}
@@ -75,6 +105,7 @@
 	if(isset($_POST['gdetails'])){
 		if(isset($_POST['gname']) && strlen($_POST['gname']) > 1){
 			$namechange = runSQL("UPDATE `Groups` SET `GroupName` = '$_POST[gname]' WHERE `Groups`.`GroupId` = '$_SESSION[group]'");
+			note("Groups","Name Change::$_POST[gname]");
 		}
 	}
 	
@@ -144,14 +175,22 @@
 	* Leaving groups and voting to remove members
 	*/
 		//Current in progress votes
-		$sql = "Select FirstName, UserId  from Group_Mod join D_Accounts on who = UserId where Who != '$_SESSION[person]' and Group_Id = '$_SESSION[group]' and `Action` = 'Remove' group by Who";
+		$sql = "Select FirstName, UserId, MAX(IF(User_Id = '92213407', IF(Action = 'Remove',1,2), '0')) as Voted from Group_Mod join D_Accounts on who = UserId where Who != '$_SESSION[person]' and Group_Id = '$_SESSION[group]' and `Action` = 'Remove' or `Action` = 'Cancel' group by Who";
 		$result = multiSQL($sql);
 		$cardcontent = "<h3>Current Votes</h3><hr>";
 		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
 			$cardcontent .= "<form method='POST'>";
 			$cardcontent .= "<input type='text' id='r$row[UserId]' name='who' hidden value='$row[UserId]'><Label for='r$row[UserId]'>$row[FirstName]</label><br>";
-			$cardcontent .= "<input class='button button1' type='submit' name='vote' value='Remove'>";
-			$cardcontent .= "<input class='button button1' type='submit' name='vote' value='Keep'></form><hr>";
+			$cardcontent .= "<input class='button button1' type='submit' name='vote' value='Remove'";
+			if($row['Voted'] == 1){
+				$cardcontent .= " disabled";
+			}
+			$cardcontent .= ">";
+			$cardcontent .= "<input class='button button1' type='submit' name='vote' value='Keep'";
+			if($row['Voted'] == 2){
+				$cardcontent .= " disabled";
+			}
+			$cardcontent .= "></form><hr>";
 		}
 		//Start a vote
 		$sql = "SELECT FirstName,g.UserId FROM `Group_Members` g join D_Accounts a on g.`UserId` = a.UserId where g.`UserId` != '$_SESSION[person]' and `GroupId` = '$_SESSION[group]'";
@@ -178,20 +217,27 @@
 	* Vote to add members
 	*/
 		//Current Votes
-		$sql = "Select FirstName,UserId  from Group_Mod join D_Accounts on who = UserId where Who != '$_SESSION[person]' and Group_Id = '$_SESSION[group]' and `Action` = 'Add' group by Who";
+		$sql = "Select FirstName,UserId, MAX(IF(User_Id = '92213407', IF(Action = 'Add',1,2), '0')) as Voted from Group_Mod join D_Accounts on who = UserId where Who != '$_SESSION[person]' and Group_Id = '$_SESSION[group]' and `Action` = 'Add' or `Action` = 'Deny' group by Who";
 		$result = multiSQL($sql);
 		$cardcontent = "<h3>Current Votes</h3><hr>";
 		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
 			$cardcontent .= "<form method='POST'>";
 			$cardcontent .= "<input type='text' id='r$row[UserId]' name='who' hidden value='$row[UserId]'><Label for='r$row[UserId]'>$row[FirstName]</label><br>";
-			$cardcontent .= "<input class='button button1' type='submit' name='vote' value='Accept'>";
-			$cardcontent .= "<input class='button button1' type='submit' name='vote' value='Decline'></form><hr>";
+			$cardcontent .= "<input class='button button1' type='submit' name='vote' value='Accept'";
+			if($row['Voted'] == 1){
+				$cardcontent .= " disabled";
+			}
+			$cardcontent .= "><input class='button button1' type='submit' name='vote' value='Decline'";
+			if($row['Voted'] == 2){
+				$cardcontent .= " disabled";
+			}
+			$cardcontent .= "></form><hr>";
 		}
 		//Start a vote
 		$sql = "SELECT FirstName,g.UserId FROM `Group_Members` g join D_Accounts a on g.`UserId` = a.UserId where g.`UserId` != '$_SESSION[person]' and `GroupId` = '$_SESSION[group]'";
 		debug($sql);
 		$result = multiSQL($sql);
 		$cardcontent .= "<h3>Start Vote</h3><hr>";
-		$cardcontent .= "<form method='POST'><input type='text' name='who'><input type='submit' class='button button1' name='Vote' value='Add'></form>";
+		$cardcontent .= "<form method='POST'><input type='text' name='who'><input type='submit' class='button button1' name='vote' value='Add'></form>";
 	card("Add Member",$cardcontent,280);
 ?>
