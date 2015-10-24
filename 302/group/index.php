@@ -48,6 +48,17 @@
 		}
 	}
 	
+	if(isset($_POST['gdetails'])){
+		if(isset($_POST['gname']) && strlen($_POST['gname']) > 1){
+			$namechange = runSQL("UPDATE `Groups` SET `GroupName` = '$_POST[gname]' WHERE `Groups`.`GroupId` = '$_SESSION[group]'");
+		}
+	}
+	
+	//title - group name and subject
+	echo "<h1>Group: $_SESSION[gname]</h1><h4>Unit: ";
+	echo singleSQL("SELECT CONCAT(u.UnitCode, ' ', u.Unit) FROM `Unit` u join Groups g on u.UnitCode = g.UnitCode where g.GroupId = '$_SESSION[group]'");
+	echo "</h4>";
+	
 	
 	/*
 	* Group Members display
@@ -86,6 +97,24 @@
 		$cardcontent .= "<br>With supervisor: <strong>" . $thing["Supervisor"] . "</strong>";
 	card("Your Project Details",$cardcontent);
 	
+
+
+
+///Group Alteration stuff
+	echo "<hr><h2>Group Management</h2>";
+	
+	if(isset($namechange)){
+		if($namechange){
+			echo "<div class=sucess>Group Name Updated.<meta http-equiv='refresh' content='0'></div>";
+		}else{
+			echo "<div class=error>Group Name Change Failed.</div>";
+		}
+	}
+	$cardcontent = "<form method='POST'><Label for='gname'>Rename Group</label>";
+	$cardcontent .= "<input type=text id=gname name=gname placeholder='$_SESSION[gname]'><br>";
+	$cardcontent .= "<input type=submit class='button button1' name=gdetails value=apply></form>";
+	card("Group Details",$cardcontent);
+	
 	
 	/*
 	* Leaving groups and voting to remove members
@@ -118,7 +147,7 @@
 		}
 		</script>
 		<input class='button button1' type='submit' name='quit' value='Leave Group'></form></div>";
-	card("Remove Member",$cardcontent);
+	card("Remove Member",$cardcontent,280);
 	
 	
 	/*
@@ -140,5 +169,5 @@
 		$result = multiSQL($sql);
 		$cardcontent .= "<h3>Start Vote</h3><hr>";
 		$cardcontent .= "<form method='POST'><input type='text' name='who'><input type='submit' class='button button1' name='Vote' value='Add'></form>";
-	card("Add Member",$cardcontent);
+	card("Add Member",$cardcontent,280);
 ?>

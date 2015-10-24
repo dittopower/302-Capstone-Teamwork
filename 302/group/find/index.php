@@ -4,6 +4,7 @@
 	lib_group();
 	lib_files();
 	
+	debug($_POST);
 	if(isset($_POST['findgroup'])){
 		$requested = 0;
 		$request = array();
@@ -35,7 +36,7 @@
 		}
 		if(isset($request['unit'])){
 			global $mysqli;
-			$sql= mysqli_prepare($mysqli, "INSERT INTO `deamon_INB302`.`Group_Requests` (`UserId`, `UnitCode`, `Similar`,  `PreferenceType1`,  `PreferenceType2`,  `PreferenceType3`) VALUES (?, ?, ?, ?, ?, ?);");
+			$sql= mysqli_prepare($mysqli, "INSERT INTO `Group_Requests` (`UserId`, `UnitCode`, `Similar`,  `PreferenceType1`,  `PreferenceType2`,  `PreferenceType3`) VALUES (?, ?, ?, ?, ?, ?);");
 			mysqli_stmt_bind_param($sql,"ssisss",$_SESSION['person'],$request['unit'],$request['similar'],$request[1],$request[2],$request[3]);
 			if(mysqli_stmt_execute($sql)){
 				$requested = 1;
@@ -44,7 +45,44 @@
 				note("requests","Failure::$_SESSION[person]::$_POST[unit]:$_POST[type1]:$_POST[type2]:$_POST[type3]");
 			}
 		}
+	}else if(isset($_POST['makegroup'])){
+		$created = 0;
+		$create = array();
+		if(isset($_POST['tsub'])){
+			if(singleSQL("Select 1 from Unit where UnitCode = '$_POST[tsub]'") == 1){
+				$create['unit'] = $_POST['tsub'];
+			}
+		}
+		
+		$create['name'] = 'Pending';
+		if(isset($_POST['tname']) && strlen($_POST['tname']) > 1){
+			$create['name'] = $_POST['tname'];
+		}
+		
+		debug($create);
+		if(isset($create['unit'])){
+			$sql = "INSERT INTO `Groups` (`GroupName`, `GroupProject`, `UnitCode`) VALUES ('$create[name]', '0', '$create[unit]')";
+			debug($sql);
+			if(runSQL($sql)){
+				debug("Group Created");
+				$gid = singleSQL("Select LAST_INSERT_ID();");
+				note("Groups","Created::$gid::$_SESSION[person]");
+				if($create['name'] == 'Pending'){
+					runSQL("UPDATE `Groups` SET `GroupName` = '$create[unit] G$gid' WHERE `Groups`.`GroupId` = $gid");
+				}
+				if(runSQL("INSERT INTO `Group_Members` (`GroupId`, `UserId`) VALUES ('$gid', '$_SESSION[person]')")){
+					runSQL("DELETE FROM `Group_Requests` WHERE `UserId` = '$_SESSION[person]' and `UnitCode` = '$create[unit]'");
+				}
+				$created = 1;
+				group($gid);
+				echo "<meta http-equiv='refresh' content='0;URL=http://$_SERVER[HTTP_HOST]/group'>";
+			}else{
+				note("Groups","Failed::$_SESSION[person]");
+			}
+		}
 	}
+	
+	
 ?>
 <div>
 <h1>Active Requests</h1>
@@ -105,27 +143,36 @@ form .card div {
 	
 	<div>
 		<label for='type2'>Project Type Preference 2</label>
-		<input list='types2' name='type2' id='type2'>
-		<datalist id='types2'>
-			<option value='any'>
-		<?php
-			echo $types;
-		?>
-		</datalist>
+		<input list='types1' name='type2' id='type2'>
 	</div>
 	
 	<div>
 		<label for='type3'>Project Type Preference 3</label>
-		<input list='types3' name='type3' id='type3'>
-		<datalist id='types3'>
-			<option value='any'>
-		<?php
-			echo $types;
-		?>
-		</datalist>
+		<input list='types1' name='type3' id='type3'>
 	</div>
 	
 	<input type='submit' class='button button1' name='findgroup' value='Submit'>
 	</div>
 
+</form>
+
+<form method='POST'>
+<h1>Already have a Team?</h1>
+<?php
+	if(isset($requested)){
+		if($requested){
+			echo "<div class='sucess'>Group Created Sucessful.<br>You will be redirected <a href='http://$_SERVER[HTTP_HOST]/group'>here</a>.</div>";
+		}else{
+			echo "<div class='error'>Group Creation Failed.</div>";
+		}
+	}
+	$cardcont = "This option is for students who already have a team. I.e. Teams were formed in workshops or assigned by the unit coordinator.<br>";
+	$cardcont .= "<div><label for='tsub'>Subject</label>";
+	$cardcont .= "<input list='units' id='tsub' name='tsub'></div>";
+	$cardcont .= "<div><label for='tname'>Team Name</label>";
+	$cardcont .= "<input type='text' id='tname' name='tname' placeholder='Default Teamname'></div>";
+	$cardcont .= "<input type='submit' class='button button1' name='makegroup' value='Create'>";
+	
+	card("Invite your Existing Team",$cardcont);
+?>
 </form>
