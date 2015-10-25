@@ -37,7 +37,7 @@
 	$cardcont .= "</form>";
 	
 	card("File Uploader",$cardcont,"calc(100% - 60px)");
-//	echo "<hr>";
+	//echo "<hr>";
 
 	//Display File list
 	$result = multiSQL("Select media_id, location, share, a.FirstName from D_Media m join D_Accounts a on m.`owner` = a.UserId where people = $_SESSION[group]");

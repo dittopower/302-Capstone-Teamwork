@@ -102,21 +102,7 @@
 		}
 	}
 	else{
-		
-		//********** edit project start **************//
-		
-		if(isset($_POST["editid"]) && isset($_POST["editproject"])){
 			
-			
-			//eh
-			
-			echo "<span class='error'>Project #" . $_POST["editid"] . " updated.</span>";//not actually an error
-			
-			echo "<p>&nbsp;</p>";
-		}
-
-		//********** edit project end **************//
-		
 		$supervisorNum = $_SESSION['SupervisorID'];
 		
 		echo "<h2>Your Projects (Supervisor #".$supervisorNum.")</h2>";
@@ -140,7 +126,10 @@
 			$cardcontent .= "<tr>";
 			
 			$cardcontent .= "<td>" . $thing["Description"] . "<br><br><strong>Start:</strong> ".$thing["Start"]."<br><strong>End:</strong> ".$thing["End"];
-			$cardcontent .= "<br><br><form method='post'><input type='hidden' name='editid' value='".$thing["P_Id"]."'><input type='submit' name='editproject' value='Edit Project' class='button button1'></form></td>";
+			$cardcontent .= "<br><br><form action='createProjects.php' method='post'>
+			<input type='hidden' name='projectID' value='".$thing["P_Id"]."'>
+			<input type='submit' name='editproject' value='Edit Project' class='button button1'>
+			</form></td>";
 			
 			$cardcontent .= "<td>" . $thing["requirements"] . "</td>";
 			$cardcontent .= "<td><ul><li>" . $thing["ProjectType1"] ."</li><li>". $thing["ProjectType2"] ."</li><li>". $thing["ProjectType3"] . "</li></ul></td>";
