@@ -105,9 +105,45 @@
 			
 		$supervisorNum = $_SESSION['SupervisorID'];
 		
-		echo "<h2>Your Projects (Supervisor #".$supervisorNum.")</h2>";
+		echo "<h2 class='searchtitle'>Your Projects (Supervisor #".$supervisorNum.")";
+		
+		if(isset($_GET['search']) && $_GET['search'] != "") echo " - Search results for: \"" . $_GET["search"] . "\"";
+		
+		?>
+		
+		</h2>
+		
+		<div class="searchbox">
+			<form method="get">
+				<input type="text" name="search" placeholder="Search" value="<?php if(isset($_GET["search"])) echo $_GET["search"]; ?>">
+				<input type="submit" class="button button4" value="Search">
+			</form>
+		</div>
+		
+		<div class="clear"></div>
+			
+	<?php
 
-		$projects = arraySQL("SELECT *, DATE_FORMAT(`Start`,'%d/%c/%Y') as Start, DATE_FORMAT(`End`,'%d/%c/%Y') as End FROM Projects WHERE Supervisor=".$supervisorNum." AND P_Id <> 0 ORDER BY P_Id ASC");
+		$sql = "SELECT *, DATE_FORMAT(`Start`,'%d/%c/%Y') as Start, DATE_FORMAT(`End`,'%d/%c/%Y') as End FROM Projects WHERE Supervisor=".$supervisorNum." AND P_Id <> 0";
+		
+		if(isset($_GET['search']) && $_GET['search'] != ""){
+			$si = $_GET['search'];
+			$sql .= " AND (P_Id LIKE '%" . $si . "%'";
+			$sql .= " OR Name LIKE '%" . $si . "%'";
+			$sql .= " OR ProjectType1 LIKE '%" . $si . "%'";
+			$sql .= " OR ProjectType2 LIKE '%" . $si . "%'";
+			$sql .= " OR ProjectType3 LIKE '%" . $si . "%'";
+			$sql .= " OR Description LIKE '%" . $si . "%'";
+			$sql .= " OR skill LIKE '%" . $si . "%'";
+			$sql .= " OR requirements LIKE '%" . $si . "%'";
+			$sql .= " OR UnitCode LIKE '%" . $si . "%')";
+		}// SEARCHING STUFF (EVERYTHING)
+		
+		$sql .= " ORDER BY P_Id ASC";
+		
+		$projects = arraySQL($sql);
+		
+		//echo $sql;
 		
 		$cardcontent="";
 		

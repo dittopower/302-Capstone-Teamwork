@@ -119,7 +119,26 @@
 			
 			$currentProject = singleSQL("SELECT GroupProject FROM Groups WHERE GroupId=" . $group);
 			
-			echo "<h2>All Projects</h2>";
+			?>
+			
+			<h2 class='searchtitle'>All Projects
+			
+			<?php
+				if(isset($_GET['search']) && $_GET['search'] != "") echo " - Search results for: \"" . $_GET["search"] . "\"";
+			?>
+			
+			</h2>
+			
+			<div class="searchbox">
+				<form method="get">
+					<input type="text" name="search" placeholder="Search" value="<?php if(isset($_GET["search"])) echo $_GET["search"]; ?>">
+					<input type="submit" class="button button4" value="Search">
+				</form>
+			</div>
+			
+			<div class="clear"></div>
+			
+			<?php
 			
 		/*	echo "<table>";	
 			
@@ -134,10 +153,26 @@
 			*/
 			
 			if(inGroup()){
-				$sql = "SELECT `P_Id`, `Name`, `ProjectType1`, `ProjectType2`, `ProjectType3`, `Description`, `skill`, `requirements`, p.`UnitCode`, s.FirstName as Supervisor, DATE_FORMAT(`Start`,'%d/%c/%Y') as Start, DATE_FORMAT(`End`,'%d/%c/%Y') as End, DATE_FORMAT(`Dueby`,'%d/%c/%Y') as Dueby FROM Projects p JOIN Supervisor s ON p.Supervisor = s.SupervisorID JOIN Groups g on g.UnitCode = p.UnitCode WHERE P_Id <> 0 and g.GroupId = '$_SESSION[group]' AND DATE(p.Start) > DATE_SUB(DATE(NOW()),INTERVAL 1 QUARTER) ORDER by `Start`";
+				$sql = "SELECT `P_Id`, `Name`, `ProjectType1`, `ProjectType2`, `ProjectType3`, `Description`, `skill`, `requirements`, p.`UnitCode`, s.FirstName as Supervisor, DATE_FORMAT(`Start`,'%d/%c/%Y') as Start, DATE_FORMAT(`End`,'%d/%c/%Y') as End, DATE_FORMAT(`Dueby`,'%d/%c/%Y') as Dueby FROM Projects p JOIN Supervisor s ON p.Supervisor = s.SupervisorID JOIN Groups g on g.UnitCode = p.UnitCode WHERE P_Id <> 0 and g.GroupId = '$_SESSION[group]' AND DATE(p.Start) > DATE_SUB(DATE(NOW()),INTERVAL 1 QUARTER)";
 			}else{
-				$sql = "SELECT `P_Id`, `Name`, `ProjectType1`, `ProjectType2`, `ProjectType3`, `Description`, `skill`, `requirements`, `UnitCode`, s.FirstName as Supervisor, DATE_FORMAT(`Start`,'%d/%c/%Y') as Start, DATE_FORMAT(`End`,'%d/%c/%Y') as End, DATE_FORMAT(`Dueby`,'%d/%c/%Y') as Dueby FROM Projects p JOIN Supervisor s ON p.Supervisor = s.SupervisorID WHERE P_Id <> 0 AND DATE(p.Start) > DATE_SUB(DATE(NOW()),INTERVAL 1 QUARTER) order by p.Start";
+				$sql = "SELECT `P_Id`, `Name`, `ProjectType1`, `ProjectType2`, `ProjectType3`, `Description`, `skill`, `requirements`, `UnitCode`, s.FirstName as Supervisor, DATE_FORMAT(`Start`,'%d/%c/%Y') as Start, DATE_FORMAT(`End`,'%d/%c/%Y') as End, DATE_FORMAT(`Dueby`,'%d/%c/%Y') as Dueby FROM Projects p JOIN Supervisor s ON p.Supervisor = s.SupervisorID WHERE P_Id <> 0 AND DATE(p.Start) > DATE_SUB(DATE(NOW()),INTERVAL 1 QUARTER)";
 			}
+			
+			if(isset($_GET['search']) && $_GET['search'] != ""){
+				$si = $_GET['search'];
+				$sql .= " AND (p.P_Id LIKE '%" . $si . "%'";
+				$sql .= " OR p.Name LIKE '%" . $si . "%'";
+				$sql .= " OR p.ProjectType1 LIKE '%" . $si . "%'";
+				$sql .= " OR p.ProjectType2 LIKE '%" . $si . "%'";
+				$sql .= " OR p.ProjectType3 LIKE '%" . $si . "%'";
+				$sql .= " OR p.Description LIKE '%" . $si . "%'";
+				$sql .= " OR p.skill LIKE '%" . $si . "%'";
+				$sql .= " OR p.requirements LIKE '%" . $si . "%'";
+				$sql .= " OR p.UnitCode LIKE '%" . $si . "%')";
+			}// SEARCHING STUFF (EVERYTHING)
+			
+			$sql .= " ORDER BY p.Start";
+			
 			$projects = arraySQL($sql);
 			
 			foreach($projects as $thing){

@@ -13,6 +13,19 @@ a{
 	color: black;
 }
 
+.searchbox{
+	float:right;
+	text-align: right;
+	width: 40%;
+	
+	margin-bottom: 20px;
+}
+
+.searchtitle{
+	float:left;
+	display: inline;
+}
+
 table{
 	border-collapse: collapse;
 }

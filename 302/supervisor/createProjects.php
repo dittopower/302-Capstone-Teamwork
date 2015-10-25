@@ -48,8 +48,7 @@
 		}else{
 			echo "<span class='error'>Something went wrong. Project not created.</span>";
 		}
-		
-		
+			
 	}
 	
 	echo "<div class='card2' style='width: calc(100% - 60px);'>";//do the card manually because i dont want to change all this stuff m8
@@ -186,7 +185,7 @@
 		<br><input type='date' name='dueby' value='<?php echo $dueby; ?>' class='inputpadding'><br><br>
 		
 		
-		<?php /************** CHOOSE WHAT BUTTON TO PUT @ THE END ************/
+		<?php /************** CHOOSE WHAT BUTTON TO PUT @ THE END (CREATE OR EDIT)************/
 		
 			if(isset($_POST['editproject'])){
 				echo "<input type='submit' name='editproject' value='Save Changes' class='button button1'>";
@@ -202,7 +201,7 @@
 		
 	</form>
 	
-	<?php if(isset($_POST['editproject'])){ ?>
+	<?php if(isset($_POST['editproject'])){ // THIS IS FOR THE DELETE BUTTON ?>
 		<br><br>
 		<form method='POST' onsubmit='return confirm("Do you really want to delete this project???");'>
 			<input type='hidden' value='<?php echo $projectid; ?>' name='projectID'>
