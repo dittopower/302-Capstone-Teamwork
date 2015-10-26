@@ -74,7 +74,11 @@ table{
 	display: inline;
 }
 
-.nospace h3{
+.mar{
+	margin: 5px;
+}
+
+.nospace h3, .nospace h4{
 	margin: 0;
 	padding: 0;
 	display: inline;
@@ -405,7 +409,7 @@ section{
 		box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.5);
 	}
 	
-		.card h3{
+		.card h3, .card h4{
 			margin-bottom: 0;
 		}
 		
@@ -450,7 +454,7 @@ section{
 		box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.5);
 	}
 	
-		.card2 h3{
+		.card2 h3, .card h4{
 			margin-bottom: 0;
 		}
 		
@@ -471,6 +475,9 @@ section{
 		}
 		
 		/********************** end of DUPLICATE *********************/
+		
+	.skills li{ display: inline-block; float: left; }
+	.skills li:before { padding-right: 5px; content: "\2022"; }
 		
 	#applications{
 		width: calc(100% - 30px);

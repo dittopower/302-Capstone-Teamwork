@@ -85,30 +85,33 @@
 		
 		$appid = $_POST["viewapplication"];
 		
-		echo "<span class='nospace'><h2>Application #".$appid."</h2>";
+		echo "<span class='nospace'>";
+		
+		echo "<h2>Application #".$appid."</h2>";
 		
 		$appRows = rowSQL("SELECT * FROM Project_Applications WHERE ApplicationID=".$appid);
 		
-		echo "<h3>Group:</h3> " . singleSQL("SELECT GroupName FROM Groups WHERE GroupId=" . $appRows["GroupId"]);
-		echo "<br><h3>Project #".  $appRows["P_Id"] .":</h3> " . singleSQL("SELECT Name FROM Projects WHERE P_Id=" . $appRows["P_Id"]);
+		$infocontent = "<h4>Group:</h4> " . singleSQL("SELECT GroupName FROM Groups WHERE GroupId=" . $appRows["GroupId"]);
+		$infocontent .= "<br><h4>Project #".  $appRows["P_Id"] .":</h4> " . singleSQL("SELECT Name FROM Projects WHERE P_Id=" . $appRows["P_Id"]);
 		
-		$groupMembers = arraySQL("SELECT CONCAT(`FirstName`,' ',`LastName`) AS name, a.Username AS username FROM `D_Accounts` a JOIN `Group_Members` g WHERE g.`UserId` = a.`UserId` and `GroupId`=".$appRows["GroupId"]);
+		$infocontent .= "<br><br><h4>Status:</h4> " . $appRows["Status"];
+		$infocontent .= "<br><h4>Time Submitted:</h4> " . date('j/n/y g:ia', strtotime($appRows["TimeSubmitted"]));
+		card2("Information",$infocontent);	
+		
 		
 		/* members listing */
-		echo "<br><h3>Group Members:</h3><br>";
-		
-		echo "<ul class='indent'>";
+		$groupMembers = arraySQL("SELECT CONCAT(`FirstName`,' ',`LastName`) AS name, a.Username AS username FROM `D_Accounts` a JOIN `Group_Members` g WHERE g.`UserId` = a.`UserId` and `GroupId`=".$appRows["GroupId"]);
+	
+		$gmember = "";
+		$gmember .= "<ul>";
 			foreach($groupMembers as $person){
-				echo "<li><a href='http://$_SERVER[HTTP_HOST]/supervisor/user/?u=".$person['username']."' target='_blank'>".$person['name']."</a></li>";
+				$gmember .= "<li><a href='http://$_SERVER[HTTP_HOST]/supervisor/user/?u=".$person['username']."' target='_blank'>".$person['name']."</a></li>";
 			}
-		echo "</ul>";
-		
+		$gmember .= "</ul>";
+		card2("Group Members",$gmember);
 
-		/* Skills listing */
-		echo "<br><h3>Team Skills:</h3></br>";
-		
+		/* Skills listing */		
 		$groupSkills = arraySQL("SELECT Skills FROM User_Details u LEFT JOIN Group_Members g ON g.UserId=u.UserId WHERE g.GroupId=".$appRows["GroupId"]);
-		
 		$allskills = "";
 		
 		foreach($groupSkills as $skillset){
@@ -118,31 +121,38 @@
 		$skillArray = array_unique(explode(',', $allskills));
 		$referenceArray=array();
 		
-		echo "<ul class='indent'>";
+		$skillist = "";
+		$skillist .= "<ul class='skills'>";
+		
 		foreach($skillArray as $sk){
 			
 			if(!in_array(strtolower(trim($sk)), $referenceArray)) {
 				array_push($referenceArray, strtolower(trim($sk)));
 				
-				if(!trim($sk) == ""){
-					echo "<li>" . trim($sk) . "</li>";
+				if(!trim($sk) == ""){				
+					$skillist .= "<li>" . trim($sk) . "</li>";
 				}
 			}
 		}
-		echo "</ul><br>";
+		$skillist .= "</ul><br>";
+		card2("Team Skills",$skillist,"500px");
 		
-		echo "<br><h3>Cover Letter:</h3><br>" . $appRows["CoverLetter"];
-		echo "<br><br><h3>Status:</h3> " . $appRows["Status"];
-		echo "<br><h3>Time Submitted:</h3> " . date('j/n/y g:ia', strtotime($appRows["TimeSubmitted"]));
+		card2("Cover Letter",$appRows["CoverLetter"]);		
 		
-		echo "<br><br><h3>Actions:</h3><br>";
-		
+		$actionscontent = "";
 		if($appRows["Status"] == "StudentAccepted" || $appRows["Status"] == "StudentDeclined"){
-			echo "No actions available, application already processed.";
+			$actionscontent .= "No actions available, application already processed.";
 		}else{
-			echo "<form action='' method='post'><input type='hidden' name='appid' value='".$appid."'><input name='appAction' type='submit' value='Accept' class='button button3'></form><br>";
-			echo "<form action='' method='post'><input type='hidden' name='appid' value='".$appid."'><input name='appAction' type='submit' value='Decline' class='button button2'></form></span>";
+			$actionscontent .= "<form action='' method='post' class='inline'><input type='hidden' name='appid' value='".$appid."'><input name='appAction' type='submit' value='Accept' class='button button3 inline mar'></form>";
+			$actionscontent .= "<form action='' method='post' class='inline'><input type='hidden' name='appid' value='".$appid."'><input name='appAction' type='submit' value='Decline' class='button button2 inline mar'></form>";
 		}
+		
+		echo "<div class='clear'></div>";
+		
+		card2("Actions",$actionscontent);
+		
+		echo "</span>";//to close the .nospace
+		
 	}
 	else{
 			
