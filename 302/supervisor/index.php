@@ -1,6 +1,7 @@
 <?php
 
-	require_once("supervisor.php");
+	require_once "$_SERVER[DOCUMENT_ROOT]/lib.php";
+	supervisor();
 	
 	if(isset($_POST["appAction"])){//accept or deny applications
 		
@@ -56,7 +57,7 @@
 		
 		echo "<ul class='indent'>";
 			foreach($groupMembers as $person){
-				echo "<li><a href='/user/?u=".$person['username']."' target='_blank'>".$person['name']."</a></li>";
+				echo "<li><a href='http://$_SERVER[HTTP_HOST]/supervisor/user/?u=".$person['username']."' target='_blank'>".$person['name']."</a></li>";
 			}
 		echo "</ul>";
 		
@@ -162,7 +163,7 @@
 			$cardcontent .= "<tr>";
 			
 			$cardcontent .= "<td>" . $thing["Description"] . "<br><br><strong>Start:</strong> ".$thing["Start"]."<br><strong>End:</strong> ".$thing["End"];
-			$cardcontent .= "<br><br><form action='createProjects.php' method='post'>
+			$cardcontent .= "<br><br><form action='http://$_SERVER[HTTP_HOST]/supervisor/project/' method='post'>
 			<input type='hidden' name='projectID' value='".$thing["P_Id"]."'>
 			<input type='submit' name='editproject' value='Edit Project' class='button button1'>
 			</form></td>";

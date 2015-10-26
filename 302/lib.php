@@ -59,4 +59,9 @@
 		global $local;
 		require_once $local."page.php";
 	}
+
+	function supervisor(){
+		global $local;
+		require_once $local."supervisor.php";
+	}
 ?>

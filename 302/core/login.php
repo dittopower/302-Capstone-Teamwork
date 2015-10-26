@@ -19,7 +19,7 @@
 			if($data['Password'] === encrypt($pass,$data['Salt'],$user)){
 				
 				$_SESSION['SupervisorID'] = $data['SupervisorID'];
-				header("Location: http://" . $_SERVER[HTTP_HOST] . "/supervisor/supervisorProjects.php");
+				header("Location: http://" . $_SERVER[HTTP_HOST] . "/supervisor/");
 			
 			} else {
 				$e_login = "Incorrect Login Details.";

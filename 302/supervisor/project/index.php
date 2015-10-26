@@ -1,6 +1,7 @@
 <?php
-		
-	require_once('supervisor.php');
+
+	require_once "$_SERVER[DOCUMENT_ROOT]/lib.php";
+	supervisor();
 	
 	$projectid = $_POST['projectID']; //**** EVERYONEE GETTT IINN HEEERRREEE ****//
 	

@@ -48,9 +48,9 @@
 	
 	<nav>
 		<ul>
-			<li><a href="/supervisor/supervisorProjects.php">View Projects</a></li>
-			<li><a href="/supervisor/createProjects.php">Create Project</a></li>
-			<li><a href="/supervisor/supervisorGroups.php">View Groups</a></li>
+			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/supervisor/">View Projects</a></li>
+			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/supervisor/project/">Create Project</a></li>
+			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/supervisor/groups/">View Groups</a></li>
 		</ul>
 		<form id='logoutBtn' class='_pannel' method='POST' action=''>
 			<?php echo singleSQL("SELECT CONCAT(FirstName, ' ', Surname) FROM Supervisor WHERE SupervisorID=".$_SESSION['SupervisorID']); ?>&nbsp;

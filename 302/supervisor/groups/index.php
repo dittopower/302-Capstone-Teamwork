@@ -1,6 +1,7 @@
 <?php
-		
-	require_once("supervisor.php");
+
+	require_once "$_SERVER[DOCUMENT_ROOT]/lib.php";
+	supervisor();
 	
 	//display groups
 	
@@ -8,7 +9,7 @@
 	
 	echo "<h2>Your Groups (Supervisor #".$supervisorNum.")</h2>";
 	
-	$groups = arraySQL("SELECT * FROM Groups WHERE Supervisor=".$supervisorNum);//maybe it needs to go off of the projects supervisor not the groups
+	$groups = arraySQL("SELECT g.* FROM Groups g join Projects p on g.GroupProject = p.P_Id WHERE p.Supervisor = '$supervisorNum'");//maybe it needs to go off of the projects supervisor not the groups
 	
 	$cardcontent = "";
 	
