@@ -94,7 +94,7 @@
 	
 	<hr>
 	
-	<form action='createProjects.php' method='POST' id='projcreate'>
+	<form method='POST' id='projcreate'>
 		<?php if(isset ($_POST['title']) && $_POST['title'] == null){
 			echo "<span class='error'>You are missing a title</span><br>";
 			} 
