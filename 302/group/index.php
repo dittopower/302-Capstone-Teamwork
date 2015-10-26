@@ -3,15 +3,19 @@
 	page();
 	lib_login();
 	lib_group();
+	lib_feed();
 	
 	//User leaving group
 	if(isset($_POST['quit'])){
+		post("#$_SESSION[group]|@$_SESSION[group]","Member Quit","<span class='error'>$_SESSION[name] quit Group $_SESSION[group]: $_SESSION[gname]</span>");
 		remove_member();
 		group();
 	}
 	
 	//Require user to be in a group
 	group_selected();
+	$allowed = canUser(singleSQL("SELECT UnitCode FROM Groups where GroupId = '$_SESSION[group]'"));
+	
 	
 	debug($_POST);
 	function vote_remove($who){
@@ -29,10 +33,12 @@
 				runSQL("Delete from Group_Mod where Group_Id = '$_SESSION[group]' and who = '$who'");
 				note("member_vote","COMPLETE::$_SESSION[group]::removed::$who");
 				echo "<span class='error'>Vote Success: Member Evicted</span>";
+				post("#$_SESSION[group]|@$_SESSION[group]","Removal vote completion","<span class='error'>The group removed $who</span>");
 			}else{
 				debug("dont");
 				note("member_vote","COMPLETE::$_SESSION[group]::Kept::$who");
 				runSQL("Delete from Group_Mod where Group_Id = '$_SESSION[group]' and who = '$who'");
+				post("#$_SESSION[group]|@$_SESSION[group]","Removal vote completion","<span class='error'>The group kept $who</span>");
 				echo "<span class='sucess'>Vote Failed: Member Retained</span>";
 			}
 		}
@@ -53,11 +59,13 @@
 				runSQL("Delete from Group_Mod where Group_Id = '$_SESSION[group]' and who = '$who'");
 				note("member_vote","COMPLETE::$_SESSION[group]::added::$who");
 				echo "<span class='Sucess'>Vote Success: Member Added</span>";
+				post("#$_SESSION[group]|@$_SESSION[group]","Add vote completion","<span class='sucess'>The group added $who</span>");
 			}else{
 				debug("dont");
 				note("member_vote","COMPLETE::$_SESSION[group]::rejected::$who");
 				runSQL("Delete from Group_Mod where Group_Id = '$_SESSION[group]' and who = '$who'");
 				echo "<span class='error'>Vote Failed: Applicant Rejected</span>";
+				post("#$_SESSION[group]|@$_SESSION[group]","Add vote completion","The group rejected $who");
 			}
 		}
 	}
@@ -67,6 +75,7 @@
 			case 'Remove':
 				if(runSQL("INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Remove', '$_POST[who]') ON DUPLICATE KEY UPDATE `Action` = 'Remove';")){
 					note('member_vote',"DONE:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
+					post("@$_SESSION[group]","Removal Vote","<span class='error'>Voted to remove $_POST[who]</span>");
 					vote_remove($_POST['who']);
 				}else{
 					note('member_vote',"FAILED:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
@@ -75,6 +84,7 @@
 			case 'Keep':
 				if(runSQL("INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Cancel', '$_POST[who]') ON DUPLICATE KEY UPDATE `Action` = 'Cancel';")){
 					note('member_vote',"DONE:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
+					post("@$_SESSION[group]","Removal Vote","<span class='error'>Voted to Keep $_POST[who]</span>");
 					vote_remove($_POST['who']);
 				}else{
 					note('member_vote',"FAILED:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
@@ -84,6 +94,7 @@
 			case 'Accept':
 				if(runSQL("INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Add', '$_POST[who]') ON DUPLICATE KEY UPDATE `Action` = 'Add';")){
 					note('member_vote',"DONE:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
+					post("@$_SESSION[group]","Add Vote","<span class='sucess'>Voted to add $_POST[who]</span>");
 					vote_add($_POST['who']);
 				}else{
 					note('member_vote',"FAILED:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
@@ -92,6 +103,7 @@
 			case 'Decline':
 				if(runSQL("INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Deny', '$_POST[who]') ON DUPLICATE KEY UPDATE `Action` = 'Deny';")){
 					note('member_vote',"DONE:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
+					post("@$_SESSION[group]","Add Vote","<span class='sucess'>Voted to reject $_POST[who]</span>");
 					vote_add($_POST['who']);
 				}else{
 					note('member_vote',"FAILED:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
@@ -106,6 +118,7 @@
 		if(isset($_POST['gname']) && strlen($_POST['gname']) > 1){
 			$namechange = runSQL("UPDATE `Groups` SET `GroupName` = '$_POST[gname]' WHERE `Groups`.`GroupId` = '$_SESSION[group]'");
 			note("Groups","Name Change::$_POST[gname]");
+			post("#$_SESSION[group]|@$_SESSION[group]","Name Change","The Groups name has been changed to '$_POST[gname]'");
 		}
 	}
 	
@@ -152,7 +165,11 @@
 		$cardcontent .= "<br>With supervisor: <strong>" . $thing["Supervisor"] . "</strong>";
 	card("Your Project Details",$cardcontent, 500);
 	
-
+	if($allowed){
+		feed("@$_SESSION[group]","Admin Feed");
+	}
+	
+	feed("#$_SESSION[group]","$_SESSION[gname]'s Feed");
 
 
 ///Group Alteration stuff
@@ -160,7 +177,7 @@
 	
 	if(isset($namechange)){
 		if($namechange){
-			echo "<div class=sucess>Group Name Updated.<meta http-equiv='refresh' content='0'></div>";
+			//echo "<div class=sucess>Group Name Updated.<meta http-equiv='refresh' content='0'></div>";
 		}else{
 			echo "<div class=error>Group Name Change Failed.</div>";
 		}
@@ -175,7 +192,7 @@
 	* Leaving groups and voting to remove members
 	*/
 		//Current in progress votes
-		$sql = "Select FirstName, UserId, MAX(IF(User_Id = '92213407', IF(Action = 'Remove',1,2), '0')) as Voted from Group_Mod join D_Accounts on who = UserId where Who != '$_SESSION[person]' and Group_Id = '$_SESSION[group]' and `Action` = 'Remove' or `Action` = 'Cancel' group by Who";
+		$sql = "Select FirstName, UserId, MAX(IF(User_Id = '$_SESSION[person]', IF(Action = 'Remove',1,2), '0')) as Voted from Group_Mod join D_Accounts on who = UserId where Who != '$_SESSION[person]' and Group_Id = '$_SESSION[group]' and `Action` = 'Remove' or `Action` = 'Cancel' group by Who";
 		$result = multiSQL($sql);
 		$cardcontent = "<h3>Current Votes</h3><hr>";
 		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){

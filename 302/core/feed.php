@@ -1,90 +1,67 @@
 <?php //Load Template
 	
 	lib_database();
+	lib_code();
 	lib_perms();
 	lib_files();
-?>
-<!-- START content -->
+	lib_group();
 
-<?php //`D_Articles`  `art_id``user_id``post_date``mod_date``tags` title`contents`
-function feed($topic){
-	$max_page = 10;
-	$edit = 0;
-	$permision = 'post';
 	
-	echo "<section id=newfeed >";
-	
-	if(canUserPerm($permision,$topic)){
-		$edit = 1;
-		if(isset($_POST['feed'])){
-			if($_POST['feed'] == 'Post'){
-				global $mysqli;
-				$sql = mysqli_prepare($mysqli, "INSERT INTO `deamon_core`.`D_Articles` (`user_id`, `post_date`, `mod_date`, `tags`, `title`, `contents`) VALUES (?, NOW(), NOW(), ?, ?, ?)");
-				$tags = $_POST['Topic']."|".preg_replace("/, |,/", "|", $_POST['Tags'])."|";
-				$content = d_text($_POST['Content']);
-				
-				mysqli_stmt_bind_param($sql,"ssss",$_SESSION['person'],$tags,$_POST['Title'],$content);
-			
-				if(mysqli_stmt_execute($sql)){
-					echo '<div>Article Posted.</div>';
-					note('newsfeed',"Posted::$_POST[Title]");
-				} else {
-					echo '<div>Posting Failed.</div>';
-					note('newsfeed',"Failed::$_POST[Title]");
-				}
-				mysqli_stmt_close($sql);
-				unset($tags);
-				unset($sql);
-			}
+	function post($feed,$title,$content){
+		global $mysqli;
+		$sql = mysqli_prepare($mysqli, "INSERT INTO `D_Articles` (`user_id`, `post_date`, `mod_date`, `tags`, `title`, `contents`) VALUES (?, NOW(), NOW(), ?, ?, ?)");
+		$feed .= "|";
+		mysqli_stmt_bind_param($sql,"ssss",$_SESSION['person'],$feed,$title,$content);
+
+		if(mysqli_stmt_execute($sql)){
+			note('newsfeed',"Posted::$_POST[Title]");
+		} else {
+			note('newsfeed',"Failed::$_POST[Title]");
 		}
-		
-		echo "<form name='newpost' id='feed_post' method='POST'>";
-		echo "<input name='Topic' type='text' value='$topic' hidden>";
-		echo "<label for='nft'>Title</label>";
-		echo "<input name='Title' id='nft' type='text' placeholder='Something Awesome...'>";
-		echo "<label for='nfta'>Tags</label>";
-		echo "<input name='Tags' id='nfta' type='text' placeholder='Pie, Swag, Badger, etc.'>";
-		echo "<textarea name='Content' placeholder='Post content...'></textarea>";
-		echo "<input name='feed' type='submit' value='Post'>";
-		echo "</form>";
+		mysqli_stmt_close($sql);
+		unset($sql);
 	}
 	
+	
+//`D_Articles`  `art_id``user_id``post_date``mod_date``tags` title`contents`
+function feed($topic, $name=""){
+	$max_page = 6;
+	
+	$cardcont = "<span id=newfeed >";
+	
+	//posting
+	if(isset($_POST['feed'])){
+		if($_POST['feed'] == 'Post'){
+			global $mysqli;
+			$sql = mysqli_prepare($mysqli, "INSERT INTO `D_Articles` (`user_id`, `post_date`, `mod_date`, `tags`, `title`, `contents`) VALUES (?, NOW(), NOW(), ?, ?, ?)");
+			$tags = $topic."|@$topic";
+			$content = d_text($_POST['Content']);
+			
+			mysqli_stmt_bind_param($sql,"ssss",$_SESSION['person'],$tags,$_POST['Title'],$content);
+		
+			if(mysqli_stmt_execute($sql)){
+				$cardcont .= '<div>Article Posted.</div>';
+				note('newsfeed',"Posted::$_POST[Title]");
+			} else {
+				$cardcont .= '<div>Posting Failed.</div>';
+				note('newsfeed',"Failed::$_POST[Title]");
+			}
+			mysqli_stmt_close($sql);
+			unset($tags);
+			unset($sql);
+		}
+	}
+	$cardcont .= "<form name='newpost' id='feed_post' method='POST'>";
+	$cardcont .= "<label for='nft'>Title</label>";
+	$cardcont .= "<input name='Title' id='nft' type='text' placeholder='Something Awesome...'>";
+	$cardcont .= "<br><textarea name='Content' cols=50 rows=2 placeholder='Post content...'></textarea>";
+	$cardcont .= "<br><input name='feed' type='submit' value='Post'>";
+	$cardcont .= "</form><br>";
+	
+	//listing
 	global $nsql;
 	$nsql = "Select art_id, Username, user_id, DATE_FORMAT(post_date, '%H:%i %d %b %y') as postd, DATE_FORMAT(mod_date, '%H:%i %d %b %y') as modd, tags, title, contents from D_Articles a join D_Accounts u on user_id = UserId";
 	$w = 0;
-	function where(){
-		global $w;
-		global $nsql;
-		if(!$w){
-			$nsql .= " where";
-			$w = 1;
-		}else{
-			$nsql .= " and";
-		}
-	}
-	
-	if(isset($_GET['feed'])){
-		echo "<form name='searchpost' id='feed_post' method='GET'>";
-	//	echo "<input name='feed' type='text' hidden>";
-		echo "<label for='s_tags'>Tags: </label>";
-		echo "<input name='tag' id='s_tags' type='text' placeholder='I.e. coding, php'>";
-		echo "<label for='s_author'>Author: </label>";
-		echo "<input name='u' id='s_author' type='text' placeholder='I.e. deamon'>";
-		echo "<input name='feed' type='submit' value='Search'>";
-		echo "</form>";
-		
-		if(isset($_GET['u']) && $_GET['u'] != ''){
-			where();
-			$nsql .= " Username = '".escapeSQL($_GET['u'])."'";
-		}
-		if(isset($_GET['tag']) && $_GET['tag'] != ''){
-			$tags=preg_split("/, |,/",escapeSQL($_GET['tag']));
-			foreach ($tags as $key=>$val){
-				where();
-				$nsql .= " tags like '%".$val."|%'";
-			}
-		}
-	}
 	
 	if(strlen($topic) > 0){
 		where();
@@ -102,44 +79,28 @@ function feed($topic){
 	$result = multiSQL($nsql);
 	
 	while ($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
-		echo "<article>";
+		$cardcont .= "<article>";
 	//Title
-		echo "<h1>$row[title]</h1>";
-	
-	//Can edit?
-		if($edit){
-			if(getUserLevel($permision) > 1 || $_SESSION['person'] == $row['user_id']){
-				echo "<form name='editpost'>";
-				echo "<input name='art' type='text' value='$art_id' hidden>";
-				echo "<input name='feed' type='button' value='Edit' onclick=\"alert('You haven`t made this feature yet.')\">";
-				echo "</form>";
-			}
-		}
+		$cardcont .= "<h1>$row[title]</h1>";
 		
 	//Author, Dates
-		echo "<div class='info'>";
-		echo "<a class='author' href='?feed&u=$row[Username]'>$row[Username]</a>";
-		echo " <a href='/me?u=$row[Username]'><i>P</i></a>";
-		echo "<div>Posted $row[postd]</div>";
+		$cardcont .= "<div class='info'>";
+		$cardcont .= "$row[postd] by ";
+		$cardcont .= "<a class='author' href='http://$_SERVER[HTTP_HOST]/user?u=$row[Username]'>$row[Username]</a>";
 		if ($row['postd'] != $row['modd']){
-			echo "<div>Modified $row[modd]</div>";
+			$cardcont .= " Modified $row[modd]";
 		}
-		echo "</div>";
-		
-	//tags
-		echo "<div class='tags'>";
-		echo preg_replace("/([^|]+)\|/", "<a href='?feed&tag=$1'>$1</a>, ", $row['tags']);
-		echo "</div>";
+		$cardcont .= "</div><hr>";
 		
 	//contents
-		echo "<div class='contents'>";
-		echo $row['contents'];
-		echo "</div>";
+		$cardcont .= "<div class='contents'>";
+		$cardcont .= $row['contents'];
+		$cardcont .= "</div>";
 		
-		echo "</article>";
+		$cardcont .= "</article>";
 	}
-	echo "<script>page=/([\?\&]p=)([0-9]+)/.exec(window.location.search);";
-	echo "function paget(val){
+	$cardcont .= "<script>page=/([\?\&]p=)([0-9]+)/.exec(window.location.search);";
+	$cardcont .= "function paget(val){
 		if(page==null){
 			if(window.location.search.search(/\?/)+1){
 				window.location=window.location.href + '&p=1';
@@ -150,14 +111,27 @@ function feed($topic){
 			page[2]=Number(page[2])+val;
 			window.location=window.location.href.replace(page[0],page[1]+page[2]);
 		}}</script>";
-	echo "<button onclick='paget(-1)'";
+	$cardcont .= "<button onclick='paget(-1)'";
 	if(!is_numeric($_GET['p']) || $_GET['p'] < 1){
-		echo " disabled";
+		$cardcont .= " disabled";
 	}
-	echo "> < </button>";
-	echo "<button onclick='paget(1)'> > </button>";
-	echo "</section>";
+	$cardcont .= "> < </button>";
+	$cardcont .= "<button onclick='paget(1)'> > </button>";
+	$cardcont .= "</span>";
+	
+	card($name,$cardcont);
 }
+
+	function where(){
+		global $w;
+		global $nsql;
+		if(!$w){
+			$nsql .= " where";
+			$w = 1;
+		}else{
+			$nsql .= " and";
+		}
+	}
 //
 ?>
 

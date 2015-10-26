@@ -29,6 +29,11 @@
 		require_once $home."core/media.php";
 	}
 
+	function lib_feed(){
+		global $home;
+		require_once $home."core/feed.php";
+	}
+
 	function lib_perms(){
 		global $home;
 		require_once $home."core/perms.php";
