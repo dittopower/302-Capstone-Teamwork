@@ -15,7 +15,7 @@
 	while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
 		$cardcontent = "Unit: $row[UnitCode]<br>";
 		$cardcontent .= "Project: $row[GroupProject]<br>";
-		$cardcontent .= "<a href='http://$_SERVER[HTTP_HOST]/group?group=$row[GroupId]'><input class='button button4' type='button' value='Open'></a>";
+		$cardcontent .= "<a href='http://$_SERVER[HTTP_HOST]/group?group=$row[GroupId]'><input class='button button1' type='button' value='Open'></a>";
 		card($row['GroupName'],$cardcontent,200);
 	}	
 
