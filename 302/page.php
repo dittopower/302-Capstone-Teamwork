@@ -1,6 +1,7 @@
 <?php require_once "$_SERVER[DOCUMENT_ROOT]/lib.php";
 	lib_login();
 	lib_group();
+	lib_perms();
 	if(($_SESSION['registered'] != 1) && ($_SERVER['REQUEST_URI'] != "/first_time/") && !isset($_SESSION['SupervisorID'])){
 		header("Location: http://$_SERVER[HTTP_HOST]/first_time");
 		echo "<a href='http://$_SERVER[HTTP_HOST]/first_time'>rediect</a>";
@@ -193,9 +194,15 @@
 			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/group"><?php echo "$_SESSION[gname]"?></a></li>
 			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/files">Files</a></li>
 			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/projects">Projects</a></li>
-		<?php }else{?>
+		<?php }else{ ?>
 			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/group/find">Group Finder</a></li>
-		<?php } ?>
+		<?php }
+		
+		$result = multiSQL("Select what from D_Perms where UserId = '$_SESSION[person]'");
+		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){ 
+			echo "<li><a href='http://$_SERVER[HTTP_HOST]/admin?sub=$row[what]'>$row[what]</a></li>";
+		}
+		?>
 		</ul>
 		<form id='logoutBtn' class='_pannel' method='POST'>
 		<a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/user" class='button button1'><?php echo "$_SESSION[name]";?></a>

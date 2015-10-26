@@ -65,7 +65,7 @@
 	if(isset($_POST['vote']) && is_numeric($_POST['who']) && $_POST['who'] != $_SESSION['person']){
 		switch($_POST['vote']){
 			case 'Remove':
-				if(runSQL("INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Remove', '$_POST[who]') ON DUPLICATE KEY UPDATE `Action` = 'Remove';;")){
+				if(runSQL("INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Remove', '$_POST[who]') ON DUPLICATE KEY UPDATE `Action` = 'Remove';")){
 					note('member_vote',"DONE:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
 					vote_remove($_POST['who']);
 				}else{

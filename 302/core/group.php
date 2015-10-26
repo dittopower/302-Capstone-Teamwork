@@ -21,9 +21,11 @@
 			}
 		}
 		if($g != ""){
-			if(singleSQL("Select 1 from Group_Members where UserId = '$_SESSION[person]' and GroupId = '$g';")){
+			$sql = "Select 1 from Group_Members m join Groups g on m.GroupId = g.GroupId join D_Perms p on g.UnitCode = p.what where m.GroupId = '$g' and (m.UserId = '$_SESSION[person]' or Supervisor = '$_SESSION[person]' or (p.UserId = '$_SESSION[person]' and p.level > 1)) group by m.GroupId;";
+			debug($sql);
+			if(singleSQL($sql)){
 				$_SESSION['group'] = $g;
-				$_SESSION['gname'] = singleSQL("Select GroupName from `Groups` g join Group_Members m on g.`GroupId` = m.GroupId where UserId = '$_SESSION[person]' and g.GroupId = '$g';");
+				$_SESSION['gname'] = singleSQL("Select GroupName from `Groups` g where g.GroupId = '$g';");
 			}else{
 				unset($_SESSION['group']);
 				return false;
