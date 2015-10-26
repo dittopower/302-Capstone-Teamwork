@@ -13,6 +13,10 @@ a{
 	color: black;
 }
 
+.wideinput input{
+	width: 100%;
+}
+
 .searchbox{
 	float:right;
 	text-align: right;
@@ -499,6 +503,17 @@ section{
 		position: absolute;
 		right: 1em;
 		top: 1em;
+	}
+	
+	.pinfobottom{
+		width: 100%;
+		clear:both;
+		
+		display: inline-block;
+		margin-left: 1em;
+		margin-bottom: 2em;
+		vertical-align: top;
+		margin-right: 1em;
 	}
 
 #start_vote_person{

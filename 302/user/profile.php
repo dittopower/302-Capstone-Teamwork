@@ -34,12 +34,12 @@
 			$cardcontent .=  "<br><b>Contact Email:</b> <a href='mailto:$Email'>$Email</a>";
 			$cardcontent .=  "<br /><b>Phone:</b> <a href='tel:$Phone'>$Phone</a>";
 			$cardcontent .=  "<br /><b>Skype:</b> <a href='skype:$Skype?chat'>$Skype</a>";
-			$cardcontent .=  "<br /><b>LinkedIn:</b> <a href='https://www.linkedin.com/profile/view?id=$LinkedIn'>LinkedIn Profile</a>";
+			$cardcontent .=  "<br /><b>LinkedIn:</b> <a href='https://www.linkedin.com/profile/view?id=$LinkedIn' target='_blank'>LinkedIn Profile</a>";
 			$cardcontent .=  "<br /><b>Facebook:</b> <a href='https://www.facebook.com/$Facebook' target='_blank'>$Facebook</a>";
 			card("Contact", $cardcontent);
 			
 			$cardcontent = "<b>GPA:</b> ".$GPA;
-			$cardcontent .=   "<br /><b>Skills:</b> <ul>";
+			$cardcontent .= "<br><b>Skills:</b> <ul>";
 			$myskills = explode(", ",$Skills);
 			foreach($myskills as $item){
 				$cardcontent .=   "<li>".$item."</li>";

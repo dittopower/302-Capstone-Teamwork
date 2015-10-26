@@ -97,32 +97,36 @@
 	mysqli_stmt_bind_result($sql,$GPA,$Skills,$Blurb,$LinkedIn,$Email,$Facebook,$Skype,$Phone);
 	$result = $sql->store_result();
 	
-	$cardcont = "";
+	$cardcont = "<span class='wideinput'>";
 	while (mysqli_stmt_fetch($sql)) 
 	{	
 		$cardcont .= "<form name='reg' method='post'>";
-		$cardcont .= "<div><label for='email'>Email:";if(isset($e) && !$e){$cardcont .= "<span class='error'> Error</span>";}$cardcont .= "</label>";
+		$cardcont .= "<div><label for='email'>Email";if(isset($e) && !$e){$cardcont .= "<span class='error'> Error</span>";}$cardcont .= "</label>";
 		$cardcont .= "<input type='email' name='email' id='email' value='".$Email."'></div>";
 
-		$cardcont .= "<div><label for='phone'>Phone Number:";if(isset($p) && !$p){$cardcont .= "<span class='error'> Error</span>";}$cardcont .= "</label>";
+		$cardcont .= "<br><div><label for='phone'>Phone Number";if(isset($p) && !$p){$cardcont .= "<span class='error'> Error</span>";}$cardcont .= "</label>";
 		$cardcont .= "<input type='tel' name='phone' id='phone' value='".$Phone."'></div>";
 		
-		$cardcont .= "<div><label for='LinkedIn'>LinkedIn (optional):";if(isset($l) && !$l){$cardcont .= "<span class='error'> Error</span>";} $cardcont .= "</label>";
-		$cardcont .= "<p>linkedin.com/profile/view?id=<b class='target'>Your-Profile</b>&trk=nav_responsive_tab_profile_pic</p>";
+		$cardcont .= "<br><div><label for='LinkedIn'>LinkedIn (optional)";if(isset($l) && !$l){$cardcont .= "<span class='error'> Error</span>";} $cardcont .= "</label>";
+		$cardcont .= "linkedin.com/profile/view?id=<b class='target'>Your-Profile</b>&<br>";//trk=nav_responsive_tab_profile_pic
 		$cardcont .= "<input type='text' name='LinkedIn' id='LinkedIn' value='".$LinkedIn."'></div>";
 		
-		$cardcont .= "<div><label for='Skype'>Skype:";if(isset($sk) && !$sk){$cardcont .= "<span class='error'> Error</span>";} $cardcont .= "</label>";
-		$cardcont .= "<input type='text' name='Skype' id='Skype' value='".$Skype."'><span class=target> Necessary for Group Calls from this site.</span></div>";
+		$cardcont .= "<br><div><label for='Skype'>Skype";
+		if(isset($sk) && !$sk){$cardcont .= "<span class='error'> Error</span>";}
+		$cardcont .= "</label><span class='target'>(Necessary for Group Calls from this site)</span><br>";
 		
-		$cardcont .= "<div><label for='Facebook'>Facebook:";if(isset($f) && !$f){$cardcont .= "<span class='error'> Error</span>";} $cardcont .= "</label>";
-		$cardcont .= "<p>facebook.com/<b class='target'>Your-Profile</b></p>";
+		$cardcont .= "<input type='text' name='Skype' id='Skype' value='".$Skype."'></div>";
+		
+		$cardcont .= "<br><div><label for='Facebook'>Facebook";if(isset($f) && !$f){$cardcont .= "<span class='error'>Error</span>";} $cardcont .= "</label>";
+		$cardcont .= "facebook.com/<b class='target'>Your-Profile</b><br>";
 		$cardcont .= "<input type='text' name='Facebook' id='Facebook' value='".$Facebook."'></div>";
-	card("Contact Details",$cardcont);
+		
+	card("Contact Details",$cardcont . "</span>");
 		
 		$cardcont = "<div><label for='gpa'>Average Grade <i>GPA</i> (optional):";if(isset($g) && !$g){$cardcont .= "<span class='error'> Error</span>";} $cardcont .= "</label>";
 		$cardcont .= "<input type='number' name='gpa' id='gpa' min=0 max=7 step=0.1 value=".$GPA."></div>";
 		
-		$cardcont .= "<div><label for='skills'>Skills:<br><i>Enter your Skills separted by commas <b>,</b> .</i><br>";
+		$cardcont .= "<br><div><label for='skills'>Skills <span class=target>(Enter your Skills separted by commas)<br>";
 		if(isset($s) && !$s){
 			$cardcont .= "<span class='error'> Error</span>";
 		}

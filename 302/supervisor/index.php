@@ -201,39 +201,29 @@
 		$cardcontent="";
 		
 		foreach($projects as $thing){
-			
-			$cardcontent .= "<table class='cardtable'>";
-			
-			$cardcontent .= "<tr>";
-			$cardcontent .= "<th>Description</th>";
-			$cardcontent .= "<th>Requirements</th>";
-			$cardcontent .= "<th>Project Type</th>";
-			$cardcontent .= "<th>Skills</th>";
-			$cardcontent .= "<th>Unit</th>";
-			$cardcontent .= "<th class='wide'>Applications</th></tr>";
-			
-			$cardcontent .= "<tr>";
-			
-			$cardcontent .= "<td>" . $thing["Description"] . "<br><br><strong>Start:</strong> ".$thing["Start"]."<br><strong>End:</strong> ".$thing["End"];
-			$cardcontent .= "<br><br><form action='http://$_SERVER[HTTP_HOST]/supervisor/project/' method='post'>
+				
+			$cardcontent .= "<span class='pinfo'><h4>Description</h4>" . $thing["Description"];
+			$cardcontent .= "<form action='http://$_SERVER[HTTP_HOST]/supervisor/project/' method='post'>
 			<input type='hidden' name='projectID' value='".$thing["P_Id"]."'>
 			<input type='submit' name='editproject' value='Edit Project' class='button button1'>
-			</form></td>";
+			</form></span><br>";
 			
-			$cardcontent .= "<td>" . $thing["requirements"] . "</td>";
-			$cardcontent .= "<td><ul><li>" . $thing["ProjectType1"] ."</li><li>". $thing["ProjectType2"] ."</li><li>". $thing["ProjectType3"] . "</li></ul></td>";
+			$cardcontent .= "<span class='pinfo'><h4>Requirements</h4>" . $thing["requirements"] . "</span><br>";
+			$cardcontent .= "<span class='pinfo'><h4>Project Type</h4><ul><li>" . $thing["ProjectType1"] ."</li><li>". $thing["ProjectType2"] ."</li><li>". $thing["ProjectType3"] . "</li></ul></span>";
 			
 			$skills=explode(",",$thing["skill"]);
 			
-			$cardcontent .= "<td><ul>";
+			$cardcontent .= "<span class='pinfo'><h4>Skills</h4><ul>";
 				foreach($skills as $skill){
 					$cardcontent .= "<li>" . $skill . "</li>";
 				}
-			$cardcontent .= "</ul></td>";
+			$cardcontent .= "</ul></span>";
 			
-			$cardcontent .= "<td>" . $thing["UnitCode"] . "</td>";	
+			$cardcontent .= "<span class='pinfo'><h4>Unit</h4>" . $thing["UnitCode"] . "</span>";
 			
-			$cardcontent .= "<td class='wide'>";			
+			$cardcontent .= "<span class='pinfo'><h4>Dates</h4>Start: " . $thing["Start"] . "<br>End: " . $thing["End"] . "</span>";
+			
+			$cardcontent .= "<hr><div class='pinfobottom'><h4>Applications</h4><br>";			
 			$apps = arraySQL("SELECT * FROM Project_Applications WHERE P_Id=" . $thing["P_Id"]);
 			foreach($apps as $single){
 				
@@ -259,11 +249,11 @@
 				$cardcontent .= "";//fix the floating things (clear)
 				
 			}			
-			$cardcontent .= "</td>";
-			
-			$cardcontent .= "</tr></table>";
+			$cardcontent .= "</div>";
 			
 			card2($thing["Name"],$cardcontent,"calc(100% - 60px)");//bro
+			
+			echo "<div class='clear'></div><br>";
 			
 			$cardcontent="";
 			

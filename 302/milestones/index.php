@@ -3,6 +3,7 @@
 	page();
 	lib_login();
 	lib_group();
+	lib_feed();
 	
 	$group = $_SESSION['group'];
 	
@@ -36,9 +37,13 @@
 			
 			if($current == "&#10004;"){//tick
 				$sql .= 0;
+				
+				post("#$_SESSION[group]|@$_SESSION[group]","Milestone Completed","<span class=sucess> what </span>");
 			}
 			else if($current == "&#10066;"){//cross
 				$sql .= 1;
+				
+				post("#$_SESSION[group]|@$_SESSION[group]","Milestone UnCompleted","<span class=error> what </span>");
 			}
 			
 			$sql .= " WHERE MID=" . $mid;
