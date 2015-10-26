@@ -29,22 +29,26 @@
 	
 </HEAD>
 <BODY>
-	<!--<aside>
+	<aside id="supervisoraside">
 	
-		<div id="infobox">
-			<img src="http://<?php echo "$_SERVER[HTTP_HOST]";?>/qut-logo-200.jpg" class="logoimg">
-			<h3>QUT || Teamwork</h3>
-			<h4>Supervisor View</h4>			
+		<div id="infobox">			
+			<!--<img src="http://<?php echo "$_SERVER[HTTP_HOST]";?>/qut-logo-200.jpg" id="logoimg">-->
+			<img src="http://<?php echo "$_SERVER[HTTP_HOST]";?>/teamwork-logo-800px.png" id="teamworklogo">
+			
+			<div class='clear'></div>
+			
+			<h3 id="sidebartitle">Supervisor View</h3>
+			<!--Supervisor: #<?php //echo $_SESSION["SupervisorID"]; ?>-->
 		</div>
 		
 		<div id="chatarea">
 			<div id="supervisorSide">
-				<h3>Supervisor Actions</h3>
+				<!--<h3>Supervisor Actions</h3>
 				<input type="button" value="Generate Summary Report" class='button button1'><br><br>
-				<input type="button" value="Some other function" class='button button1'>
+				<input type="button" value="Some other function" class='button button1'>-->
 			</div>
 		</div>
-	</aside>-->
+	</aside>
 	
 	<nav id="supervisornav">
 		<ul>

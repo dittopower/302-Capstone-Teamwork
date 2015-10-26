@@ -161,10 +161,14 @@
 <BODY>
 	<aside><!-- sidebar -->
 	
-		<div id="infobox">
-			<img src="http://<?php echo "$_SERVER[HTTP_HOST]";?>/qut-logo-200.jpg" class="logoimg">
-			<h3>QUT || Teamwork</h3>
-			<h4>Current Group: <?php echo $_SESSION['gname']; ?></h4>			
+		<div id="infobox">			
+			<!--<img src="http://<?php echo "$_SERVER[HTTP_HOST]";?>/qut-logo-200.jpg" id="logoimg">-->
+			<img src="http://<?php echo "$_SERVER[HTTP_HOST]";?>/teamwork-logo-800px.png" id="teamworklogo">
+			
+			<div class='clear'></div>
+
+			<h3 id="sidebartitle">Student View</h3>
+			<h4>Current Group: "<?php echo $_SESSION['gname']; ?>"</h4>
 		</div>
 		
 		<div id="chatarea">
