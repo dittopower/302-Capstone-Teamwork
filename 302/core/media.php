@@ -6,6 +6,7 @@
 	lib_group();
 	lib_perms();
 	lib_files();
+	lib_feed();
 	
 	$custom = ["custom.css"=>"../media/$_SESSION[person]/custom.css"];
 	
@@ -223,6 +224,7 @@
 						$id = singleSQL("Select LAST_INSERT_ID();");
 						note('upload',"Uploaded::".basename( $_FILES["fileToUpload"]["name"]));
 					}
+					post("#$_SESSION[group]|@$_SESSION[group]","File uploaded",basename( $_FILES["fileToUpload"]["name"])." was uploaded.");
 					$uploadTxt = "<span class='sucess'>The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded to <a href='//$_SERVER[HTTP_HOST]/files/view?$id' target='_blank'>$_SERVER[HTTP_HOST]/files/view?$id</a>.</span><hr>";
 				}else{
 					note('upload',"Failed::".basename( $_FILES["fileToUpload"]["name"]));
@@ -243,6 +245,7 @@
 					runSQL("DELETE FROM D_Media WHERE media_id=$_POST[file]");
 					unlink($home.$row['location']);
 					note('upload',"Deleted::media-$_POST[file]::".basename($row['location']));
+					post("#$_SESSION[group]|@$_SESSION[group]","File Deleted",basename($row['location'])." was Deleted.");
 					return "<span class='sucess'>You deleted the file ".basename($row['location']).".</span>";
 				}else{
 					note('upload',"ABUSE::media-$_POST[file]::Attempt to delete someone else's file");
