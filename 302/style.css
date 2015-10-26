@@ -547,3 +547,10 @@ section{
 		margin:0;
 		width: 100%;
 	}
+
+article{
+    background: rgba(0,0,0,0.02);
+    padding: 5;
+    margin-top: 10;
+	border: solid 1px rgba(0,0,0,0.2);
+}
