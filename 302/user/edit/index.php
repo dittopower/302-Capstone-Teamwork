@@ -109,14 +109,14 @@
 		
 		$cardcont .= "<div><label for='LinkedIn'>LinkedIn (optional):";if(isset($l) && !$l){$cardcont .= "<span class='error'> Error</span>";} $cardcont .= "</label>";
 		$cardcont .= "<p>linkedin.com/profile/view?id=<b class='target'>Your-Profile</b>&trk=nav_responsive_tab_profile_pic</p>";
-		$cardcont .= "<input type='LinkedIn' name='LinkedIn' id='LinkedIn' value='".$LinkedIn."'></div>";
+		$cardcont .= "<input type='text' name='LinkedIn' id='LinkedIn' value='".$LinkedIn."'></div>";
 		
 		$cardcont .= "<div><label for='Skype'>Skype:";if(isset($sk) && !$sk){$cardcont .= "<span class='error'> Error</span>";} $cardcont .= "</label>";
-		$cardcont .= "<input type='Skype' name='Skype' id='Skype' value='".$Skype."'><span class=target> Necessary for Group Calls from this site.</span></div>";
+		$cardcont .= "<input type='text' name='Skype' id='Skype' value='".$Skype."'><span class=target> Necessary for Group Calls from this site.</span></div>";
 		
 		$cardcont .= "<div><label for='Facebook'>Facebook:";if(isset($f) && !$f){$cardcont .= "<span class='error'> Error</span>";} $cardcont .= "</label>";
 		$cardcont .= "<p>facebook.com/<b class='target'>Your-Profile</b></p>";
-		$cardcont .= "<input type='Facebook' name='Facebook' id='Facebook' value='".$Facebook."'></div>";
+		$cardcont .= "<input type='text' name='Facebook' id='Facebook' value='".$Facebook."'></div>";
 	card("Contact Details",$cardcont);
 		
 		$cardcont = "<div><label for='gpa'>Average Grade <i>GPA</i> (optional):";if(isset($g) && !$g){$cardcont .= "<span class='error'> Error</span>";} $cardcont .= "</label>";

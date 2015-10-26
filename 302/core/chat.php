@@ -22,7 +22,7 @@
 		
 		if(isset($_POST['person']) && isset($_POST['message']) && isset($_POST['group'])){
 			
-			$message = strip_tags($_POST['message']);
+			$message = escapeSQL(strip_tags($_POST['message']));
 			echo runSQL("INSERT INTO Chat (UserID, UserReceive, GroupID, Message, TimeSent) VALUES(".$user.", ".$person.", ".$group.", '". $message . "', NOW())");
 			
 		}//send message

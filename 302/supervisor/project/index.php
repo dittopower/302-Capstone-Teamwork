@@ -5,10 +5,7 @@
 	
 	$projectid = $_POST['projectID']; //**** EVERYONEE GETTT IINN HEEERRREEE ****//
 	
-	if(isset($_POST['deleteproject'])){
-		echo "<span class='error'>Delete project #" . $projectid . " (Doesn't actually do anything yet...)</span>";
-	}
-	else if(isset($_POST['editproject']) && $_POST['title'] != null && $_POST['description'] != null && $_POST['requirements'] != null && $_POST['type1'] != null && $_POST['type2'] != null && $_POST['type3'] != null && $_POST['skills'] != null && $_POST['unit'] != null && $_POST['start'] != null && $_POST['end'] != null && $_POST['dueby'] != null){
+	if(isset($_POST['editproject']) && $_POST['title'] != null && $_POST['description'] != null && $_POST['requirements'] != null && $_POST['type1'] != null && $_POST['type2'] != null && $_POST['type3'] != null && $_POST['skills'] != null && $_POST['unit'] != null && $_POST['start'] != null && $_POST['end'] != null && $_POST['dueby'] != null){
 		$title = $_POST['title'];
 		$description = $_POST['description'];
 		$requirements = $_POST['requirements'];
@@ -28,28 +25,6 @@
 		}else{
 			echo "<span class='error'>Something went wrong. Project failed to save.</span>";
 		}
-	}
-	else if(isset($_POST['createproject']) && $_POST['title'] != null && $_POST['description'] != null && $_POST['requirements'] != null && $_POST['type1'] != null && $_POST['type2'] != null && $_POST['type3'] != null && $_POST['skills'] != null && $_POST['unit'] != null && $_POST['start'] != null && $_POST['end'] != null && $_POST['dueby'] != null){
-		$title = $_POST['title'];
-		$description = $_POST['description'];
-		$requirements = $_POST['requirements'];
-		$type1 = $_POST['type1'];
-		$type2 = $_POST['type2'];
-		$type3 = $_POST['type3'];
-		$skills = $_POST['skills'];
-		$unit = $_POST['unit'];
-		$start = $_POST['start'];
-		$end = $_POST['end'];
-		$dueby = $_POST['dueby'];
-		
-		$res = runSQL("INSERT INTO Projects (Name, ProjectType1, ProjectType2, ProjectType3, Description, skill, requirements, UnitCode, Start, End, Dueby) VALUES('".$title."', '".$type1."', '".$type2."', '".$type3."', '".$description."', '".$skills."', '".$requirements."', '".$unit."', '".$start."', '".$end."', '".$dueby."')");
-			
-		if($res){
-			echo "<span class='sucess'>Project Created.</span>";
-		}else{
-			echo "<span class='error'>Something went wrong. Project not created.</span>";
-		}
-			
 	}
 	
 	echo "<div class='card2' style='width: calc(100% - 60px);'>";//do the card manually because i dont want to change all this stuff m8
@@ -94,7 +69,7 @@
 	
 	<hr>
 	
-	<form method='POST' id='projcreate'>
+	<form method='POST' id='projcreate' <?php if(! isset($_POST['editproject'])) echo "action='/supervisor/'"; ?>>
 		<?php if(isset ($_POST['title']) && $_POST['title'] == null){
 			echo "<span class='error'>You are missing a title</span><br>";
 			} 
@@ -204,9 +179,9 @@
 	
 	<?php if(isset($_POST['editproject'])){ // THIS IS FOR THE DELETE BUTTON ?>
 		<br><br>
-		<form method='POST' onsubmit='return confirm("Do you really want to delete this project???");'>
+		<form method='POST' action='/supervisor/' onsubmit='return confirm("Do you really want to delete this project?");'>
 			<input type='hidden' value='<?php echo $projectid; ?>' name='projectID'>
-			<input type='submit' name='deleteproject' value='DELETE PROJECT' class='button button5'>
+			<input type='submit' name='deleteproject' value='Delete Project' class='button button5'>
 		</form>
 	<?php } ?>
 	

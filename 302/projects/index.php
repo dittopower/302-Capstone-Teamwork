@@ -20,25 +20,10 @@
 	
 	if(ingroup()){
 		
-		if(isset($_POST['apply']) && isset($_POST['coverletter'])){
-			$newproject = $_POST['apply'];
-			
-			$coverLetter = $_POST['coverletter'];
-			
-			echo "Group #" . $group . " applying to project #" . $newproject . "<br><br>";
-			
-			$result = runSQL("INSERT INTO Project_Applications (P_Id, GroupId, CoverLetter, Status, TimeSubmitted) VALUES(".$newproject.", ".$group.", '".$coverLetter."', 'Applied', now())");
-			
-			if($result){ echo "Project successfully applied for."; }
-			else{ echo "Something went wrong.<br><br><br>" . $coverLetter; }
-		}
-		else if(isset($_POST['apply']) && (!isset($_POST['coverletter'])) ){ 
+		if(isset($_POST['apply']) && (!isset($_POST['coverletter'])) ){ 
 			
 			$projectID = $_POST['apply'];
-			
-			$projectName = singleSQL("SELECT Name From Projects WHERE P_Id=" . $projectID);
-		
-		?>
+			$projectName = singleSQL("SELECT Name From Projects WHERE P_Id=" . $projectID); ?>
 			
 			<h2>Applying for project #<?php echo $projectID . " (" . $projectName . ")"; ?></h2><br>
 			<div class="apply">
@@ -49,40 +34,54 @@
 				</form>
 			</div>
 			
-		<?php
-		}else if(isset($_POST["studentDecision"]) && isset($_POST["appid"])){
+		<?php }else{
 			
-			$decision = $_POST["studentDecision"];
-			$appid = $_POST["appid"];
-			
-			$res = rowSQL("SELECT pa.GroupId as GroupId, pa.P_Id as P_Id, p.Supervisor as Sup FROM Project_Applications pa LEFT JOIN Projects p ON pa.P_Id=p.P_Id WHERE pa.ApplicationID=".$appid);
-			$groupid = $res["GroupId"];
-			$projectid = $res["P_Id"];
-			$supervisor = $res["Sup"];
-			
-			if($decision == "Accept"){
+			if(isset($_POST['apply']) && isset($_POST['coverletter'])){
+				$newproject = $_POST['apply'];
 				
-				$q1 = runSQL("UPDATE Project_Applications SET Status='StudentAccepted' WHERE ApplicationID=" . $appid);
-				if($q1){ echo "Project_Applications field updated.<br>"; }
-				else{ echo "Something went wrong.<br>"; }
+				$coverLetter = $_POST['coverletter'];
 				
-				$q2 = runSQL("UPDATE Groups SET GroupProject='".$projectid."' WHERE GroupId=".$groupid);//, Supervisor='".$supervisor."' IDK IF WE WANT TO DO THIS ????
-				if($q2){ echo "Groups field updated."; }
-				else{ echo "Something went wrong."; }
+				//echo "Group #" . $group . " applying to project #" . $newproject . "<br><br>";
+				
+				$result = runSQL("INSERT INTO Project_Applications (P_Id, GroupId, CoverLetter, Status, TimeSubmitted) VALUES(".$newproject.", ".$group.", '".$coverLetter."', 'Applied', now())");
+				
+				if($result){ echo "<span class='sucess'>Project successfully applied for.</span>"; }
+				else{ echo "<span class='error'>Something went wrong.</span><br><br><br>" . $coverLetter; }
+				
+				echo "<br><span class='div'></div><br>";
+			}
+			else if(isset($_POST["studentDecision"]) && isset($_POST["appid"])){
+				
+				$decision = $_POST["studentDecision"];
+				$appid = $_POST["appid"];
+				
+				$res = rowSQL("SELECT pa.GroupId as GroupId, pa.P_Id as P_Id, p.Supervisor as Sup FROM Project_Applications pa LEFT JOIN Projects p ON pa.P_Id=p.P_Id WHERE pa.ApplicationID=".$appid);
+				$groupid = $res["GroupId"];
+				$projectid = $res["P_Id"];
+				$supervisor = $res["Sup"];
+				
+				if($decision == "Accept"){
+					
+					$q1 = runSQL("UPDATE Project_Applications SET Status='StudentAccepted' WHERE ApplicationID=" . $appid);
+					if($q1){ echo "<span class='sucess'>Project_Applications field updated.</span><br>"; }
+					else{ echo "<span class='error'>Something went wrong.</span><br>"; }
+					
+					$q2 = runSQL("UPDATE Groups SET GroupProject='".$projectid."' WHERE GroupId=".$groupid);//, Supervisor='".$supervisor."' IDK IF WE WANT TO DO THIS ????
+					if($q2){ echo "<span class='sucess'>Groups field updated."; }
+					else{ echo "<span class='error'>Something went wrong.</span>"; }
+					
+				}
+				else if($decision == "Decline"){
+					
+					$q1 = runSQL("UPDATE Project_Applications SET Status='StudentDeclined' WHERE ApplicationID=" . $appid);
+					if($q1){ echo "<span class='sucess'>Project_Applications field updated.</span><br>"; }
+					else{ echo "<span class='error'>Something went wrong.</span><br>"; }
+					
+				}
+				
+				echo "<br><span class='div'></div><br>";
 				
 			}
-			else if($decision == "Decline"){
-				
-				$q1 = runSQL("UPDATE Project_Applications SET Status='StudentDeclined' WHERE ApplicationID=" . $appid);
-				if($q1){ echo "Project_Applications field updated.<br>"; }
-				else{ echo "Something went wrong.<br>"; }
-				
-			}
-			
-			echo "<br><a href=''>Back.</a>";
-			
-		}
-		else{
 			
 			$ifalreadyaccepted = singleSQL("SELECT P_Id FROM Project_Applications WHERE GroupId=" . $group . " AND Status='StudentAccepted'");
 			
@@ -140,18 +139,6 @@
 			
 			<?php
 			
-		/*	echo "<table>";	
-			
-			echo "<tr class='card'><th class='ptitle'>Title</th>";
-			echo "<th class='pdes'>Description</th>";
-			echo "<th class='preq'>Requirements</th>";
-			echo "<th class='ptype'>Type</th>";
-			echo "<th class='pskill'>Skills</th>";
-			echo "<th class='punit'>Unit</th>";
-			echo "<th class='psup'>Supervisor</th>";
-			echo "<th class='papply'>Apply</th></tr>";
-			*/
-			
 			if(inGroup()){
 				$sql = "SELECT `P_Id`, `Name`, `ProjectType1`, `ProjectType2`, `ProjectType3`, `Description`, `skill`, `requirements`, p.`UnitCode`, s.FirstName as Supervisor, DATE_FORMAT(`Start`,'%d/%c/%Y') as Start, DATE_FORMAT(`End`,'%d/%c/%Y') as End, DATE_FORMAT(`Dueby`,'%d/%c/%Y') as Dueby FROM Projects p JOIN Supervisor s ON p.Supervisor = s.SupervisorID JOIN Groups g on g.UnitCode = p.UnitCode WHERE P_Id <> 0 and g.GroupId = '$_SESSION[group]' AND DATE(p.Start) > DATE_SUB(DATE(NOW()),INTERVAL 1 QUARTER)";
 			}else{
@@ -203,12 +190,9 @@
 					$cardcont .= "<input type='submit' class='button button1' value='Apply'></form></span>";
 				}
 				card($thing["Name"],$cardcont,"calc(100% - 60px)");
-				//echo "</tr>";
 			}
-			
-			//echo "</table>";
-			
-		}//if no input
+	
+		}//if not cover letter
 	}
 	else{
 		echo "You must be in a group to select a project.";	
