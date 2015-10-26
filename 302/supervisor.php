@@ -29,7 +29,7 @@
 	
 </HEAD>
 <BODY>
-	<aside><!-- sidebar -->
+	<!--<aside>
 	
 		<div id="infobox">
 			<img src="http://<?php echo "$_SERVER[HTTP_HOST]";?>/qut-logo-200.jpg" class="logoimg">
@@ -44,9 +44,9 @@
 				<input type="button" value="Some other function" class='button button1'>
 			</div>
 		</div>
-	</aside>
+	</aside>-->
 	
-	<nav>
+	<nav id="supervisornav">
 		<ul>
 			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/supervisor/">View Projects</a></li>
 			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/supervisor/project/">Create Project</a></li>
@@ -58,7 +58,7 @@
 		</form>
 	</nav>
 	
-	<section>	
+	<section id="supervisorsection">	
 
 <!--page content start -->
 

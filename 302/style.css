@@ -239,6 +239,10 @@ nav{
 	color: white;
 	background: #01467d;
 }
+
+#supervisornav{
+	width: 100%;
+}
 	
 	nav a{
 		color: white;
@@ -278,6 +282,10 @@ section{
 	overflow-y: scroll;
 	
 	padding: 30px 30px 30px 30px;
+}
+
+#supervisorsection{
+	width: calc(100% - 60px);
 }
 
 	input[type="password"], input[type="text"], input[type="email"], .inputpadding, textarea{
