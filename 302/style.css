@@ -13,6 +13,14 @@ a{
 	color: black;
 }
 
+.floatright{
+	float:right;
+}
+
+.bump{
+	margin-bottom: 4px;
+}
+
 .wideinput input{
 	width: 100%;
 }

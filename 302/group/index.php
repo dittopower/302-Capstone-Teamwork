@@ -140,11 +140,11 @@
 				$cardcontent .= "<a class='skype skype_single' href='skype:$item[Skype]?chat'><img src='http://www.skypeassets.com/content/dam/skype/images/misc/Trademark/s-logo-solid.jpg'></a>";
 				$groupcall[] = $item['Skype'];
 			}
-			$cardcontent .= "<br>";
+			$cardcontent .= "<br><br>";
 		}
-		$cardcontent .= "<hr><span>Group Call: <a class='skype skype_group' href='skype:";
+		$cardcontent .= "<hr><span><h3>Group Call</h3><br><center><a class='skype skype_group' href='skype:";
 		$cardcontent .= implode($groupcall,";");
-		$cardcontent .= "?chat&topic=$_SESSION[gname]'><img src='http://www.skypeassets.com/content/dam/skype/images/misc/Trademark/s-logo-solid.jpg'></a></span>";
+		$cardcontent .= "?chat&topic=$_SESSION[gname]'><img src='http://www.skypeassets.com/content/dam/skype/images/misc/Trademark/s-logo-solid.jpg'></a></center></span>";
 	card("Group Members",$cardcontent);
 		
 		
@@ -153,16 +153,19 @@
 	*/
 		$cardcontent = "";
 		$thing = rowSQL("SELECT Name, ProjectType1, ProjectType2, ProjectType3, Description, skill, requirements, p.UnitCode, p.Supervisor, DATE_FORMAT(`Start`, '%a %d %b %Y') as start, DATE_FORMAT(`End`, '%a %d %b %Y') as end FROM Projects p join Groups on P_Id = GroupProject WHERE GroupId='$_SESSION[group]'");
-		$cardcontent .= "Project Title: <strong>" . $thing["Name"] . "</strong>";
-		$cardcontent .= "<br>Project Duration: <strong>".$thing['start']." to ".$thing['end']."</strong>";
-		$cardcontent .= "<br>Project Description: <strong>" . $thing["Description"] . "</strong>";
-		$cardcontent .= "<br>Project Requirements: <strong>" . $thing["requirements"] . "</strong>";
+		$cardcontent .= "<strong>Project Title:</strong> " . $thing["Name"];
+		$cardcontent .= "<br><strong>Duration:</strong> ".$thing['start']." to ".$thing['end']."";
+		$cardcontent .= "<br><strong>Description:</strong> " . $thing["Description"];
+		$cardcontent .= "<br><strong>Requirements:</strong> " . $thing["requirements"];
 		$cardcontent .= "<br>";
-		$cardcontent .= "<br>Project Type: <strong>" . $thing["ProjectType1"] .", ". $thing["ProjectType2"] .", ". $thing["ProjectType3"] . "</strong>";
-		$cardcontent .= "<br>Skills required: <strong>" . $thing["skill"] . "</strong>";
+		$cardcontent .= "<br><strong>Type:</strong> " . $thing["ProjectType1"] .", ". $thing["ProjectType2"] .", ". $thing["ProjectType3"];
+		$cardcontent .= "<br><strong>Skills required:</strong> " . $thing["skill"];
 		$cardcontent .= "<br>";
-		$cardcontent .= "<br>For Unit: <strong>" . $thing["UnitCode"] . "</strong>";
-		$cardcontent .= "<br>With supervisor: <strong>" . $thing["Supervisor"] . "</strong>";
+		$cardcontent .= "<br><strong>For Unit:</strong> " . $thing["UnitCode"];
+		
+		$supervisorname = singleSQL("SELECT CONCAT(FirstName, ' ', Surname) as Name FROM Supervisor WHERE SupervisorID=".$thing["Supervisor"]);
+		
+		$cardcontent .= "<br><strong>With supervisor:</strong> " . $supervisorname;
 	card("Your Project Details",$cardcontent, 500);
 	
 	if($allowed){
@@ -173,7 +176,7 @@
 
 
 ///Group Alteration stuff
-	echo "<hr><h2>Group Management</h2>";
+	echo "<hr><br><h2>Group Management</h2>";
 	
 	if(isset($namechange)){
 		if($namechange){
@@ -182,10 +185,10 @@
 			echo "<div class=error>Group Name Change Failed.</div>";
 		}
 	}
-	$cardcontent = "<form method='POST'><Label for='gname'>Rename Group</label>";
+	$cardcontent = "<span class='wideinput'><form method='POST'>";
 	$cardcontent .= "<input type=text id=gname name=gname placeholder='$_SESSION[gname]'><br>";
-	$cardcontent .= "<input type=submit class='button button1' name=gdetails value=apply></form>";
-	card("Group Details",$cardcontent);
+	$cardcontent .= "<input type=submit class='button button1' name=gdetails value='Apply'></form></span>";
+	card("Rename Group",$cardcontent);
 	
 	
 	/*
@@ -194,7 +197,7 @@
 		//Current in progress votes
 		$sql = "Select FirstName, UserId, MAX(IF(User_Id = '$_SESSION[person]', IF(Action = 'Remove',1,2), '0')) as Voted from Group_Mod join D_Accounts on who = UserId where Who != '$_SESSION[person]' and Group_Id = '$_SESSION[group]' and `Action` = 'Remove' or `Action` = 'Cancel' group by Who";
 		$result = multiSQL($sql);
-		$cardcontent = "<h3>Current Votes</h3><hr>";
+		$cardcontent = "<h4>Current Votes</h4><hr>";
 		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
 			$cardcontent .= "<form method='POST'>";
 			$cardcontent .= "<input type='text' id='r$row[UserId]' name='who' hidden value='$row[UserId]'><Label for='r$row[UserId]'>$row[FirstName]</label><br>";
@@ -207,20 +210,20 @@
 			if($row['Voted'] == 2){
 				$cardcontent .= " disabled";
 			}
-			$cardcontent .= "></form><hr>";
+			$cardcontent .= "></form><div class='clear'></div><hr>";
 		}
 		//Start a vote
 		$sql = "SELECT FirstName,g.UserId FROM `Group_Members` g join D_Accounts a on g.`UserId` = a.UserId where g.`UserId` != '$_SESSION[person]' and `GroupId` = '$_SESSION[group]'";
 		debug($sql);
 		$result = multiSQL($sql);
-		$cardcontent .= "<h3>Start Vote</h3><hr>";
+		$cardcontent .= "<br><h4>Start Vote</h4><hr>";
 		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
 			$cardcontent .= "<form method='POST'>";
 			$cardcontent .= "<div id='start_vote_person'><input type='text' id='r$row[UserId]' name='who' hidden value='$row[UserId]'><label for='r$row[UserId]'>$row[FirstName]</label><br>";
 			$cardcontent .= "<input class='button button1' type='submit' name='vote' value='Remove'></div></form><br>";
 		}
 		//Leave
-		$cardcontent .= "<div id='leave_group'><h3>Leave</h3><hr><form method='POST' onsubmit='return you_sure()'>
+		$cardcontent .= "<div id='leave_group'><br><h4>Leave</h4><hr><form method='POST' onsubmit='return you_sure()'>
 		<script>
 		function you_sure(){
 		return confirm('Are you sure you want leave the group:\"$_SESSION[gname]\". This may cause problems with your completion of assessment. ');
@@ -236,7 +239,7 @@
 		//Current Votes
 		$sql = "Select FirstName,UserId, MAX(IF(User_Id = '$_SESSION[person]', IF(Action = 'Add',1,2), '0')) as Voted from Group_Mod join D_Accounts on who = UserId where Who != '$_SESSION[person]' and Group_Id = '$_SESSION[group]' and `Action` = 'Add' or `Action` = 'Deny' group by Who";
 		$result = multiSQL($sql);
-		$cardcontent = "<h3>Current Votes</h3><hr>";
+		$cardcontent = "<h4>Current Votes</h4><hr>";
 		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
 			$cardcontent .= "<form method='POST'>";
 			$cardcontent .= "<input type='text' id='r$row[UserId]' name='who' hidden value='$row[UserId]'><Label for='r$row[UserId]'>$row[FirstName]</label><br>";
@@ -248,13 +251,13 @@
 			if($row['Voted'] == 2){
 				$cardcontent .= " disabled";
 			}
-			$cardcontent .= "></form><hr>";
+			$cardcontent .= "></form><div class='clear'></div><hr>";
 		}
 		//Start a vote
 		$sql = "SELECT FirstName,g.UserId FROM `Group_Members` g join D_Accounts a on g.`UserId` = a.UserId where g.`UserId` != '$_SESSION[person]' and `GroupId` = '$_SESSION[group]'";
 		debug($sql);
 		$result = multiSQL($sql);
-		$cardcontent .= "<h3>Start Vote</h3><hr>";
+		$cardcontent .= "<h4>Start Vote</h4><hr>";
 		$cardcontent .= "<form method='POST'><input type='text' name='who'><input type='submit' class='button button1' name='vote' value='Add'></form>";
 	card("Add Member",$cardcontent,280);
 ?>

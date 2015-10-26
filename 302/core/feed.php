@@ -51,12 +51,12 @@ function feed($topic, $name=""){
 			unset($sql);
 		}
 	}
-	$cardcont .= "<form name='newpost' id='feed_post' method='POST'>";
-	$cardcont .= "<label for='nft'>Title</label>";
-	$cardcont .= "<input name='Title' id='nft' type='text' placeholder='Something Awesome...'>";
+	$cardcont .= "<span class='wideinput'><h4>Create new post</h4><form name='newpost' id='feed_post' method='POST'>";
+	//$cardcont .= "<label for='nft'>Title</label>";
+	$cardcont .= "<input name='Title' id='nft' type='text' placeholder='Post title' class='bump'>";
 	$cardcont .= "<br><textarea name='Content' cols=50 rows=2 placeholder='Post content...'></textarea>";
-	$cardcont .= "<br><input name='feed' type='submit' value='Post'>";
-	$cardcont .= "</form><br>";
+	$cardcont .= "<br><input name='feed' type='submit' value='Post' class='button button1'>";
+	$cardcont .= "</form></span><div class='clear'></div>";
 	
 	//listing
 	global $nsql;
@@ -111,12 +111,12 @@ function feed($topic, $name=""){
 			page[2]=Number(page[2])+val;
 			window.location=window.location.href.replace(page[0],page[1]+page[2]);
 		}}</script>";
-	$cardcont .= "<button onclick='paget(-1)'";
+	$cardcont .= "<br><button onclick='paget(-1)'";
 	if(!is_numeric($_GET['p']) || $_GET['p'] < 1){
 		$cardcont .= " disabled";
 	}
-	$cardcont .= "> < </button>";
-	$cardcont .= "<button onclick='paget(1)'> > </button>";
+	$cardcont .= " class='button button1'> < </button>";
+	$cardcont .= "<button onclick='paget(1)' class='button button1 floatright'> > </button>";
 	$cardcont .= "</span>";
 	
 	card($name,$cardcont);
