@@ -26,20 +26,21 @@
 				
 		$q1 = runSQL("UPDATE Project_Applications SET Status='".$type."' WHERE ApplicationID=" . $appid);
 		
-		if(!$g1){ echo "Project_Applications field updated.<br>"; }
-		else{ echo "Something went wrong.<br>"; }
+		if(!$g1){ echo "<span class='sucess'>Application #".$appid." set to \"".$type."\"</span>"; }
+		else{ echo "<span class='error'>Something went wrong.</span>"; }
 		
 		$oldproject = singleSQL("SELECT GroupProject FROM Groups WHERE GroupId=".$gid);
 		if($oldproject == $pid){//if this was their project previously
 			$q2 = runSQL("UPDATE Groups SET GroupProject='0' WHERE GroupId=".$gid);
-			if(!$g2){ echo "Reverted to no project."; }
-			else{ echo "Something went wrong."; }
+			if(!$g2){ echo "<span class='sucess'>Reverted to no project.</span>"; }
+			else{ echo "<span class='error'>Something went wrong.</span>"; }
 		}
 		
-		echo "<br><a href='supervisorProjects.php'>Back.</a>";
+		echo "<div class='clear'></div><br>";
 
 	}
-	else if(isset($_POST["viewapplication"])){
+	
+	if(isset($_POST["viewapplication"])){
 		
 		$appid = $_POST["viewapplication"];
 		
