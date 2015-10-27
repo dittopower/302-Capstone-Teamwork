@@ -239,7 +239,7 @@
 	* Leaving groups and voting to remove members
 	*/
 		//Current in progress votes
-		$sql = "Select FirstName, UserId, MAX(IF(User_Id = '$_SESSION[person]', IF(Action = 'Remove',1,2), '0')) as Voted from Group_Mod join D_Accounts on who = UserId where Who != '$_SESSION[person]' and Group_Id = '$_SESSION[group]' and `Action` = 'Remove' or `Action` = 'Cancel' group by Who";
+		$sql = "Select FirstName, UserId, MAX(IF(User_Id = '$_SESSION[person]', IF(Action = 'Remove',1,2), '0')) as Voted from Group_Mod join D_Accounts on who = UserId where Who != '$_SESSION[person]' and Group_Id = '$_SESSION[group]' and (`Action` = 'Remove' or `Action` = 'Cancel') group by Who";
 		$result = multiSQL($sql);
 		$cardcontent = "<h4>Current Votes</h4><hr>";
 		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
@@ -281,7 +281,7 @@
 	* Vote to add members
 	*/
 		//Current Votes
-		$sql = "Select FirstName,UserId, MAX(IF(User_Id = '$_SESSION[person]', IF(Action = 'Add',1,2), '0')) as Voted from Group_Mod join D_Accounts on who = UserId where Who != '$_SESSION[person]' and Group_Id = '$_SESSION[group]' and `Action` = 'Add' or `Action` = 'Deny' group by Who";
+		$sql = "Select FirstName,UserId, MAX(IF(User_Id = '$_SESSION[person]', IF(Action = 'Add',1,2), '0')) as Voted from Group_Mod join D_Accounts on who = UserId where Who != '$_SESSION[person]' and Group_Id = '$_SESSION[group]' and (`Action` = 'Add' or `Action` = 'Deny') group by Who";
 		$result = multiSQL($sql);
 		$cardcontent = "<h4>Current Votes</h4><hr>";
 		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
