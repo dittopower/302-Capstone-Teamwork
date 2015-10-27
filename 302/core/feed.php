@@ -134,5 +134,3 @@ function feed($topic, $name=""){
 	}
 //
 ?>
-
-<!-- END content -->

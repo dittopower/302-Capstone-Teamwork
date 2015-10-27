@@ -55,9 +55,7 @@
 	//Throw the use to an error page. MUST be called before any output.
 	function toss ($ecode){
 		//header("HTTP/1.0 ".$ecode);
-		$_SERVER['REDIRECT_STATUS'] = $ecode;
-		global $home;
-		include $home."error.php";
+		echo "<h1>Error: $ecode </h1>";
 		die();
 	}
 	
