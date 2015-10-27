@@ -229,7 +229,7 @@
 		?>
 		</ul>
 		<form id='logoutBtn' class='_pannel' method='POST'>
-		<a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/user" class='button button1'><?php echo "$_SESSION[name]";?></a>
+		<a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/user" class='button <?php if($_SERVER['PHP_SELF'] == "/user/index.php" || $_SERVER['PHP_SELF'] == "/user/edit/index.php"){echo "selected'";}else{echo "button1'";}?>><?php echo "$_SESSION[name]";?></a>
 		<input name='logout' hidden>
 		<input class='button button1' id='logoutbutton' type='submit' value='Logout'>
 		</form>

@@ -34,16 +34,18 @@
 			$current = escapeSQL(strip_tags($_POST["current"]));
 			
 			$sql = "UPDATE Milestones SET Checked=";
+			$milestone = singleSQL("SELECT Content FROM Milestones WHERE MID=".$mid);
 			
 			if($current == "&#10004;"){//tick
 				$sql .= 0;
 				
-				post("#$_SESSION[group]|@$_SESSION[group]","Milestone Completed","<span class=sucess> what </span>");
+				
+				post("#$_SESSION[group]|@$_SESSION[group]","Milestone Completed","<span class=sucess>\"" . $milestone . "\"</span>");
 			}
 			else if($current == "&#10066;"){//cross
 				$sql .= 1;
 				
-				post("#$_SESSION[group]|@$_SESSION[group]","Milestone UnCompleted","<span class=error> what </span>");
+				post("#$_SESSION[group]|@$_SESSION[group]","Milestone UnCompleted","<span class=error>\"" . $milestone . "\"</span>");
 			}
 			
 			$sql .= " WHERE MID=" . $mid;

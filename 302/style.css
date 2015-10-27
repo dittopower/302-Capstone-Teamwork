@@ -21,7 +21,7 @@ a{
 	margin-bottom: 4px;
 }
 
-.wideinput input{
+.wideinput input, .wideinput textarea{
 	width: 100%;
 }
 
@@ -319,6 +319,7 @@ nav{
 	
 	.selected{
 		background: #012e52;
+		text-decoration: none;
 	}
 	
 	nav ul li a{
