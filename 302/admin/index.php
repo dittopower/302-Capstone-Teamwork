@@ -41,6 +41,20 @@
 	
 	if(isset($_GET['sub'])){
 		if(strlen($_GET['sub']) < 11){
+			
+			if(isset($_POST["usernameBuff"])){
+				$username = $_POST["usernameBuff"];
+				$userid = singleSQL("SELECT UserId FROM D_Accounts WHERE Username='".$username."'");
+				$unit = $_POST["unitBuff"];
+				
+				$uwot = runSQL("INSERT INTO D_Perms (UserId,what,level) VALUES('".$userid."','".$unit."','1')");
+				
+				if($uwot){ echo "<span class='sucess'>User promoted.</span>"; }
+				else { echo "<span class='error'>Failed to be promoted.</span>"; }
+				
+				echo "<div class='clear'></div><br>";
+			}
+			
 			$level = getUserLevel($_GET['sub']);
 			if($level > 0){
 				$subject = $_GET['sub'];
@@ -197,6 +211,25 @@
 						</form></td></tr>";
 					}
 					card("$_GET[sub] Staff", $cardcont . "</table>");
+					
+					
+					$cardbuff = "";
+					
+					$units = arraySQL("SELECT * FROM Unit");
+					
+					$cardbuff = "
+					<span class='wideinput'><form method='POST'>
+						<input type='text' name='usernameBuff' placeholder='Username'><br><br>
+						<select name='unitBuff' class='inputpadding'>";
+						foreach($units as $u){
+							$cardbuff.= "<option value='".$u["UnitCode"]."' class='inputpadding'>".$u["UnitCode"]." - ".$u["Unit"]."</option>";
+						}
+						$cardbuff.="</select><br><br>
+						<input type='submit' value='Promote' class='button button1'>
+					</form></span>";
+					
+					card2("Promote to Tutor", $cardbuff);
+					
 				}
 				
 				echo "</span>";

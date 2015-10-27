@@ -71,7 +71,7 @@
 		
 		foreach($milestones as $v){
 	
-			$cardcontent .= "<form method='post' class='inline'><input type='hidden' name='mid' value='".$v["MID"]."'><input name='deletemilestone' type='submit' value='&#10006;' class='button button5 inline smallerbtn2'></form>";
+			$cardcontent .= "<form method='post' class='inline' onsubmit='return confirm(\"Do you really want to delete this milestone?\");'><input type='hidden' name='mid' value='".$v["MID"]."'><input name='deletemilestone' type='submit' value='&#10006;' class='button button5 inline smallerbtn2'></form>";
 			
 			$cardcontent .= "<form method='post' class='inline'><input type='hidden' name='mid' value='".$v["MID"]."'><input name='current' type='submit' ";
 
