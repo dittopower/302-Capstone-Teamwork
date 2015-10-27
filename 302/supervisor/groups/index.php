@@ -20,7 +20,7 @@
 		$cardcontent .= "<th>GroupProject</th>";
 		$cardcontent .= "<th>UnitCode</th>";
 		$cardcontent .= "<th>Group Members</th>";
-		$cardcontent .= "<th></th></tr>";
+		$cardcontent .= "</tr>";
 		
 		$cardcontent .= "<tr>";
 		
@@ -41,7 +41,7 @@
 		$cardcontent .= "</ul></td>";
 		
 		//$cardcontent .= "<td><input type='button' value='Generate Report' class='button button1'></td>";
-		$cardcontent .= "<td><input type='button' value='View' class='button button1' disabled></td>";
+		//$cardcontent .= "<td><input type='button' value='View' class='button button1' disabled></td>";
 		
 		$cardcontent .= "</tr>";
 		$cardcontent .= "</table>";

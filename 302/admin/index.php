@@ -45,12 +45,18 @@
 			if(isset($_POST["usernameBuff"])){
 				$username = $_POST["usernameBuff"];
 				$userid = singleSQL("SELECT UserId FROM D_Accounts WHERE Username='".$username."'");
-				$unit = $_POST["unitBuff"];
 				
-				$uwot = runSQL("INSERT INTO D_Perms (UserId,what,level) VALUES('".$userid."','".$unit."','1')");
+				$uwot = false;
+				
+				if($userid!=0){
+				
+					$unit = $_POST["unitBuff"];
+					$uwot = runSQL("INSERT INTO D_Perms (UserId,what,level) VALUES('".$userid."','".$unit."','1')");
+					
+				}
 				
 				if($uwot){ echo "<span class='sucess'>User promoted.</span>"; }
-				else { echo "<span class='error'>Failed to be promoted.</span>"; }
+				else { echo "<span class='error'>Failed to be promoted. (Maybe user doesn't exist?)</span>"; }
 				
 				echo "<div class='clear'></div><br>";
 			}
@@ -220,12 +226,14 @@
 					$cardbuff = "
 					<span class='wideinput'><form method='POST'>
 						<input type='text' name='usernameBuff' placeholder='Username'><br><br>
-						<select name='unitBuff' class='inputpadding'>";
+						<input type='hidden' name='unitBuff' value='".$_GET[sub]."'>";
+						/*<select name='unitBuff' class='inputpadding'>";
 						foreach($units as $u){
 							$cardbuff.= "<option value='".$u["UnitCode"]."' class='inputpadding'>".$u["UnitCode"]." - ".$u["Unit"]."</option>";
 						}
-						$cardbuff.="</select><br><br>
-						<input type='submit' value='Promote' class='button button1'>
+						$cardbuff.="</select><br><br>";*/
+						
+						$cardbuff .= "<input type='submit' value='Promote' class='button button1'>
 					</form></span>";
 					
 					card2("Promote to Tutor", $cardbuff);
