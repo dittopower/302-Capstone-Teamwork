@@ -148,7 +148,7 @@
 				while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){ 
 					$cardcont .= "<tr><td><a href='http://$_SERVER[HTTP_HOST]/user/?u=$row[Username]'>$row[Username]</a></td><td>$row[FirstName]</td></tr>";
 				}
-				$cardcont .= "</table><form method='POST'><input type='submit' name='G_resolve' value='Resolve Teams'></form>";
+				$cardcont .= "</table><form method='POST' class='wideinput'><input type='submit' class='button button1' name='G_resolve' value='Resolve Teams'></form>";
 				card("Seeking Groups", $cardcont);
 				
 				
