@@ -224,7 +224,7 @@
 	
 	if(isset($namechange)){
 		if($namechange){
-			//echo "<div class=sucess>Group Name Updated.<meta http-equiv='refresh' content='0'></div>";
+			echo "<div class=sucess>Group Name Updated.<meta http-equiv='refresh' content='0'></div>";
 		}else{
 			echo "<div class=error>Group Name Change Failed.</div>";
 		}
