@@ -228,7 +228,7 @@
 						while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){ 
 							$cardcont .= "<tr><td><a href='http://$_SERVER[HTTP_HOST]/group/?group=$row[GroupId]'>$row[GroupName]</a></td><td>$row[Name]</td><td>Members: $row[mem]</td>";
 							$cardcont .= "<td>$row[Username]</td><td><form method=POST><input type=text name='grouptut' value='$row[GroupId]' hidden>
-							<input list='tutors' name='tutor' class='inputpadding'><input type=submit class='button button4 inline' name=settut value='&#10004;'></form></td>";
+							<input list='tutors' name='tutor' class='inputpadding' style='position: relative; top: 5px;'><input type=submit class='button button4 inline' name=settut value='&#10004;'></form></td>";
 							$cardcont .= "<td><form method='GET' action='generateReport.php' target='_blank'><input type='hidden' value='" . $row["GroupId"] . "' name='groupidreport'><input type='submit' value='Generate Report' class='button button1 smallerbtn'></form></td>";
 							$cardcont .= "</tr>";
 						}
