@@ -261,10 +261,10 @@
 						}
 					}
 					
-					$result = multiSQL("SELECT a.UserId, a.Username, a.FirstName, p.what, IF(p.level > 1, 'Lecturer/Coordinator', 'Tutor') as Role FROM `D_Perms` p join D_Accounts a on p.UserId = a.UserId");
-					$cardcont = "<table><tr><th>Username</th><th>Name</th><th>Role</th><th>Permissions</th></tr>";
+					$result = multiSQL("SELECT a.UserId, a.Username, a.FirstName, p.what, IF(p.level > 1, 'Lecturer/Coordinator', 'Tutor') as Role FROM `D_Perms` p join D_Accounts a on p.UserId = a.UserId order by what");
+					$cardcont = "<table><tr><th>Username</th><th>Name</th><th>Role</th><th>Subject</th><th>Permissions</th></tr>";
 					while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){ 
-						$cardcont .= "<tr><td>$row[Username]</td><td>$row[FirstName]</td><td>$row[Role]</td>";
+						$cardcont .= "<tr><td>$row[Username]</td><td>$row[FirstName]</td><td>$row[Role]</td><td>$row[what]</td>";
 						$cardcont .= "<td><form method=POST class='inline'>
 						<input type=text name=who value='$row[UserId]' hidden>
 						<input type=text name=what value='$row[what]' hidden>
