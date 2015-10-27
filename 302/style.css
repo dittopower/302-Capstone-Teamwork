@@ -54,6 +54,27 @@ table{
 	table tr:nth-child(odd){
 		background-color: #D3DBE0;
 	}
+	
+	.admintables table td, .admintables table th{
+		border: 0;
+	}
+	
+	.admintables tr:nth-child(odd){
+		background-color: white;
+	}
+	
+	.admintables th{
+		background-color: #d9d9d9;
+		padding: 10px;
+	}
+	
+	.admintables td{
+		padding: 10px;
+	}
+
+	.admintables table tr{
+		border-bottom: 1px solid #d9d9d9;
+	}
 
 .cardtable{
 	width: 100%;
@@ -143,7 +164,7 @@ aside{
 		padding: 0 8px 8px 8px;
 		
 		position: relative;
-		overflow: auto;
+		overflow: hidden;
 	}
 	
 		#logoimg{
@@ -296,8 +317,8 @@ nav{
 		background: #012e52;
 	}
 	
-	.navSelected{
-		background: #333;
+	.selected{
+		background: #012e52;
 	}
 	
 	nav ul li a{
@@ -343,8 +364,13 @@ section{
 		
 		cursor: pointer;
 		cursor: hand;
-    font-size: medium;
-    font-weight: normal;
+		font-size: medium;
+		font-weight: normal;
+	}
+	
+	.smallerbtn{
+		padding: 5px 10px 5px 10px;
+		font-size: 0.9em;
 	}
 	
 	.button-none{

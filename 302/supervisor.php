@@ -52,9 +52,9 @@
 	
 	<nav id="supervisornav">
 		<ul>
-			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/supervisor/">View Projects</a></li>
-			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/supervisor/project/">Create Project</a></li>
-			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/supervisor/groups/">View Groups</a></li>
+			<li <?php if($_SERVER['PHP_SELF'] == "/supervisor/index.php") echo "class='selected'";?>><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/supervisor/">View Projects</a></li>
+			<li <?php if($_SERVER['PHP_SELF'] == "/supervisor/project/index.php") echo "class='selected'";?>><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/supervisor/project/">Create Project</a></li>
+			<li <?php if($_SERVER['PHP_SELF'] == "/supervisor/groups/index.php") echo "class='selected'";?>><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/supervisor/groups/">View Groups</a></li>
 		</ul>
 		<form id='logoutBtn' class='_pannel' method='POST' action=''>
 			<?php echo singleSQL("SELECT CONCAT(FirstName, ' ', Surname) FROM Supervisor WHERE SupervisorID=".$_SESSION['SupervisorID']); ?>&nbsp;

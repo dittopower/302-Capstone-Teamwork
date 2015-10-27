@@ -143,9 +143,9 @@
 			console.log(oldlist);
 			
 			//revert the last tab to normal colours	
-			oldlist = oldlist.replace("<li class=\"navSelected\"><a onclick=\"changeTab('"+currentTab+"');\">","<li><a onclick=\"changeTab('"+currentTab+"');\">");
+			oldlist = oldlist.replace("<li class=\"selected\"><a onclick=\"changeTab('"+currentTab+"');\">","<li><a onclick=\"changeTab('"+currentTab+"');\">");
 			//set current tab to selected
-			oldlist = oldlist.replace("<li><a onclick=\"changeTab('"+tab+"');\">","<li class=\"navSelected\"><a onclick=\"changeTab('"+tab+"');\">");			
+			oldlist = oldlist.replace("<li><a onclick=\"changeTab('"+tab+"');\">","<li class=\"selected\"><a onclick=\"changeTab('"+tab+"');\">");			
 			
 			$("#ctbs").html(oldlist);
 			
@@ -205,19 +205,21 @@
 	
 	<nav>
 		<ul>
-			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>">Group Select</a></li>
+			<li <?php if($_SERVER['PHP_SELF'] == "/index.php") echo "class='selected'";?>><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>">Group Select</a></li>
 		<?php if(inGroup()){?>
-			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/group"><?php echo "$_SESSION[gname]"?></a></li>
-			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/files">Files</a></li>
-			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/milestones">Milestones</a></li>
-			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/projects">Projects</a></li>
+			<li <?php if($_SERVER['PHP_SELF'] == "/group/index.php") echo "class='selected'";?>><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/group">Group Overview</a></li><?php //echo "$_SESSION[gname]"?>
+			<li <?php if($_SERVER['PHP_SELF'] == "/files/index.php") echo "class='selected'";?>><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/files">Files</a></li>
+			<li <?php if($_SERVER['PHP_SELF'] == "/milestones/index.php") echo "class='selected'";?>><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/milestones">Milestones</a></li>
+			<li <?php if($_SERVER['PHP_SELF'] == "/projects/index.php") echo "class='selected'";?>><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/projects">Projects</a></li>
 		<?php }else{ ?>
-			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/group/find">Group Finder</a></li>
+			<li <?php if($_SERVER['PHP_SELF'] == "/group/find/index.php") echo "class='selected'";?>><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/group/find">Group Finder</a></li>
 		<?php }
 		
 		$result = multiSQL("Select what from D_Perms where UserId = '$_SESSION[person]'");
 		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){ 
-			echo "<li><a href='http://$_SERVER[HTTP_HOST]/admin?sub=$row[what]'>$row[what]</a></li>";
+			echo "<li ";
+			if($_SERVER['PHP_SELF'] == "/admin/index.php") echo "class='selected'";
+			echo "><a href='http://$_SERVER[HTTP_HOST]/admin?sub=$row[what]'>Admin($row[what])</a></li>";
 		}
 		?>
 		</ul>
