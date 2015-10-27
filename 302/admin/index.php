@@ -169,7 +169,7 @@
 					//handling staff changes
 					if(isset($_POST['who'])&& is_numeric($_POST['who'])){
 						if(isset($_POST['revoke'])){//delete
-							runSQL("UPDATE `D_Perms` SET `level` = level-1 WHERE UserId = '92213407' and what = 'INB302';");
+							runSQL("UPDATE `D_Perms` SET `level` = level-1 WHERE UserId = '$_POST[who]' and what = 'INB302';");
 							runSQL("DELETE FROM `D_Perms` WHERE level = 0");
 							note("$_GET[sub]","Revoking::$_POST[who]");
 						}else if(isset($_POST['raise'])){//buff
