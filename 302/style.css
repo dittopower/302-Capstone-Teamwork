@@ -296,6 +296,10 @@ nav{
 		background: #012e52;
 	}
 	
+	.navSelected{
+		background: #333;
+	}
+	
 	nav ul li a{
 		display: block;
 	

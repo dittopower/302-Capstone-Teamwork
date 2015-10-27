@@ -34,6 +34,7 @@
 		?>
 
 		var currentTab = "0";
+		
 		var url="<?php echo "http://$_SERVER[HTTP_HOST]/chat/";?>";
 		
 		$( document ).ready(function() {
@@ -132,12 +133,23 @@
 			
 			$("#chat-text").html(tabs[tab]["content"]);
 			
-			currentTab = tab;
-			
 			var objDiv = document.getElementById("chat-text");
 			objDiv.scrollTop = objDiv.scrollHeight;
 			
 			looping();
+			
+			var oldlist = $("#ctbs").html();
+			
+			console.log(oldlist);
+			
+			//revert the last tab to normal colours	
+			oldlist = oldlist.replace("<li class=\"navSelected\"><a onclick=\"changeTab('"+currentTab+"');\">","<li><a onclick=\"changeTab('"+currentTab+"');\">");
+			//set current tab to selected
+			oldlist = oldlist.replace("<li><a onclick=\"changeTab('"+tab+"');\">","<li class=\"navSelected\"><a onclick=\"changeTab('"+tab+"');\">");			
+			
+			$("#ctbs").html(oldlist);
+			
+			currentTab = tab;
 			
 		}
 		
@@ -146,7 +158,7 @@
 			var html = "";
 			
 			for (var i=0; i < tabs.length; i++) {
-				html += "<li><a onclick=\"changeTab('" + i + "');\" >" + tabs[i]["name"] + "</a></li>";
+				html += "<li><a onclick=\"changeTab('" + i + "');\">" + tabs[i]["name"] + "</a></li>";
 			}
 			
 			$("#ctbs").html(html);
@@ -193,12 +205,12 @@
 	
 	<nav>
 		<ul>
-			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>">Teamwork</a></li>
+			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>">Group Select</a></li>
 		<?php if(inGroup()){?>
 			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/group"><?php echo "$_SESSION[gname]"?></a></li>
 			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/files">Files</a></li>
-			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/projects">Projects</a></li>
 			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/milestones">Milestones</a></li>
+			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/projects">Projects</a></li>
 		<?php }else{ ?>
 			<li><a href="http://<?php echo "$_SERVER[HTTP_HOST]";?>/group/find">Group Finder</a></li>
 		<?php }
