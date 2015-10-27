@@ -80,7 +80,6 @@
 					}//<span class="preText">(1:54pm) Josh:</span> chat text goes here<br>
 				});
 				
-				
 				if (html == ""){
 					same++;
 					if(Math.floor(same/10) > freqmod){
@@ -98,8 +97,10 @@
 				tabs[tab]["content"] += html;
 				
 				$("#chat-text").html(tabs[tab]["content"]);//refresh chat
+				
+				console.log("Updated chat: " + Date().match(/\d\d\:\d\d\:\d\d/)[0]);
+				
 			});	
-				console.log("Updated chat: " + Date().match(/\d\d\:\d\d\:\d\d/)[0]);		
 
 		}
 	
@@ -131,30 +132,34 @@
 		
 		function changeTab(tab){
 			
-			$("#chat-text").html(tabs[tab]["content"]);
+			//reset delay on change tab
+			same = 0;
+			freqmod = 0;
+			clearInterval(loop);
+			loop = setInterval(looping, freq);
+			
+			var lasttab = currentTab;
+			currentTab = tab;
+			
+			looping();
 			
 			var objDiv = document.getElementById("chat-text");
 			objDiv.scrollTop = objDiv.scrollHeight;
 			
-			looping();
-			
 			var oldlist = $("#ctbs").html();
 			
-			console.log(oldlist);
-			
 			//revert the last tab to normal colours	
-			oldlist = oldlist.replace("<li class=\"selected\"><a onclick=\"changeTab('"+currentTab+"');\">","<li><a onclick=\"changeTab('"+currentTab+"');\">");
+			oldlist = oldlist.replace("<li class=\"selected\"><a onclick=\"changeTab('"+lasttab+"');\">","<li><a onclick=\"changeTab('"+lasttab+"');\">");
 			//set current tab to selected
 			oldlist = oldlist.replace("<li><a onclick=\"changeTab('"+tab+"');\">","<li class=\"selected\"><a onclick=\"changeTab('"+tab+"');\">");			
 			
 			$("#ctbs").html(oldlist);
-			
-			currentTab = tab;
-			
+			$("#chat-text").html(tabs[currentTab]["content"]);
+
 		}
 		
 		function chatInitiate(){
-						
+			
 			var html = "";
 			
 			for (var i=0; i < tabs.length; i++) {
