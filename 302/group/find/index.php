@@ -9,7 +9,7 @@
 		$requested = 0;
 		$request = array();
 		if(isset($_POST['unit'])){
-			if(singleSQL("Select 1 from Unit where UnitCode = '$_POST[unit]'") == 1 && (singleSQL("SELECT 1 FROM `Group_Requests` WHERE `UserId` = '$_SESSION[person]' AND `UnitCode` = '$_POST[unit]'") != 1)){
+			if(singleSQL("Select 1 from Unit where UnitCode = '$_POST[unit]'") == 1){
 				$request['unit'] = $_POST['unit'];
 			}
 		}
@@ -36,8 +36,8 @@
 		}
 		if(isset($request['unit'])){
 			global $mysqli;
-			$sql= mysqli_prepare($mysqli, "INSERT INTO `Group_Requests` (`UserId`, `UnitCode`, `Similar`,  `PreferenceType1`,  `PreferenceType2`,  `PreferenceType3`) VALUES (?, ?, ?, ?, ?, ?);");
-			mysqli_stmt_bind_param($sql,"ssisss",$_SESSION['person'],$request['unit'],$request['similar'],$request[1],$request[2],$request[3]);
+			$sql= mysqli_prepare($mysqli, "INSERT INTO `Group_Requests` (`UserId`, `UnitCode`, `Similar`,  `PreferenceType1`,  `PreferenceType2`,  `PreferenceType3`) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE Similar = ?,  PreferenceType1 = ?,  PreferenceType2 = ?,  PreferenceType3 = ?;");
+			mysqli_stmt_bind_param($sql,"ssisssssss",$_SESSION['person'],$request['unit'],$request['similar'],$request[1],$request[2],$request[3],$request['similar'],$request[1],$request[2],$request[3]);
 			if(mysqli_stmt_execute($sql)){
 				$requested = 1;
 				note("requests","Sucess::$_SESSION[person]::$_POST[unit]:$_POST[type1]:$_POST[type2]:$_POST[type3]");
