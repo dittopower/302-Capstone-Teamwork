@@ -223,7 +223,7 @@
 		$result = multiSQL("Select what from D_Perms where UserId = '$_SESSION[person]'");
 		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){ 
 			echo "<li ";
-			if($_SERVER['PHP_SELF'] == "/admin/index.php") echo "class='selected'";
+			if($_SERVER['PHP_SELF'] == "/admin/index.php" && $_GET["sub"]==$row["what"]) echo "class='selected'";
 			echo "><a href='http://$_SERVER[HTTP_HOST]/admin?sub=$row[what]'>Admin($row[what])</a></li>";
 		}
 		?>
