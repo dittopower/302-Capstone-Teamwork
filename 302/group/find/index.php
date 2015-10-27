@@ -85,7 +85,7 @@
 	
 ?>
 <div>
-<h1>Active Requests</h1>
+<h1>Active Group Requests</h1>
 <?php 
 	$result = multiSQL("Select UnitCode, PreferenceType1 as 'Preference 1', PreferenceType2 as 'Preference 2', PreferenceType3 as 'Preference 3' from Group_Requests where UserId = '$_SESSION[person]'"); 
 	while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
@@ -93,7 +93,6 @@
 	}
 ?>
 </div>
-<hr>
 
 <form method='POST'>
 <style>
@@ -102,13 +101,15 @@ form .card div {
     margin-bottom: 10;
 }
 </style>
-	<h1>Find a Team</h1>
+	<br><hr><br><h1>Find a Team</h1>
+	
 	<?php if(isset($requested)){if($requested){echo "<div class='sucess'>Request Sucessful lodged</div>";}else{echo "<div class='error'>Request Failed.</div>";}}?>
 	
 	<div class='card'>
+	<p>This will match you into a group at a later date (chosen by the unit coordinator)</p><hr>
 	<div>
 		<label for='unit'>Unit Code</label>
-		<input list='units' name='unit' id='unit'>
+		<input list='units' name='unit' id='unit' class='inputpadding'>
 		<datalist id='units'>
 		<?php
 			$result = multiSQL("SELECT * FROM Unit");
@@ -127,7 +128,7 @@ form .card div {
 	
 	<div>
 		<label for='type1'>Project Type Preference 1</label>
-		<input list='types1' name='type1' id='type1'>
+		<input list='types1' name='type1' id='type1' class='inputpadding'>
 		<datalist id='types1'>
 			<option value='any'>
 		<?php
@@ -143,21 +144,21 @@ form .card div {
 	
 	<div>
 		<label for='type2'>Project Type Preference 2</label>
-		<input list='types1' name='type2' id='type2'>
+		<input list='types1' name='type2' id='type2' class='inputpadding'>
 	</div>
 	
 	<div>
 		<label for='type3'>Project Type Preference 3</label>
-		<input list='types1' name='type3' id='type3'>
+		<input list='types1' name='type3' id='type3' class='inputpadding'>
 	</div>
 	
-	<input type='submit' class='button button1' name='findgroup' value='Submit'>
+	<input type='submit' class='button button1' name='findgroup' value='Submit Request'>
 	</div>
 
 </form>
 
 <form method='POST'>
-<h1>Already have a Team?</h1>
+<br><hr><br><h1>Already have a Team?</h1>
 <?php
 	if(isset($requested)){
 		if($requested){
@@ -168,7 +169,7 @@ form .card div {
 	}
 	$cardcont = "This option is for students who already have a team. I.e. Teams were formed in workshops or assigned by the unit coordinator.<br>";
 	$cardcont .= "<div><label for='tsub'>Subject</label>";
-	$cardcont .= "<input list='units' id='tsub' name='tsub'></div>";
+	$cardcont .= "<input list='units' id='tsub' name='tsub' class='inputpadding'></div>";
 	$cardcont .= "<div><label for='tname'>Team Name</label>";
 	$cardcont .= "<input type='text' id='tname' name='tname' placeholder='Default Teamname'></div>";
 	$cardcont .= "<input type='submit' class='button button1' name='makegroup' value='Create'>";
