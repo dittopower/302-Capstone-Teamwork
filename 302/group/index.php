@@ -44,6 +44,20 @@
 		}
 	}
 	
+	function overide_remove($who){
+		remove_member($_SESSION['group'],$who);
+		runSQL("Delete from Group_Mod where Group_Id = '$_SESSION[group]' and who = '$who'");
+		note("member_vote","Overide::$_SESSION[group]::removed::$who");
+		echo "<span class='error'>Unit Staff: Evicted Member</span>";
+		post("#$_SESSION[group]|@$_SESSION[group]","Member Evicted","<span class='error'>Unit Staff removed $who from the group.</span>");
+	}
+	function overide_keep($who){
+		note("member_vote","Overide::$_SESSION[group]::Kept::$who");
+		runSQL("Delete from Group_Mod where Group_Id = '$_SESSION[group]' and who = '$who'");
+		post("#$_SESSION[group]|@$_SESSION[group]","Kicking Vote Cancelled","<span class='error'>Unit Staff cancelled the vote to kick $who from the group.</span>");
+		echo "<span class='sucess'>Removal Cancelled: Member Retained</span>";
+	}
+	
 	function vote_add($who){
 		$sql = "SELECT count(*) as value FROM Group_Members where GroupId = '$_SESSION[group]'";
 		$sql .= " UNION ALL SELECT count(*) from Group_Mod where Group_Id = '$_SESSION[group]' and who = '$who' and ACTION = 'ADD'";
@@ -70,43 +84,73 @@
 		}
 	}
 	
+	function overide_accept($who){
+		add_member($_SESSION['group'],$who);
+		runSQL("Delete from Group_Mod where Group_Id = '$_SESSION[group]' and who = '$who'");
+		note("member_vote","Overide::$_SESSION[group]::added::$who");
+		echo "<span class='Sucess'>Unit Staff: Added Member</span>";
+		post("#$_SESSION[group]|@$_SESSION[group]","Member Added","<span class='sucess'>Unit staff added $who to the group.</span>");
+	}
+	function overide_reject($who){
+		note("member_vote","Overide::$_SESSION[group]::rejected::$who");
+		runSQL("Delete from Group_Mod where Group_Id = '$_SESSION[group]' and who = '$who'");
+		echo "<span class='error'>Staff Overide: New Member Rejected</span>";
+		post("#$_SESSION[group]|@$_SESSION[group]","New Member Rejected","Unit Staff rejected $who joining the group.");
+	}
+	
 	if(isset($_POST['vote']) && is_numeric($_POST['who']) && $_POST['who'] != $_SESSION['person']){
 		switch($_POST['vote']){
 			case 'Remove':
-				if(runSQL("INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Remove', '$_POST[who]') ON DUPLICATE KEY UPDATE `Action` = 'Remove';")){
-					note('member_vote',"DONE:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
-					post("@$_SESSION[group]","Removal Vote","<span class='error'>Voted to remove $_POST[who]</span>");
-					vote_remove($_POST['who']);
+				if($allowed){
+					overide_remove($_POST['who']);
 				}else{
-					note('member_vote',"FAILED:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
+					if(runSQL("INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Remove', '$_POST[who]') ON DUPLICATE KEY UPDATE `Action` = 'Remove';")){
+						note('member_vote',"DONE:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
+						post("@$_SESSION[group]","Removal Vote","<span class='error'>Voted to remove $_POST[who]</span>");
+						vote_remove($_POST['who']);
+					}else{
+						note('member_vote',"FAILED:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
+					}
 				}
 				break;
 			case 'Keep':
-				if(runSQL("INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Cancel', '$_POST[who]') ON DUPLICATE KEY UPDATE `Action` = 'Cancel';")){
-					note('member_vote',"DONE:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
-					post("@$_SESSION[group]","Removal Vote","<span class='error'>Voted to Keep $_POST[who]</span>");
-					vote_remove($_POST['who']);
+				if($allowed){
+					overide_keep($_POST['who']);
 				}else{
-					note('member_vote',"FAILED:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
+					if(runSQL("INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Cancel', '$_POST[who]') ON DUPLICATE KEY UPDATE `Action` = 'Cancel';")){
+						note('member_vote',"DONE:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
+						post("@$_SESSION[group]","Removal Vote","<span class='error'>Voted to Keep $_POST[who]</span>");
+						vote_remove($_POST['who']);
+					}else{
+						note('member_vote',"FAILED:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
+					}
 				}
 				break;
 			case 'Add':
 			case 'Accept':
-				if(runSQL("INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Add', '$_POST[who]') ON DUPLICATE KEY UPDATE `Action` = 'Add';")){
-					note('member_vote',"DONE:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
-					post("@$_SESSION[group]","Add Vote","<span class='sucess'>Voted to add $_POST[who]</span>");
-					vote_add($_POST['who']);
+				if($allowed){
+					overide_accept($_POST['who']);
 				}else{
-					note('member_vote',"FAILED:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
+					if(runSQL("INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Add', '$_POST[who]') ON DUPLICATE KEY UPDATE `Action` = 'Add';")){
+						note('member_vote',"DONE:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
+						post("@$_SESSION[group]","Add Vote","<span class='sucess'>Voted to add $_POST[who]</span>");
+						vote_add($_POST['who']);
+					}else{
+						note('member_vote',"FAILED:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
+					}
 				}
 				break;
 			case 'Decline':
-				if(runSQL("INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Deny', '$_POST[who]') ON DUPLICATE KEY UPDATE `Action` = 'Deny';")){
-					note('member_vote',"DONE:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
-					post("@$_SESSION[group]","Add Vote","<span class='sucess'>Voted to reject $_POST[who]</span>");
-					vote_add($_POST['who']);
+				if($allowed){
+					overide_reject($_POST['who']);
 				}else{
-					note('member_vote',"FAILED:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
+					if(runSQL("INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES ('$_SESSION[person]', '$_SESSION[group]', 'Deny', '$_POST[who]') ON DUPLICATE KEY UPDATE `Action` = 'Deny';")){
+						note('member_vote',"DONE:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
+						post("@$_SESSION[group]","Add Vote","<span class='sucess'>Voted to reject $_POST[who]</span>");
+						vote_add($_POST['who']);
+					}else{
+						note('member_vote',"FAILED:: $_POST[vote] > $_POST[who] :: $_SESSION[person]");
+					}
 				}
 				break;
 			default:
