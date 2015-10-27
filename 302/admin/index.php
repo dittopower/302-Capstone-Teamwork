@@ -7,66 +7,7 @@
 	lib_feed();
 	lib_database();
 	
-	
-	if(isset($_GET['groupidreport'])){
-		
-		echo "<h1>Generating report for group #".$_GET['groupidreport']."</h1>";
-		
-		//$html = feed("#".$_SESSION[group],$_SESSION[gname]. "'s Feed","1");
-		
-		$topic = "#$_SESSION[group]";
-		
-		//****** COPY PASTE start **************/
-		global $nsql;
-		$nsql = "Select art_id, Username, user_id, DATE_FORMAT(post_date, '%H:%i %d %b %y') as postd, DATE_FORMAT(mod_date, '%H:%i %d %b %y') as modd, tags, title, contents from D_Articles a join D_Accounts u on user_id = UserId";
-		$w = 0;
-		
-		if(strlen($topic) > 0){
-			where();
-			$nsql .= " tags like '%$topic|%'";
-		}
-		
-		$nsql .= " order by post_date desc";
-		
-		debug($nsql);
-		$result = multiSQL($nsql);
-		
-		while ($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
-			$cardcont .= "<article>";
-		//Title
-			$cardcont .= "<h3>$row[title]</h3>";
-			
-		//Author, Dates
-			$cardcont .= "<div class='info'>";
-			$cardcont .= "$row[postd] by ";
-			$cardcont .= "<a class='author' href='http://$_SERVER[HTTP_HOST]/user?u=$row[Username]'>$row[Username]</a>";
-			if ($row['postd'] != $row['modd']){
-				$cardcont .= " Modified $row[modd]";
-			}
-			$cardcont .= "</div>";
-			
-		//contents
-			$cardcont .= "<div class='contents'>";
-			$cardcont .= $row['contents'];
-			$cardcont .= "</div>";
-			
-			$cardcont .= "</article><hr>";
-		}
-
-		$cardcont .= "</span>";
-	
-	/****** COPY PASTE END **************/
-		
-		?>
-		
-		<form method="post" action="generateReport.php">
-			<input type="hidden" name="feedfin" value="<?php echo $cardcont; ?>">
-			<input type="submit" value="Generate report">
-		</form>
-		
-		<?php
-		
-	}else if(isset($_GET['sub'])){
+	if(isset($_GET['sub'])){
 		if(strlen($_GET['sub']) < 11){
 			$level = getUserLevel($_GET['sub']);
 			if($level > 0){
@@ -92,7 +33,7 @@
 					while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){ 
 						$cardcont .= "<tr><td><a href='http://$_SERVER[HTTP_HOST]/group/?group=$row[GroupId]'>$row[GroupName]</a></td><td>$row[Name]</td><td>Members: $row[mem]</td>";
 						
-						$cardcont .= "<td><form method='GET'><input type='hidden' value='" . $row["GroupId"] . "' name='groupidreport'><input type='submit' value='Generate Report' class='button button1 smallerbtn'></form></td>";
+						$cardcont .= "<td><form method='GET' action='generateReport.php' target='_blank'><input type='hidden' value='" . $row["GroupId"] . "' name='groupidreport'><input type='submit' value='Generate Report' class='button button1 smallerbtn'></form></td>";
 						$cardcont .= "</tr>";
 					}
 					card("All $_GET[sub] Groups", $cardcont . "</table>");
