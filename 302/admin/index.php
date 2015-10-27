@@ -243,6 +243,7 @@
 					
 				}else{//Full system Admin page
 					
+					echo "<span class='admintables'>";
 					
 					$cardcont = "";
 					//handling staff changes
@@ -274,6 +275,7 @@
 					}
 					card("All Staff", $cardcont . "</table>");
 					
+					$cardbuff = "";
 					
 					if(isset($_POST["usernameBuff"])){
 						$username = $_POST["usernameBuff"];
@@ -286,22 +288,22 @@
 							$uwot = runSQL("INSERT INTO D_Perms (UserId,what,level) VALUES('".$userid."','".$unit."','1')");
 						}
 						
-						if($uwot){ echo "<span class='sucess'>User promoted.</span>"; }
-						else { echo "<span class='error'>Failed to be promoted. (Maybe user doesn't exist?)</span>"; }
+						if($uwot){ $cardbuff .= "<span class='sucess'>User promoted.<meta http-equiv='refresh' content='1'></span>"; }
+						else { $cardbuff .= "<span class='error'>Failed to be promoted. (Maybe user doesn't exist?)</span>"; }
 						
-						echo "<div class='clear'></div><br>";
+						$cardbuff .= "<div class='clear'></div><br>";
 					}
-					$cardbuff = "";
+					
 						$units = arraySQL("SELECT * FROM Unit");
-						$cardbuff = "
+						$cardbuff .= "
 						<span class='wideinput'><form method='POST'>
-							<input type='text' name='usernameBuff' placeholder='Username'><br><br>
+							<input type='text' name='usernameBuff' placeholder='Username' class='bump'><br>
 							<input type='hidden' name='unitBuff' value='".$_GET[sub]."'>
-							<select name='unitBuff' class='inputpadding'>";
+							<select name='unitBuff' class='inputpadding bump'>";
 							foreach($units as $u){
 								$cardbuff.= "<option value='".$u["UnitCode"]."' class='inputpadding'>".$u["UnitCode"]." - ".$u["Unit"]."</option>";
 							}
-							$cardbuff.="</select><br><br>";
+							$cardbuff.="</select><br>";
 							
 							$cardbuff .= "<input type='submit' value='Promote' class='button button1'>
 						</form></span>";
@@ -326,12 +328,15 @@
 					while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){ 
 						$cardcont .= "<tr><td>$row[UnitCode]</td><td>$row[Unit]</td></tr>";
 					}
-					$cardcont .= "</table><hr><form method='POST'><h4>Add a Unit</h4>";
-					$cardcont .= "<label for='unitname'>Unit Name</label><input id='unitname' type=text name=uname placeholder='I.e. IT Capstone Project'>";
-					$cardcont .= "<br><label for='unitcode'>Unit Code</label><input id='unitcode' type=text name=ucode placeholder='I.e. INB302'>";
-					$cardcont .= "<br><span class='wideinput'><input class='button button1' type=submit name=newunit value='Add'></span></form>";
+					$cardcont .= "</table><span class='wideinput'>";
+					
+					$cardcont .= "<br><form method='POST'><h3>Add a Unit</h3><hr>";
+					$cardcont .= "<input id='unitname' type=text name=uname placeholder='Unit name' class='bump'><br>";//<label for='unitname'>Unit Name</label>I.e. IT Capstone Project
+					$cardcont .= "<input id='unitcode' type=text name=ucode placeholder='Unit code'><br>";//<label for='unitcode'>Unit Code</label>I.e. INB302
+					$cardcont .= "<input class='button button1' type=submit name=newunit value='Add'></span></form>";
 					card("Units", $cardcont);
 					
+					$cardcont .= "</span></span>";
 					
 				}
 				
