@@ -374,6 +374,11 @@ section{
 		font-size: 0.9em;
 	}
 	
+	.smallerbtn2{
+		padding: 0 5px 2px 5px;
+		font-size: 0.9em;
+	}
+	
 	.button-none{
 		border: 0;
 		

@@ -15,6 +15,18 @@
 		}
 	}
 	
+	$cardcont = "";//BEGIN
+	
+	$tt = rowSQL("SELECT CONCAT(u.UnitCode, ' ', u.Unit) as uid, g.GroupName as gname FROM `Unit` u JOIN Groups g ON u.UnitCode = g.UnitCode where g.GroupId=".$_GET['groupidreport']);
+	
+	$cardcont .= "<h2>Group: ".$tt['gname']."</h2><h2>Unit: ".$tt['uid']."</h2><h3>Members:</h3>";
+	
+	$mymembers = arraySQL("SELECT `Username`, CONCAT(`FirstName`,' ',`LastName`) as Name FROM `D_Accounts` a join Group_Members m on m.`UserId` = a.`UserId` left join User_Details d on m.UserId = d.UserId WHERE m.GroupId = '".$_GET['groupidreport']."'");
+	
+	foreach($mymembers as $item){
+		$cardcont .= "#$item[Username]: $item[Name]<br>";
+	}
+	
 	$topic = "#".$_GET['groupidreport'];
 	
 	//****** COPY PASTE start **************/
@@ -32,7 +44,7 @@
 	//debug($nsql);
 	$result = multiSQL($nsql);
 	
-	$cardcont = "";
+	
 	
 	while ($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
 		$cardcont .= "<article>";
@@ -42,7 +54,7 @@
 		//Author, Dates
 		$cardcont .= "<div class='info'>";
 		$cardcont .= "$row[postd] by ";
-		$cardcont .= "<a class='author' href='http://$_SERVER[HTTP_HOST]/user?u=$row[Username]'>$row[Username]</a>";
+		$cardcont .= "$row[Username]";//<a class='author' href='http://$_SERVER[HTTP_HOST]/user?u=$row[Username]'>
 		if ($row['postd'] != $row['modd']){
 			$cardcont .= " Modified $row[modd]";
 		}

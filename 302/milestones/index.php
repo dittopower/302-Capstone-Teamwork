@@ -27,6 +27,15 @@
 			else { echo "<span class='error'>Milestone not created.</span>"; }
 			
 			echo "<div class='clear'></div><br>";
+		
+		} else if(isset($_POST["deletemilestone"]) && isset($_POST["mid"])){
+			
+			$del = runSQL("DELETE FROM Milestones WHERE MID=".$_POST["mid"]);
+			
+			if($del){ echo "<span class='sucess'>Milestone deleted.</span>"; }
+			else { echo "<span class='error'>Milestone failed to delete.</span>"; }
+			
+			echo "<div class='clear'></div><br>";
 			
 		} else if(isset($_POST["mid"]) && isset($_POST["current"])){
 			
@@ -60,8 +69,11 @@
 		
 		$milestones = arraySQL("SELECT MID, Content, Checked FROM Milestones WHERE GroupId=".$group);
 		
-		foreach($milestones as $v){			
-			$cardcontent .= "<form method='post'><input type='hidden' name='mid' value='".$v["MID"]."'><input name='current' type='submit' ";
+		foreach($milestones as $v){
+	
+			$cardcontent .= "<form method='post' class='inline'><input type='hidden' name='mid' value='".$v["MID"]."'><input name='deletemilestone' type='submit' value='&#10006;' class='button button5 inline smallerbtn2'></form>";
+			
+			$cardcontent .= "<form method='post' class='inline'><input type='hidden' name='mid' value='".$v["MID"]."'><input name='current' type='submit' ";
 
 				if($v["Checked"]){
 					$cardcontent .= "value='&#10004;' class='button button3";
@@ -69,7 +81,7 @@
 					$cardcontent .= "value='&#10066;' class='button button2";
 				}
 				
-			$cardcontent .= " mar tickBtn'> " . $v["Content"] . "</form><br>";
+			$cardcontent .= " mar inline'> " . $v["Content"] . "</form><br>";
 		}
 		
 		card2("Milestones", $cardcontent);
