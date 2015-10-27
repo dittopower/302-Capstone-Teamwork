@@ -103,7 +103,7 @@ form .card div {
 </style>
 	<br><hr><br><h1>Find a Team</h1>
 	
-	<?php if(isset($requested)){if($requested){echo "<div class='sucess'>Request Sucessful lodged</div>";}else{echo "<div class='error'>Request Failed.</div>";}}?>
+	<?php if(isset($requested)){if($requested){echo "<div class='sucess'>Request successfully lodged.</div>";}else{echo "<div class='error'>Request Failed.</div>";}}?>
 	
 	<div class='card'>
 	<p>This will match you into a group at a later date (chosen by the unit coordinator)</p><hr>
@@ -160,9 +160,9 @@ form .card div {
 <form method='POST'>
 <br><hr><br><h1>Already have a Team?</h1>
 <?php
-	if(isset($requested)){
-		if($requested){
-			echo "<div class='sucess'>Group Created Sucessful.<br>You will be redirected <a href='http://$_SERVER[HTTP_HOST]/group'>here</a>.</div>";
+	if(isset($created)){
+		if($created){
+			echo "<div class='sucess'>Group Created Successfully.<br>You will be redirected <a href='http://$_SERVER[HTTP_HOST]/group'>here</a>.</div>";
 		}else{
 			echo "<div class='error'>Group Creation Failed.</div>";
 		}
