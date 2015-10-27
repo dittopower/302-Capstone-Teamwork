@@ -169,11 +169,31 @@
 							}
 						}
 						
+						$cardcont .= "<datalist id='tutors'>";
+						$result = multiSQL("SELECT a.Username, a.FirstName, IF(p.level > 1, 'Lecturer/Coordinator', 'Tutor') as Role FROM `D_Perms` p join D_Accounts a on p.UserId = a.UserId WHERE what = '$_GET[sub]'");
+						while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
+							$cardcont .= "<option value='$row[Username]'>$row[FirstName]</option>";
+						}
+						$cardcont .= "</datalist>";
+						if(isset($_POST['settut']) && isset($_POST['tutor']) && is_numeric($_POST['grouptut'])){
+							$userid = singleSQL("SELECT UserId FROM D_Accounts WHERE Username='".$_POST['tutor']."'");
+							if($userid > 0){
+							if(runSQL("UPDATE `Groups` SET `Supervisor` = '$userid' WHERE `GroupId` = '$_POST[grouptut]';")){
+								note("$subject","Group Tutor::SET::$_POST[tutor]");
+								post("#$_POST[grouptut]|@$_POST[grouptut]","Tutor Assigned","$_POST[tutor] is now this group's allocated tutor.");
+								$cardcont .= "<span class=sucess>Tutor set.</span>";
+							}else{
+								note("$subject","Group Tutor::Failed set::$_POST[tutor]");
+								$cardcont .= "<span class=error>Failed to set Tutor</span>";
+							}}else{$cardcont .= "<span class=error>Invalid Tutor.</span>";}
+						}
 						//All groups
-						$result = multiSQL("SELECT g.`GroupId`, g.`GroupName`, p.Name, count(*) as mem FROM `Groups` g join Projects p on g.`GroupProject` = p.P_Id join D_Perms d on d.what = g.UnitCode JOIN Group_Members m on m.GroupId = g.`GroupId` WHERE d.UserId = '$_SESSION[person]' group by g.`GroupId`");
-						$cardcont .= "<table><tr><th>Group Name</th><th>Project</th><th>Members</th><th></th></tr>";
+						$result = multiSQL("SELECT g.`GroupId`, g.`GroupName`, p.Name, count(*) as mem, a.Username FROM `Groups` g join Projects p on g.`GroupProject` = p.P_Id JOIN Group_Members m on m.GroupId = g.`GroupId` left join D_Accounts a on g.`Supervisor` = a.UserId WHERE g.UnitCode = '$subject' group by g.`GroupId`");
+						$cardcont .= "<table><tr><th>Group Name</th><th>Project</th><th>Members</th><th>Tutor</th><th>Change Tutor</th><th>Report</th></tr>";
 						while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){ 
 							$cardcont .= "<tr><td><a href='http://$_SERVER[HTTP_HOST]/group/?group=$row[GroupId]'>$row[GroupName]</a></td><td>$row[Name]</td><td>Members: $row[mem]</td>";
+							$cardcont .= "<td>$row[Username]</td><td><form method=POST><input type=text name='grouptut' value='$row[GroupId]' hidden>
+							<input list='tutors' name='tutor' class='inputpadding'><input type=submit name=settut value='&#10004;'></form></td>";
 							$cardcont .= "<td><form method='GET' action='generateReport.php' target='_blank'><input type='hidden' value='" . $row["GroupId"] . "' name='groupidreport'><input type='submit' value='Generate Report' class='button button1 smallerbtn'></form></td>";
 							$cardcont .= "</tr>";
 						}
