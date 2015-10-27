@@ -39,13 +39,12 @@
 			if($current == "&#10004;"){//tick
 				$sql .= 0;
 				
-				
-				post("#$_SESSION[group]|@$_SESSION[group]","Milestone Completed","<span class=sucess>\"" . $milestone . "\"</span>");
+				post("#$_SESSION[group]|@$_SESSION[group]","Milestone UnCompleted","<span class=error>\"" . $milestone . "\"</span>");
 			}
 			else if($current == "&#10066;"){//cross
 				$sql .= 1;
 				
-				post("#$_SESSION[group]|@$_SESSION[group]","Milestone UnCompleted","<span class=error>\"" . $milestone . "\"</span>");
+				post("#$_SESSION[group]|@$_SESSION[group]","Milestone Completed","<span class=sucess>\"" . $milestone . "\"</span>");
 			}
 			
 			$sql .= " WHERE MID=" . $mid;
