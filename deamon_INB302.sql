@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 27, 2015 at 09:18 AM
+-- Generation Time: Oct 28, 2015 at 03:30 AM
 -- Server version: 5.5.42-37.1
 -- PHP Version: 5.4.23
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `Chat` (
   `GroupID` int(11) DEFAULT NULL,
   `Message` text COLLATE utf8_unicode_ci,
   `TimeSent` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=MyISAM AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=58 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `Chat`
@@ -73,6 +73,8 @@ INSERT INTO `Chat` (`ChatID`, `UserID`, `UserReceive`, `GroupID`, `Message`, `Ti
 (47, 92213408, -1, 1, 'test message', '2015-10-26 07:56:30'),
 (48, 92213408, -1, 1, '@damon test ', '2015-10-26 07:57:34'),
 (49, 92213408, -1, -2, 'FOOD', '2015-10-26 08:37:54'),
+(57, 92213408, -1, 15, 'jhjhj', '2015-10-28 01:41:57'),
+(56, 92213408, -1, -2, 'this is the chat', '2015-10-28 00:58:28'),
 (54, 92213408, -1, -2, 'test', '2015-10-27 07:22:16'),
 (55, 92213408, -1, -2, 'test agen', '2015-10-27 07:24:35');
 
@@ -92,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `D_Accounts` (
   `LastName` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `DateOfBirth` date DEFAULT NULL,
   `Email` varchar(60) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=92213415 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=92213419 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `D_Accounts`
@@ -227,7 +229,11 @@ INSERT INTO `D_Accounts` (`UserId`, `PassPhrase`, `Length`, `salt`, `Username`, 
 (92213411, 'e8e971cd0cf1428aa0730dc1389a9ca1', 8, 'N!…	þØŽÕíž¤‘$o‹/Pîw,Ò''¯îtß‹âCe­K[Iç''ä}õ›éùûŸÑ2cLD¹qG:Ðù', 'dwinterr', 'Declan', 'Winter', '0000-00-00', 'test@email.com'),
 (92213412, '05ec49c4aaaeefbfcf88bfa793ed713f', 9, 'kGåZJü$;Öy‰wm…ÿº|~Mn±¯2ÐzµãäOpÃ­“Ê¾9Ë¸ø†IPc‚å	XëAØï¦”', 'emma', 'Emma', 'Jackson', '1995-07-01', 'er.jackson@test.com'),
 (92213413, '3b3d2f91c8479f9041fbdb660895e25a', 9, 's„¥0˜ÞÜ8õïæ],ãŽôøÑ(ëW5˜G(ÜøË7î	­óú…ÌžŒýñ·43\ZÍtÈ¸Í{Z§CÊ£ýB', 'emmaa', 'Em', 'Jack', '1984-05-09', 'test@test.com'),
-(92213414, '3e5401aabc058b7addcc7e04ef04c3f3', 8, '~^+¸ôl…A ¾¾w«ØÕUqVÙúKévÌ*nºœ{h(¼¬!2–ùBzýzRÌXÂ&7gQ[Çª', 'administrator', 'Bill', 'Jobs', '2000-01-01', 'linux@qut.edu.au');
+(92213414, '3e5401aabc058b7addcc7e04ef04c3f3', 8, '~^+¸ôl…A ¾¾w«ØÕUqVÙúKévÌ*nºœ{h(¼¬!2–ùBzýzRÌXÂ&7gQ[Çª', 'administrator', 'Bill', 'Jobs', '2000-01-01', 'linux@qut.edu.au'),
+(92213415, '15313e9d75272dadbb6eb834fe67b293', 8, 'uWz`»óà H{ù¾)Æ0ñx‚	‘>iˆD mÙW„}Éœ˜À„©nD+Çy9ùÞ ßÕŸðP[âGë(ñÈò', 'n8858594', 'Joshua', 'Henley', '2015-09-30', 'joshua.henley@student.qut.edu.au'),
+(92213416, '5b79947fdb534f3067e0bbca1b23d4d3', 12, 'ìÈÓ$qO¾ý´Útù$-Çý¿a*zÍ\n7^e÷wo;Bä+äGõ€Ù¶^Û>×{ÔòåÉ"­Y2×Gü~Šø¯Á.', 'yuefengli', 'Yuefeng', 'Li', '2015-10-28', 'y2.li@qut.edu.au'),
+(92213417, 'af91610dd7447fb3c2f86398e3542838', 8, 'NüœÞþÛÒq¶ùñf‡ü$(Ø„¬Dë²³$ÂíÈ×û9nÿÊ%öÿFê±Ã“W¸Š]¾I!à ŽlµC', 'tutor', 'Tuuuu', 'Torr', '2015-10-08', 'tutor@qut.edu.au'),
+(92213418, '1a921fca0bdf79d318461ce88098e047', 8, '…¥á8TTioÅ}_½F?5i°y¹ª´¤“\rûöç“v’„’c¿ÙpbéNbç¥@Ybe$Å“–þ[8†–O', 'n8858593', 'Joshuer', 'Henler', '2015-10-22', 'oisjdfo@email.com');
 
 -- --------------------------------------------------------
 
@@ -243,7 +249,7 @@ CREATE TABLE IF NOT EXISTS `D_Articles` (
   `tags` text COLLATE utf8_unicode_ci NOT NULL,
   `title` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `contents` text COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=106 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=126 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `D_Articles`
@@ -342,7 +348,27 @@ INSERT INTO `D_Articles` (`art_id`, `user_id`, `post_date`, `mod_date`, `tags`, 
 (102, 92213407, '2015-10-27 12:48:35', '2015-10-27 12:48:35', '#1|@1|', 'Name Change', 'The Groups name has been changed to ''Null'''),
 (103, 92213407, '2015-10-27 14:00:17', '2015-10-27 14:00:17', '#8|@8|', 'Tutor Assigned', 'jesh is now this group''s allocated tutor.'),
 (104, 92213407, '2015-10-27 14:00:24', '2015-10-27 14:00:24', '#8|@8|', 'Tutor Assigned', 'emma is now this group''s allocated tutor.'),
-(105, 92213407, '2015-10-27 14:10:09', '2015-10-27 14:10:09', '#6|@6|', 'Tutor Assigned', 'jesh is now this group''s allocated tutor.');
+(105, 92213407, '2015-10-27 14:10:09', '2015-10-27 14:10:09', '#6|@6|', 'Tutor Assigned', 'jesh is now this group''s allocated tutor.'),
+(106, 92213408, '2015-10-28 00:58:48', '2015-10-28 00:58:48', '#15|@15|', 'File uploaded', '38.0.2125.104.manifest was uploaded.'),
+(107, 92213408, '2015-10-28 00:59:34', '2015-10-28 00:59:34', '#15|@15|', 'Milestone Completed', '<span class=sucess>"milestone"</span>'),
+(108, 92213408, '2015-10-28 01:00:04', '2015-10-28 01:00:04', '#15|@15|', 'Milestone Completed', '<span class=sucess>"technology mannn"</span>'),
+(109, 92213408, '2015-10-28 01:15:25', '2015-10-28 01:15:25', '#15|@15|', 'Milestone Completed', '<span class=sucess>"milestone 2"</span>'),
+(110, 92213408, '2015-10-28 01:50:36', '2015-10-28 01:50:36', '#15|@15|', 'Milestone Completed', '<span class=sucess>"project report"</span>'),
+(111, 92213408, '2015-10-28 02:09:22', '2015-10-28 02:09:22', '#15|@15|', 'Milestone Completed', '<span class=sucess>"delete project"</span>'),
+(112, 92213407, '2015-10-28 04:19:14', '2015-10-28 04:19:14', '#1|@1|', 'New Member Rejected', 'Unit Staff rejected 81908605 joining the group.'),
+(113, 92213407, '2015-10-28 04:26:57', '2015-10-28 04:26:57', '#1|@1|', 'Milestone Completed', '<span class=sucess>"Create Team Contract"</span>'),
+(114, 92213407, '2015-10-28 04:40:36', '2015-10-28 04:40:36', '#6|@6|', 'Tutor Assigned', 'emma is now this group''s allocated tutor.'),
+(115, 92213407, '2015-10-28 08:06:08', '2015-10-28 08:06:08', '#1|@1|', 'File Deleted', 'README_0.md was Deleted.'),
+(116, 92213407, '2015-10-28 08:06:09', '2015-10-28 08:06:09', '#1|@1|', 'File Deleted', '1380078_10201429769764479_2054867537_n.jpg was Deleted.'),
+(117, 92213407, '2015-10-28 08:06:11', '2015-10-28 08:06:11', '#1|@1|', 'File Deleted', 'lowresman.png was Deleted.'),
+(118, 92213407, '2015-10-28 08:06:13', '2015-10-28 08:06:13', '#1|@1|', 'File Deleted', 'studentlistforteamworker.csv was Deleted.'),
+(119, 92213407, '2015-10-28 08:06:14', '2015-10-28 08:06:14', '#1|@1|', 'File Deleted', 'test2.jpg was Deleted.'),
+(120, 92213407, '2015-10-28 08:06:15', '2015-10-28 08:06:15', '#1|@1|', 'File Deleted', 'site.txt was Deleted.'),
+(121, 92213407, '2015-10-28 08:06:45', '2015-10-28 08:06:45', '#15|@15|', 'File Deleted', '38.0.2125.104.manifest was Deleted.'),
+(122, 92213407, '2015-10-28 08:10:11', '2015-10-28 08:10:11', '#18|@18|', 'File Deleted', 'Untitled.png was Deleted.'),
+(123, 92213407, '2015-10-28 08:19:16', '2015-10-28 08:19:16', '#15|@15|', 'Tutor Assigned', 'tutor is now this group''s allocated tutor.'),
+(124, 92213407, '2015-10-28 08:19:31', '2015-10-28 08:19:31', '#1|@1|', 'Tutor Assigned', 'yuefengli is now this group''s allocated tutor.'),
+(125, 92213407, '2015-10-28 08:20:01', '2015-10-28 08:20:01', '#1|@1|', 'Member Evicted', '<span class=''error''>Unit Staff removed 92213410 from the group.</span>');
 
 -- --------------------------------------------------------
 
@@ -356,20 +382,7 @@ CREATE TABLE IF NOT EXISTS `D_Media` (
   `owner` int(11) NOT NULL,
   `share` smallint(6) NOT NULL,
   `people` varchar(50) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `D_Media`
---
-
-INSERT INTO `D_Media` (`media_id`, `location`, `owner`, `share`, `people`) VALUES
-(40, '../302MEDIA/1/README_0.md', 92213407, 3, '1'),
-(41, '../302MEDIA/1/1380078_10201429769764479_2054867537_n.jpg', 92213407, 3, '1'),
-(44, '../302MEDIA/1/lowresman.png', 92213408, 3, '1'),
-(46, '../302MEDIA/1/studentlistforteamworker.csv', 92213407, 0, '1'),
-(49, '../302MEDIA/1/test2.jpg', 92213408, 3, '1'),
-(51, '../302MEDIA/18/Untitled.png', 92213412, 0, '18'),
-(52, '../302MEDIA/1/site.txt', 92213407, 0, '1');
+) ENGINE=MyISAM AUTO_INCREMENT=54 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -383,7 +396,7 @@ CREATE TABLE IF NOT EXISTS `D_Perms` (
   `what` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `level` int(11) NOT NULL,
   `other` varchar(20) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `D_Perms`
@@ -392,11 +405,11 @@ CREATE TABLE IF NOT EXISTS `D_Perms` (
 INSERT INTO `D_Perms` (`Perm_No`, `UserId`, `what`, `level`, `other`) VALUES
 (13, 92213407, 'INB302', 2, ''),
 (10, 92213407, 'Admin', 1, ''),
-(11, 92213408, 'INB302', 2, ''),
-(33, 92213412, 'INB302', 1, ''),
+(36, 92213416, 'INB302', 2, ''),
+(35, 92213412, 'INB302', 1, ''),
 (29, 92213414, 'Admin', 1, ''),
 (17, 92213409, 'INB300', 1, ''),
-(28, 92213408, 'Admin', 2, '');
+(37, 92213417, 'INB302', 1, '');
 
 -- --------------------------------------------------------
 
@@ -417,13 +430,13 @@ CREATE TABLE IF NOT EXISTS `Groups` (
 --
 
 INSERT INTO `Groups` (`GroupId`, `GroupName`, `GroupProject`, `UnitCode`, `Supervisor`) VALUES
-(1, 'Null', 3, 'INB302', 92213408),
+(1, 'Null', 1, 'INB302', 92213416),
 (8, 'INB302 G8', 1, 'INB302', 92213412),
-(6, 'INB302 G6', 0, 'INB302', 92213408),
+(6, 'INB302 G6', 0, 'INB302', 92213412),
 (9, 'INB302 G9', 0, 'INB302', 92213408),
 (10, 'INB302 G10', 0, 'INB302', 92213407),
 (16, 'null', 0, 'INB300', 0),
-(15, 'Automated Tech', 0, 'INB302', 0),
+(15, 'Automated Tech', 3, 'INB302', 92213417),
 (18, 'bob', 0, 'INB302', 0);
 
 -- --------------------------------------------------------
@@ -446,7 +459,7 @@ INSERT INTO `Group_Members` (`GroupId`, `UserId`, `Role`) VALUES
 (1, 92213407, NULL),
 (1, 92213408, NULL),
 (1, 92213409, NULL),
-(1, 92213410, NULL),
+(1, 92213413, NULL),
 (9, 92213407, NULL),
 (8, 81908605, NULL),
 (8, 92213411, NULL),
@@ -466,7 +479,9 @@ INSERT INTO `Group_Members` (`GroupId`, `UserId`, `Role`) VALUES
 (15, 92213407, NULL),
 (18, 92213413, NULL),
 (18, 92213412, NULL),
-(18, 75560985, NULL);
+(18, 75560985, NULL),
+(1, 92213411, NULL),
+(1, 92213418, NULL);
 
 -- --------------------------------------------------------
 
@@ -486,13 +501,9 @@ CREATE TABLE IF NOT EXISTS `Group_Mod` (
 --
 
 INSERT INTO `Group_Mod` (`User_Id`, `Group_Id`, `Action`, `Who`) VALUES
-(92213408, 1, 'Remove', 92213410),
-(92213407, 1, 'Add', 81908605),
 (92213407, 1, 'Remove', 92213408),
-(92213408, 1, 'Deny', 81908605),
 (92213408, 9, 'Add', 81986746),
-(92213408, 9, 'Remove', 92213407),
-(92213407, 1, 'Cancel', 92213410);
+(92213408, 9, 'Remove', 92213407);
 
 -- --------------------------------------------------------
 
@@ -516,8 +527,10 @@ CREATE TABLE IF NOT EXISTS `Group_Requests` (
 INSERT INTO `Group_Requests` (`UserId`, `UnitCode`, `Similar`, `PreferenceType1`, `PreferenceType2`, `PreferenceType3`) VALUES
 (92213408, 'INB302', 0, 'any', 'Application', 'Database'),
 (92213413, 'INB302', 1, 'Development', 'Application', 'Research'),
-(92213407, 'INB302', 1, 'Database', 'Web', 'Application'),
-(92213409, 'INB302', 0, 'Web', 'forty-two', '');
+(92213407, 'INB302', 0, 'Web', '', ''),
+(92213409, 'INB302', 0, 'Web', 'forty-two', ''),
+(92213408, 'INB375', 1, 'Application', 'Database', 'Research'),
+(92213408, 'IAB330', 0, 'Analysis', 'Database', 'any');
 
 -- --------------------------------------------------------
 
@@ -530,7 +543,7 @@ CREATE TABLE IF NOT EXISTS `Milestones` (
   `GroupId` int(11) DEFAULT NULL,
   `Content` text COLLATE utf8_unicode_ci,
   `Checked` int(1) DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `Milestones`
@@ -538,15 +551,18 @@ CREATE TABLE IF NOT EXISTS `Milestones` (
 
 INSERT INTO `Milestones` (`MID`, `GroupId`, `Content`, `Checked`) VALUES
 (1, 1, 'test milestone', 1),
+(19, 15, 'delete project', 1),
 (3, 1, 'yeee lad', 1),
 (6, 1, 'Hand in project plan', 0),
 (7, 8, 'group 8 milestones ayyyyyyyyyy', 0),
 (8, 8, 'yo but make sure u get the cheese', 1),
-(9, 1, 'Create Team Contract', 0),
+(9, 1, 'Create Team Contract', 1),
 (10, 1, 'New milestone', 0),
 (11, 1, 'another milestone', 0),
 (14, 1, 'You can delete these now!''''', 1),
-(13, 15, 'technology mannn', 0),
+(17, 15, 'hand in project', 0),
+(16, 15, 'milestone 2', 1),
+(18, 15, 'project report', 1),
 (5, 1, 'Create project plan', 0);
 
 -- --------------------------------------------------------
@@ -569,7 +585,7 @@ CREATE TABLE IF NOT EXISTS `Projects` (
   `Start` date NOT NULL,
   `End` date NOT NULL,
   `Dueby` date NOT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `Projects`
@@ -581,9 +597,7 @@ INSERT INTO `Projects` (`P_Id`, `Name`, `ProjectType1`, `ProjectType2`, `Project
 (3, 'Bird Watch', 'Development', 'Application', 'Database', 'Create an android application to log species of bird in the wild. Will primarily be used by Australian icon Troy Bundaberg,', 'java,xml,sql', 'Previous application development experience', 'INB302', 1, '2015-08-10', '2015-09-30', '2015-08-02'),
 (4, 'Accounting Software', 'Development', 'Web', 'Application', 'Create a website to manage accounting things, must be better than MYOB.', 'html,css,php,mysql', 'Must be very scaleable', 'INB300', 2, '2015-08-05', '2015-11-30', '2015-08-02'),
 (16, 'Project Title (meta)', 'Analysis', 'Development', 'Database', 'It is good project yes please do this for me it is much fun yes', 'Nunchuck skills', 'All the things', 'INB304', 1, '2015-10-16', '2015-10-15', '2015-10-14'),
-(17, 'test project mang', 'any', 'any', 'any', 'this project involved free credit poitns fdvdsfgf dgsfdg fdsg fdsg fd', 'none at all', 'none', 'INB302', 2, '2015-10-24', '2015-10-27', '2015-10-30'),
-(26, 'fdgdfg', 'Database', 'Research', 'Analysis', 'fdgfd', 'dfgfdg', 'fdgfdg', 'INB302', 1, '2015-10-06', '2015-10-15', '2015-10-14'),
-(25, 'fdgdfg', 'Database', 'Research', 'Analysis', 'fdgfd', 'dfgfdg', 'fdgfdg', 'INB302', 1, '2015-10-06', '2015-10-15', '2015-10-14');
+(17, 'test project mang', 'any', 'any', 'any', 'this project involved free credit poitns fdvdsfgf dgsfdg fdsg fdsg fd', 'none at all', 'none', 'INB302', 2, '2015-10-24', '2015-10-27', '2015-10-30');
 
 -- --------------------------------------------------------
 
@@ -598,20 +612,19 @@ CREATE TABLE IF NOT EXISTS `Project_Applications` (
   `CoverLetter` text COLLATE utf8_unicode_ci,
   `Status` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `TimeSubmitted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `Project_Applications`
 --
 
 INSERT INTO `Project_Applications` (`ApplicationID`, `P_Id`, `GroupId`, `CoverLetter`, `Status`, `TimeSubmitted`) VALUES
-(24, 25, 1, 'Please', 'SupervisorDeclined', '2015-10-27 05:01:57'),
-(25, 3, 1, 'Gimme the job bro', 'StudentAccepted', '2015-10-27 09:12:51'),
+(31, 17, 15, 'cover letter #2', 'Applied', '2015-10-28 01:03:12'),
+(36, 3, 15, 'this one', 'StudentAccepted', '2015-10-28 04:35:25'),
 (26, 3, 9, 'cover letter', 'SupervisorAccepted', '2015-10-27 10:24:59'),
 (27, 3, 9, 'cover letter', 'Applied', '2015-10-27 10:23:08'),
-(28, 1, 15, 'cover letter', 'StudentDeclined', '2015-10-27 10:25:41'),
-(29, 1, 15, 'cover letter', 'Applied', '2015-10-27 10:25:10'),
-(30, 3, 15, 'cover letter22222', 'SupervisorDeclined', '2015-10-27 10:29:05'),
+(34, 1, 15, '', 'Applied', '2015-10-28 02:25:51'),
+(35, 1, 1, 'yuefeng li\r\n', 'StudentAccepted', '2015-10-28 08:26:31'),
 (3, 4, 1, 'this is a cover letter man', 'Applied', '2015-10-21 02:14:01'),
 (4, 1, 8, 'i rlly need this project to begin my career in rocket ship designing. I will build mega website, will be fantastic friend.', 'StudentAccepted', '2015-10-23 11:51:28'),
 (5, 1, 9, 'excellent time to upgrade your solar, save money now with our exclusive limited time all year round offer, 2 solar panels for the price of 3, never before has anyone had a deal this good.', 'SupervisorDeclined', '2015-10-26 06:42:21'),
@@ -654,7 +667,7 @@ CREATE TABLE IF NOT EXISTS `Supervisor` (
   `Email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Password` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Salt` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `Supervisor`
@@ -663,7 +676,8 @@ CREATE TABLE IF NOT EXISTS `Supervisor` (
 INSERT INTO `Supervisor` (`SupervisorID`, `Username`, `FirstName`, `Surname`, `Email`, `Password`, `Salt`) VALUES
 (2, 'test', 'test', 'test', 'dsfsdf@fdslj.com', '277c737c1c70537cf6ad7f4e78463960', 'š%‹Àí|ÒçÁÀ|�Õ§â¥·j.ûÖåÇå7`¢˜Š%«"¦T§©s¹ÅæXÈ¤šN}B×/Ÿÿ ŒŸ'),
 (1, 'josh', 'Joshua', 'Henley', 'josh@joshuahenley.com', '293ed2260ca2afa857e52eabc122b229', 'ËVÁ]%`Xi!.X€¯Ùãá¿ƒJéFíÚTÑOdøÒ”ÄË†ƒ+HægtNœÁ’¡•Q×4ú­ÆŸÝ*ß²*™×'),
-(0, 'none', 'n/a', 'n/a', 'n/a', 'n/a', 'n/a');
+(0, 'none', 'n/a', 'n/a', 'n/a', 'n/a', 'n/a'),
+(12, 'supervisor', 'Super', 'Visor', 'super@visor.com', 'f78ca09d30a8ac7243836d684d97a7d7', 'j J¨…Mâ(§©éjLø3`èõOËz©fÝ§ºcü²½Mqÿ“l\0Ç\ndãWûz±ûÚÞå)<ÈûÄ# S^’');
 
 -- --------------------------------------------------------
 
@@ -711,7 +725,7 @@ CREATE TABLE IF NOT EXISTS `User_Details` (
 --
 
 INSERT INTO `User_Details` (`UserId`, `GPA`, `Skills`, `Blurb`, `LinkedIn`, `Email`, `Facebook`, `Skype`, `Phone`) VALUES
-(92213409, '6.0', '', 'doklfjdslk jdslkf jadslfjk asldjkf lkdsj lk', NULL, NULL, NULL, NULL, '405141011'),
+(92213409, '6.0', '', 'doklfjdslk jdslkf jadslfjk asldjkf lkdsj lk', NULL, NULL, NULL, 'person', '405141011'),
 (92213407, '5.9', 'Coding, Php, Python, C#, C++, Java, SQL', '1000 Starting in 1894, Tesla began investigating what he referred to as radiant energy of "invisible" kinds after he had noticed damaged film in his laboratory in previous experiments[84][85] (later identified as "Roentgen rays" or "X-Rays"). His early experiments were with Crookes tubes, a cold cathode electrical discharge tube. Soon after, much of Tesla''s early research—hundreds of invention models, plans, notes, laboratory data, tools, photographs, valued at $50,000—was lost in the 5th Avenue laboratory fire of March 1895. Tesla is quoted by The New York Times as saying, "I am in too much grief to talk. What can I say?"[86] Tesla may have inadvertently captured an X-ray image (predating Wilhelm Röntgen''s December 1895 announcement of the discovery of x-rays by a few weeks) when he tried to photograph Mark Twain illuminated by a Geissler tube, an earlier type of gas discharge tube. The only thing captured in the image was the metal locking screw on the camera lens.[10]:134', 'AAIAABgh6WUBfFVnI-Qenit7oiphAiyoIjAcO6I', 'dittopower@gmail.com', 'dittopower', 'dittopower', '466971872'),
 (92213408, '7.0', 'PHP, SQL, HTML, CSS, Javascript, JQuery', 'My strongest skills are in web design. I can code using a variety of different programming languages and have built many systems before.', 'AAMAABsl7QoBSP1AFW5tJTxeT9x6NmoLY5zrv2c', 'josh@joshuahenley.com', 'joshuahenley', 'jesh2222222', '0405141011'),
 (81087636, '4.0', '', '', NULL, NULL, NULL, NULL, '404040404'),
@@ -720,7 +734,10 @@ INSERT INTO `User_Details` (`UserId`, `GPA`, `Skills`, `Blurb`, `LinkedIn`, `Ema
 (92213411, '5.5', '', 'testerino', 'Declan-Winter', 'cool@guy.com.au', 'declan.winter.9', 'hotticket', '400777000'),
 (92213412, '7.0', 'Research, Beign cool', 'i''m REALLY cool', '', 'emma@emma.com', 'ema', 'emma', '0411111111'),
 (92213413, '4.0', 'Kinda nice', 'wahtever', '', 'test@test.com', 'emmmmmm', 'emmm', '0411111111'),
-(92213414, '7.0', 'Everything', 'have a guess, i''m the best system admin.', '', 'icloud@outlook.com', '', 'echo123', '0466666666');
+(92213414, '7.0', 'Everything', 'have a guess, i''m the best system admin.', '', 'icloud@outlook.com', '', 'echo123', '0466666666'),
+(92213416, '4.0', '', 'A good supervisor', '', 'y2.li@qut.edu.au', '', '', '0000000000'),
+(92213418, '6.5', 'Programming, Networking, Css, Html, Sql', 'I really enjoy cooking and also creating complex information systems to be used in the real world.', '', 'email@email.com', 'facebook', 'skype.name', '0405141022'),
+(92213417, '5.6', 'Html, Css, Php', 'I really enjoy watching movies about steve jobs and his life, I am a tutor also.', '', 'tutor@tutor.com', 'fffffffffffff', 'skypeee.nameeee', '0425215444');
 
 --
 -- Indexes for dumped tables
@@ -830,27 +847,27 @@ ALTER TABLE `User_Details`
 -- AUTO_INCREMENT for table `Chat`
 --
 ALTER TABLE `Chat`
-  MODIFY `ChatID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=56;
+  MODIFY `ChatID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=58;
 --
 -- AUTO_INCREMENT for table `D_Accounts`
 --
 ALTER TABLE `D_Accounts`
-  MODIFY `UserId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=92213415;
+  MODIFY `UserId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=92213419;
 --
 -- AUTO_INCREMENT for table `D_Articles`
 --
 ALTER TABLE `D_Articles`
-  MODIFY `art_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=106;
+  MODIFY `art_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=126;
 --
 -- AUTO_INCREMENT for table `D_Media`
 --
 ALTER TABLE `D_Media`
-  MODIFY `media_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=53;
+  MODIFY `media_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=54;
 --
 -- AUTO_INCREMENT for table `D_Perms`
 --
 ALTER TABLE `D_Perms`
-  MODIFY `Perm_No` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=34;
+  MODIFY `Perm_No` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT for table `Groups`
 --
@@ -860,22 +877,22 @@ ALTER TABLE `Groups`
 -- AUTO_INCREMENT for table `Milestones`
 --
 ALTER TABLE `Milestones`
-  MODIFY `MID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
+  MODIFY `MID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `Projects`
 --
 ALTER TABLE `Projects`
-  MODIFY `P_Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
+  MODIFY `P_Id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT for table `Project_Applications`
 --
 ALTER TABLE `Project_Applications`
-  MODIFY `ApplicationID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=31;
+  MODIFY `ApplicationID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=37;
 --
 -- AUTO_INCREMENT for table `Supervisor`
 --
 ALTER TABLE `Supervisor`
-  MODIFY `SupervisorID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `SupervisorID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
