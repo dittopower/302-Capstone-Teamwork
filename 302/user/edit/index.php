@@ -75,7 +75,7 @@
 		
 		if($g && $s && $b && $l && $e && $f && $p && $sk){
 		
-			$sqledit= mysqli_prepare($mysqli, "UPDATE `deamon_INB302`.`User_Details` SET GPA = ?, Skills  = ?, Blurb  = ?, LinkedIn  = ?, Email  = ?, Facebook  = ?, Skype  = ?, Phone  = ? WHERE UserId = ?");
+			$sqledit= mysqli_prepare($mysqli, "UPDATE `User_Details` SET GPA = ?, Skills  = ?, Blurb  = ?, LinkedIn  = ?, Email  = ?, Facebook  = ?, Skype  = ?, Phone  = ? WHERE UserId = ?");
 			mysqli_stmt_bind_param($sqledit,"sssssssss",$gpa,$skills,$blurb,$linked,$email,$facebook, $skype, $phone, $_SESSION['person']);
 
 			if(mysqli_stmt_execute($sqledit)){

@@ -7,10 +7,10 @@
 	//Get data
 
 	if(isset($_GET['u'])){
-		$sql= mysqli_prepare($mysqli, "SELECT GPA,Skills,Blurb,LinkedIn,User_Details.Email,D_Accounts.Email as Qemail,Facebook,Skype,Phone,FirstName,LastName,Username FROM `deamon_INB302`.`User_Details` INNER JOIN D_Accounts ON D_Accounts.UserId=User_Details.UserId WHERE Username = ?");
+		$sql= mysqli_prepare($mysqli, "SELECT GPA,Skills,Blurb,LinkedIn,User_Details.Email,D_Accounts.Email as Qemail,Facebook,Skype,Phone,FirstName,LastName,Username FROM `User_Details` INNER JOIN D_Accounts ON D_Accounts.UserId=User_Details.UserId WHERE Username = ?");
 		mysqli_stmt_bind_param($sql,"s",$_GET['u']);
 	}else if(! isset($_SESSION['SupervisorID'])){
-		$sql= mysqli_prepare($mysqli, "SELECT GPA,Skills,Blurb,LinkedIn,User_Details.Email,D_Accounts.Email as Qemail,Facebook,Skype,Phone,FirstName,LastName,Username FROM `deamon_INB302`.`User_Details` INNER JOIN D_Accounts ON D_Accounts.UserId=User_Details.UserId WHERE User_Details.UserId = ?");
+		$sql= mysqli_prepare($mysqli, "SELECT GPA,Skills,Blurb,LinkedIn,User_Details.Email,D_Accounts.Email as Qemail,Facebook,Skype,Phone,FirstName,LastName,Username FROM `User_Details` INNER JOIN D_Accounts ON D_Accounts.UserId=User_Details.UserId WHERE User_Details.UserId = ?");
 		mysqli_stmt_bind_param($sql,"s",$_SESSION['person']);
 	}
 	

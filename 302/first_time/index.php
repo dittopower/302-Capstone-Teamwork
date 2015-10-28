@@ -70,7 +70,7 @@
 		lib_login();
 		lib_database();
 		global $mysqli;
-		$sql= mysqli_prepare($mysqli, "INSERT INTO `deamon_INB302`.`User_Details` (`UserId`, `GPA`, `Skills`, `Blurb`, `LinkedIn`, `Email`, `Facebook`, `Skype`, `Phone`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
+		$sql= mysqli_prepare($mysqli, "INSERT INTO `User_Details` (`UserId`, `GPA`, `Skills`, `Blurb`, `LinkedIn`, `Email`, `Facebook`, `Skype`, `Phone`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
 		mysqli_stmt_bind_param($sql,"sssssssss",$_SESSION['person'],$gpa,$skills,$blurb,$linked,$email,$facebook, $skype, $phone);
 		
 		if(mysqli_stmt_execute($sql)){

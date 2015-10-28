@@ -7,13 +7,13 @@
 	function makeGroup($group){
 		Ndebug("New Group",$group);
 		global $subject;
-		$sql = "INSERT INTO `deamon_INB302`.`Groups` (`GroupName`, `GroupProject`, `UnitCode`) VALUES ('Pending', '0', '$subject')";
+		$sql = "INSERT INTO `Groups` (`GroupName`, `GroupProject`, `UnitCode`) VALUES ('Pending', '0', '$subject')";
 		if(runSQL($sql)){
 			debug("Group Created");
 			$gid = singleSQL("Select LAST_INSERT_ID();");
 			note("Groups","Created::$gid::$_SESSION[person]");
-			runSQL("UPDATE `deamon_INB302`.`Groups` SET `GroupName` = '$subject G$gid' WHERE `Groups`.`GroupId` = $gid");
-			$sql = "INSERT INTO `deamon_INB302`.`Group_Members` (`GroupId`, `UserId`) VALUES";
+			runSQL("UPDATE `Groups` SET `GroupName` = '$subject G$gid' WHERE `Groups`.`GroupId` = $gid");
+			$sql = "INSERT INTO `Group_Members` (`GroupId`, `UserId`) VALUES";
 			foreach($group as $member){
 				$sql .= " ('$gid', '$member'),";
 			}
@@ -23,7 +23,7 @@
 				debug("Inserted?");
 				note("Groups","$gid :: Inserted Members");
 				foreach($group as $member){
-					runSQL("DELETE FROM `deamon_INB302`.`Group_Requests` WHERE `Group_Requests`.`UserId` = '$member' AND `Group_Requests`.`UnitCode` = '$subject'");
+					runSQL("DELETE FROM `Group_Requests` WHERE `Group_Requests`.`UserId` = '$member' AND `Group_Requests`.`UnitCode` = '$subject'");
 				}
 			}else{
 				debug("Failed insert");
