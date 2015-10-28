@@ -57,7 +57,7 @@ function dir_list($dir){
 		}*/
 		return $out;
 	}else{
-		return [];
+		return array();
 	}
 }
 

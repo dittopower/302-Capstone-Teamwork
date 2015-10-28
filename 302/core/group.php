@@ -55,7 +55,7 @@
 			$group = $_SESSION['group'];
 		}
 		$result = multiSQL("SELECT CONCAT(`FirstName`,' ',`LastName`) as name FROM `D_Accounts` a JOIN `Group_Members` g WHERE g.`UserId` = a.`UserId` and g.UserId != '$_SESSION[person]' and `GroupId` = '$group'");
-		$text = [];
+		$text = array();
 		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
 			$text[] = $row['name'];
 		}
@@ -73,7 +73,7 @@
 			$group = $_SESSION['group'];
 		}
 		$result = multiSQL("SELECT UserId as name FROM `Group_Members` WHERE UserId != '$_SESSION[person]' and `GroupId` = '$group' ORDER BY UserId");
-		$text = [];
+		$text = array();
 		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
 			$text[] = $row['name'];
 		}

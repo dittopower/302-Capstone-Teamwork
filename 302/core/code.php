@@ -44,8 +44,6 @@
 			foreach($_SERVER as $key=>$val){
 				echo "$key  =>  $val <br>";
 			}
-			echo "<h2>Functions</h2>";
-			var_dump(get_defined_functions()['user']);
 		}
 	}
 
@@ -97,7 +95,7 @@
 	
 	//Size
 	function size_byte($size,$tounit="~"){
-		$units = ["~" => -1,"b" => 0, "kb" => 1, "mb" => 2, "gb" => 3, "tb" => 4, "pb" => 5, "eb" => 6, "zb" => 7, "yb" => 8];
+		$units = array("~" => -1,"b" => 0, "kb" => 1, "mb" => 2, "gb" => 3, "tb" => 4, "pb" => 5, "eb" => 6, "zb" => 7, "yb" => 8);
 		$tounit = $units[strtolower($tounit)];
 		$byte = 1024;
 		$unit = 0;

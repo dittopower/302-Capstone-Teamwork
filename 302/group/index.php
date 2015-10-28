@@ -177,7 +177,7 @@
 	*/
 		$mymembers = arraySQL("SELECT `Username`, CONCAT(`FirstName`,' ',`LastName`) as Name, Skype FROM `D_Accounts` a join Group_Members m on m.`UserId` = a.`UserId` left join User_Details d on m.UserId = d.UserId WHERE m.GroupId = '$_SESSION[group]' and a.UserId != '$_SESSION[person]'");
 		$cardcontent = "";
-		$groupcall = [];
+		$groupcall = array();
 		foreach($mymembers as $item){
 			$cardcontent .= "<a href='/user/?u=$item[Username]'>#$item[Username]: $item[Name]</a>";
 			if($item['Skype'] != NULL && $item['Skype'] != ""){

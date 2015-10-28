@@ -8,7 +8,7 @@
 	lib_files();
 	lib_feed();
 	
-	$custom = ["custom.css"=>"../media/$_SESSION[person]/custom.css"];
+	$custom = array("custom.css"=>"../media/$_SESSION[person]/custom.css");
 	
 	//START content
 	function media_send($file){
